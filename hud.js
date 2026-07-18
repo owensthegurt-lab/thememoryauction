@@ -3,7 +3,7 @@
 
     hud.js
 
-    Player HUD + Progress Tracking
+    Interface + Progress Tracking
 */
 
 
@@ -19,132 +19,91 @@ function updateHUD(){
 
 
 
-let box =
+let hud =
 document.getElementById(
-    "hud"
+"hud"
 );
 
 
 
-if(!box)
+if(!hud)
 return;
 
 
 
 
 
-box.innerHTML=`
+hud.innerHTML=`
 
-<div class="hud-title">
-
+<h3>
 MEMORY STATUS
-
-</div>
-
+</h3>
 
 
-<div>
-
+<p>
 Alignment:
-
-<strong>
+<br>
+<b>
 ${getAlignment()}
-</strong>
-
-</div>
-
+</b>
+</p>
 
 
 <hr>
 
 
-
-<div>
-
+<p>
 Good:
-
 ${player.stats.good}
-
-</div>
-
+</p>
 
 
-<div>
-
+<p>
 Evil:
-
 ${player.stats.evil}
-
-</div>
-
+</p>
 
 
-<div>
-
+<p>
 Truth:
-
 ${player.stats.truth}
-
-</div>
-
+</p>
 
 
-<div>
-
+<p>
 Corruption:
-
 ${player.stats.corruption}
-
-</div>
-
+</p>
 
 
 <hr>
 
 
-
-<div>
-
+<p>
 Memories:
-
 ${player.memories.length}
-
-</div>
-
+</p>
 
 
-<div>
-
-Endings Found:
-
+<p>
+Endings:
 ${player.endingsUnlocked.length}/40
-
-</div>
-
+</p>
 
 
 <hr>
 
 
-
-<div>
-
+<p>
 Elias Trust:
-
 ${elias.trust}
-
-</div>
-
+</p>
 
 
-<div>
-
+<p>
 Elias Fear:
-
 ${elias.fear}
-
-</div>
-
+</p>
 
 `;
 
@@ -179,15 +138,9 @@ player.stats.evil;
 
 
 
-let truth =
-player.stats.truth;
-
-
-
 if(
-good>=evil+3
-)
-{
+good>=evil+5
+){
 
 
 return "Hero";
@@ -197,11 +150,9 @@ return "Hero";
 
 
 
-
 if(
-evil>=good+3
-)
-{
+evil>=good+5
+){
 
 
 return "Evil";
@@ -211,19 +162,15 @@ return "Evil";
 
 
 
-
-
 if(
-truth>=8
-)
-{
+player.stats.truth>=8
+){
 
 
 return "Truth Seeker";
 
 
 }
-
 
 
 
@@ -242,7 +189,7 @@ return "Neutral";
 
 
 // =====================================
-// ACHIEVEMENT PAGE
+// ACHIEVEMENT MENU
 // =====================================
 
 
@@ -262,8 +209,7 @@ return;
 
 
 
-screen.style.display=
-"block";
+screen.style.display="block";
 
 
 
@@ -274,7 +220,13 @@ document.getElementById(
 
 
 
+if(!list)
+return;
+
+
+
 list.innerHTML="";
+
 
 
 
@@ -283,34 +235,37 @@ Object.keys(achievements)
 .forEach(id=>{
 
 
-let a =
+let achievement =
 achievements[id];
 
 
 
-let div =
+let box =
 document.createElement(
 "div"
 );
 
 
 
-if(a.unlocked){
 
 
-div.innerHTML=
+if(
+achievement.unlocked
+){
 
-`
+
+box.innerHTML=`
 
 <h3>
-${a.name}
+${achievement.name}
 </h3>
 
 <p>
-${a.description}
+${achievement.description}
 </p>
 
 `;
+
 
 
 }
@@ -318,16 +273,14 @@ ${a.description}
 else{
 
 
-div.innerHTML=
-
-`
+box.innerHTML=`
 
 <h3>
 ???
 </h3>
 
 <p>
-Locked Achievement
+Unknown Memory
 </p>
 
 `;
@@ -338,7 +291,7 @@ Locked Achievement
 
 
 
-list.appendChild(div);
+list.appendChild(box);
 
 
 
@@ -377,8 +330,7 @@ return;
 
 
 
-screen.style.display=
-"block";
+screen.style.display="block";
 
 
 
@@ -389,37 +341,41 @@ document.getElementById(
 
 
 
+if(!list)
+return;
+
+
+
 list.innerHTML="";
 
 
 
 
-player.endingsUnlocked
+
+Object.keys(endings)
 .forEach(id=>{
 
 
-let div =
+let box =
 document.createElement(
 "div"
 );
 
 
 
-let ending =
-endings[id];
 
 
+if(
+player.endingsUnlocked.includes(id)
+){
 
-if(ending){
 
-
-div.innerHTML=
-
-`
+box.innerHTML=`
 
 <h3>
 ${id}
 </h3>
+
 
 <p>
 Discovered
@@ -431,9 +387,29 @@ Discovered
 
 }
 
+else{
 
 
-list.appendChild(div);
+box.innerHTML=`
+
+<h3>
+???
+</h3>
+
+
+<p>
+Unknown Ending
+</p>
+
+`;
+
+
+
+}
+
+
+
+list.appendChild(box);
 
 
 
