@@ -2,7 +2,7 @@
     THE MEMORY AUCTION
     game.js
 
-    Main Engine
+    Main Game Engine
 */
 
 
@@ -40,17 +40,18 @@ const player = {
 
     }
 
-
 };
 
 
 
+
 // =====================================
-// ELIAS SYSTEM
+// ELIAS DATA
 // =====================================
 
 
 const elias = {
+
 
     trust: 0,
 
@@ -58,11 +59,14 @@ const elias = {
 
     truth: 0,
 
-    remembers: false,
 
-    betrayed: false
+    remembers:false,
+
+    betrayed:false
+
 
 };
+
 
 
 
@@ -77,33 +81,38 @@ let gameStarted = false;
 
 
 
+
+
 // =====================================
-// LOAD SCENE
+// SCENE LOADING
 // =====================================
 
 
-function loadScene(sceneID){
+function loadScene(id){
 
 
     const scene =
-    story[sceneID];
+    story[id];
 
 
 
     if(!scene){
 
+
         console.error(
-            "Scene missing:",
-            sceneID
+            "Scene not found:",
+            id
         );
 
+
         return;
+
 
     }
 
 
 
-    currentScene = sceneID;
+    currentScene=id;
 
 
 
@@ -116,9 +125,7 @@ function loadScene(sceneID){
 
 
 
-    // dream fade effect
-
-    storyBox.style.opacity = "0";
+    storyBox.style.opacity=0;
 
 
 
@@ -130,15 +137,16 @@ function loadScene(sceneID){
 
 
 
-        storyBox.style.opacity =
-        "1";
-
-
-    },400);
+        storyBox.style.opacity=1;
 
 
 
-    choicesBox.innerHTML = "";
+    },350);
+
+
+
+
+    choicesBox.innerHTML="";
 
 
 
@@ -167,7 +175,7 @@ function loadScene(sceneID){
 
 
 
-        button.onclick = ()=>{
+        button.onclick=()=>{
 
 
             playClick();
@@ -184,6 +192,10 @@ function loadScene(sceneID){
 
 
 
+            updateHUD();
+
+
+
             loadScene(
                 choice.next
             );
@@ -196,11 +208,19 @@ function loadScene(sceneID){
         choicesBox.appendChild(button);
 
 
+
     });
 
 
 
+    updateHUD();
+
+
+
 }
+
+
+
 
 
 
@@ -217,12 +237,15 @@ function applyEffects(effects){
 
 
 
-    Object.keys(effects)
-    .forEach(effect=>{
+    for(
+        let effect in effects
+    ){
+
 
 
         let value =
         effects[effect];
+
 
 
 
@@ -233,29 +256,36 @@ function applyEffects(effects){
             !== undefined
         ){
 
+
             player.stats[effect]
             += value;
 
+
         }
+
 
 
 
         // MONEY
 
         else if(
-            effect === "credits"
+            effect==="credits"
         ){
+
 
             player.credits += value;
 
+
         }
+
+
 
 
 
         // MEMORY
 
         else if(
-            effect === "memory"
+            effect==="memory"
         ){
 
 
@@ -272,36 +302,43 @@ function applyEffects(effects){
 
 
 
+
+
         // ELIAS
 
         else if(
-            effect === "elias"
+            effect==="elias"
         ){
 
 
-            Object.keys(value)
-            .forEach(stat=>{
+
+            for(
+                let stat in value
+            ){
+
 
 
                 if(
                     elias[stat]
-                    !== undefined
+                    !==undefined
                 ){
+
 
                     elias[stat]
                     += value[stat];
 
+
                 }
 
 
-            });
+            }
 
 
         }
 
 
 
-    });
+    }
 
 
 
@@ -309,39 +346,47 @@ function applyEffects(effects){
 
 
 
+
+
+
+
 // =====================================
-// REQUIREMENT CHECKER
+// REQUIREMENT SYSTEM
 // =====================================
 
 
-function checkRequirements(requirements){
+function checkRequirements(req){
 
 
-    if(!requirements)
+    if(!req)
     return true;
 
 
 
     for(
-        let requirement in requirements
+        let key in req
     ){
 
 
         let needed =
-        requirements[requirement];
+        req[key];
+
+
 
 
 
         // player stats
 
         if(
-            player.stats[requirement]
-            !== undefined
+            player.stats[key]
+            !==undefined
         ){
 
+
             if(
-                player.stats[requirement]
-                < needed
+                player.stats[key]
+                <
+                needed
             ){
 
                 return false;
@@ -350,20 +395,24 @@ function checkRequirements(requirements){
 
 
         }
+
+
 
 
 
         // Elias stats
 
         else if(
-            elias[requirement]
-            !== undefined
+            elias[key]
+            !==undefined
         ){
 
 
+
             if(
-                elias[requirement]
-                < needed
+                elias[key]
+                <
+                needed
             ){
 
                 return false;
@@ -375,11 +424,14 @@ function checkRequirements(requirements){
 
 
 
-        // memories
+
+
+        // Memories
 
         else if(
-            requirement === "memory"
+            key==="memory"
         ){
+
 
 
             if(
@@ -397,10 +449,12 @@ function checkRequirements(requirements){
 
 
 
-        // achievements
+
+
+        // Achievements
 
         else if(
-            requirement === "achievement"
+            key==="achievement"
         ){
 
 
@@ -410,12 +464,15 @@ function checkRequirements(requirements){
                 !achievements[needed].unlocked
             ){
 
+
                 return false;
+
 
             }
 
 
         }
+
 
 
     }
@@ -425,12 +482,16 @@ function checkRequirements(requirements){
     return true;
 
 
+
 }
 
 
 
+
+
+
 // =====================================
-// ALIGNMENT SYSTEM
+// ALIGNMENT
 // =====================================
 
 
@@ -444,12 +505,15 @@ function getAlignment(){
 
 
 
+
+
     if(
         player.stats.good >
         player.stats.evil
     ){
 
         morality="Good";
+
 
     }
 
@@ -458,15 +522,21 @@ function getAlignment(){
         player.stats.good
     ){
 
+
         morality="Evil";
+
 
     }
 
     else{
 
+
         morality="Neutral";
 
+
     }
+
+
 
 
 
@@ -475,7 +545,9 @@ function getAlignment(){
         player.stats.chaos
     ){
 
+
         order="Lawful";
+
 
     }
 
@@ -484,13 +556,17 @@ function getAlignment(){
         player.stats.law
     ){
 
+
         order="Chaotic";
+
 
     }
 
     else{
 
+
         order="True";
+
 
     }
 
@@ -503,21 +579,29 @@ function getAlignment(){
 
 
 
+
+
+
+
 // =====================================
-// SAVE FOUNDATION
+// SAVE SYSTEM
 // =====================================
 
 
 function saveGame(){
 
 
-    const saveData = {
+    const save = {
 
-        player,
 
-        elias,
+        player:player,
 
-        achievements
+        elias:elias,
+
+        achievements:achievements,
+
+        scene:currentScene
+
 
     };
 
@@ -525,9 +609,9 @@ function saveGame(){
 
     localStorage.setItem(
 
-        "memoryAuctionSave",
+        "memoryAuction",
 
-        JSON.stringify(saveData)
+        JSON.stringify(save)
 
     );
 
@@ -536,12 +620,17 @@ function saveGame(){
 
 
 
+
+
+
+
 function loadGame(){
 
 
-    let save =
+
+    const save =
     localStorage.getItem(
-        "memoryAuctionSave"
+        "memoryAuction"
     );
 
 
@@ -551,8 +640,9 @@ function loadGame(){
 
 
 
-    let data =
+    const data =
     JSON.parse(save);
+
 
 
 
@@ -576,7 +666,19 @@ function loadGame(){
     );
 
 
+
+    if(data.scene){
+
+        currentScene=data.scene;
+
+    }
+
+
+
 }
+
+
+
 
 
 
@@ -606,7 +708,17 @@ function debug(){
     );
 
 
+    console.log(
+        "ACHIEVEMENTS",
+        achievements
+    );
+
+
 }
+
+
+
+
 
 
 
@@ -624,7 +736,7 @@ function playClick(){
     );
 
 
-    sound.volume = 0.3;
+    sound.volume=.25;
 
 
     sound.play()
@@ -635,20 +747,29 @@ function playClick(){
 
 
 
+
+
+
 // =====================================
-// START
+// START GAME
 // =====================================
 
 
-window.onload = ()=>{
+window.onload=()=>{
 
 
     loadGame();
 
 
+
     loadScene(
         currentScene
     );
+
+
+
+    updateHUD();
+
 
 
     gameStarted=true;
