@@ -3,8 +3,10 @@
 
     hud.js
 
-    Player Interface System
+    Player HUD + Progress Tracking
 */
+
+
 
 
 
@@ -16,215 +18,135 @@
 function updateHUD(){
 
 
-    const credits =
-    document.getElementById("credits");
 
+let box =
+document.getElementById(
+    "hud"
+);
 
-    const alignment =
-    document.getElementById("alignment");
 
 
+if(!box)
+return;
 
-    if(credits){
 
 
-        credits.innerHTML = `
 
-        ◇ Credits:
-        ${player.credits}
 
-        <br>
+box.innerHTML=`
 
-        ◇ Memories:
-        ${player.memories.length}
+<div class="hud-title">
 
-        `;
+MEMORY STATUS
 
+</div>
 
-    }
 
 
+<div>
 
-    if(alignment){
+Alignment:
 
+<strong>
+${getAlignment()}
+</strong>
 
-        alignment.innerHTML = `
+</div>
 
-        ◇ Alignment:
 
-        ${getAlignment()}
 
-        <br>
+<hr>
 
-        ◇ Elias:
 
-        ${getEliasStatus()}
 
-        `;
+<div>
 
+Good:
 
-    }
+${player.stats.good}
 
+</div>
 
 
-}
 
+<div>
 
+Evil:
 
+${player.stats.evil}
 
+</div>
 
-// =====================================
-// ELIAS STATUS
-// =====================================
 
 
-function getEliasStatus(){
+<div>
 
+Truth:
 
-    if(
-        elias.trust >=5
-    ){
+${player.stats.truth}
 
-        return "Trusted";
+</div>
 
-    }
 
 
+<div>
 
-    if(
-        elias.fear >=5
-    ){
+Corruption:
 
-        return "Afraid";
+${player.stats.corruption}
 
-    }
+</div>
 
 
 
-    if(
-        elias.betrayed
-    ){
+<hr>
 
-        return "Betrayed";
 
-    }
 
+<div>
 
+Memories:
 
-    return "Unknown";
+${player.memories.length}
 
+</div>
 
-}
 
 
+<div>
 
+Endings Found:
 
+${player.endingsUnlocked.length}/40
 
-// =====================================
-// MEMORY ARCHIVE PAGE
-// =====================================
+</div>
 
 
-function openMemoryBook(){
 
+<hr>
 
 
-    const storyBox =
-    document.getElementById("story");
 
+<div>
 
-    const choicesBox =
-    document.getElementById("choices");
+Elias Trust:
 
+${elias.trust}
 
+</div>
 
-    storyBox.innerHTML = `
 
-    <h2>
-    MEMORY COLLECTION
-    </h2>
 
-    `;
+<div>
 
+Elias Fear:
 
+${elias.fear}
 
-    if(
-        player.memories.length===0
-    ){
+</div>
 
 
-        storyBox.innerHTML += `
-
-        <p>
-        No memories recovered.
-        </p>
-
-        `;
-
-
-    }
-
-
-
-
-
-    player.memories.forEach(id=>{
-
-
-        let memory =
-        memoryDatabase[id];
-
-
-
-        if(!memory)
-        return;
-
-
-
-        storyBox.innerHTML += `
-
-
-        <div class="memoryCard">
-
-
-        <h3>
-
-        ${memory.name}
-
-        </h3>
-
-
-        <p>
-
-        ${memory.rarity}
-
-        </p>
-
-
-        <p>
-
-        ${memory.description}
-
-        </p>
-
-
-        </div>
-
-
-        `;
-
-
-    });
-
-
-
-
-
-    choicesBox.innerHTML="";
-
-
-
-    createReturnButton();
+`;
 
 
 
@@ -236,83 +158,76 @@ function openMemoryBook(){
 
 
 
+
+
 // =====================================
-// ELIAS PAGE
+// ALIGNMENT
 // =====================================
 
 
-function openEliasStatus(){
+function getAlignment(){
 
 
 
-    const storyBox =
-    document.getElementById("story");
-
-
-    const choicesBox =
-    document.getElementById("choices");
+let good =
+player.stats.good;
 
 
 
-    storyBox.innerHTML = `
-
-
-    <h2>
-    ELIAS
-    </h2>
-
-
-    <div class="memoryCard">
-
-
-    <p>
-
-    Trust:
-
-    ${elias.trust}
-
-    </p>
-
-
-    <p>
-
-    Fear:
-
-    ${elias.fear}
-
-    </p>
-
-
-    <p>
-
-    Truth Shared:
-
-    ${elias.truth}
-
-    </p>
-
-
-    <p>
-
-    Status:
-
-    ${getEliasStatus()}
-
-    </p>
-
-
-    </div>
-
-
-    `;
+let evil =
+player.stats.evil;
 
 
 
-    choicesBox.innerHTML="";
+let truth =
+player.stats.truth;
 
 
 
-    createReturnButton();
+if(
+good>=evil+3
+)
+{
+
+
+return "Hero";
+
+
+}
+
+
+
+
+if(
+evil>=good+3
+)
+{
+
+
+return "Evil";
+
+
+}
+
+
+
+
+
+if(
+truth>=8
+)
+{
+
+
+return "Truth Seeker";
+
+
+}
+
+
+
+
+return "Neutral";
 
 
 
@@ -324,58 +239,111 @@ function openEliasStatus(){
 
 
 
+
+
 // =====================================
-// DEBUG PAGE
+// ACHIEVEMENT PAGE
 // =====================================
 
 
-function openMindStatus(){
-
-
-    const storyBox =
-    document.getElementById("story");
-
-
-    const choicesBox =
-    document.getElementById("choices");
+function openAchievements(){
 
 
 
-    storyBox.innerHTML = `
-
-
-    <h2>
-    INNER STATE
-    </h2>
-
-
-    <p>
-    Identity:
-    ${player.stats.identity}
-    </p>
-
-
-    <p>
-    Truth:
-    ${player.stats.truth}
-    </p>
-
-
-    <p>
-    Corruption:
-    ${player.stats.corruption}
-    </p>
-
-
-    `;
+let screen =
+document.getElementById(
+"achievementScreen"
+);
 
 
 
-    choicesBox.innerHTML="";
+if(!screen)
+return;
 
 
 
-    createReturnButton();
+screen.style.display=
+"block";
+
+
+
+let list =
+document.getElementById(
+"achievementList"
+);
+
+
+
+list.innerHTML="";
+
+
+
+
+Object.keys(achievements)
+.forEach(id=>{
+
+
+let a =
+achievements[id];
+
+
+
+let div =
+document.createElement(
+"div"
+);
+
+
+
+if(a.unlocked){
+
+
+div.innerHTML=
+
+`
+
+<h3>
+${a.name}
+</h3>
+
+<p>
+${a.description}
+</p>
+
+`;
+
+
+}
+
+else{
+
+
+div.innerHTML=
+
+`
+
+<h3>
+???
+</h3>
+
+<p>
+Locked Achievement
+</p>
+
+`;
+
+
+
+}
+
+
+
+list.appendChild(div);
+
+
+
+});
+
 
 
 }
@@ -386,42 +354,90 @@ function openMindStatus(){
 
 
 
+
+
 // =====================================
-// RETURN BUTTON
+// ENDING GALLERY
 // =====================================
 
 
-function createReturnButton(){
-
-
-    const choicesBox =
-    document.getElementById("choices");
+function openEndingGallery(){
 
 
 
-    let button =
-    document.createElement("button");
+let screen =
+document.getElementById(
+"endingScreen"
+);
 
 
 
-    button.innerText =
-    "Return";
+if(!screen)
+return;
 
 
 
-    button.onclick=()=>{
-
-
-        loadScene(
-            currentScene
-        );
-
-
-    };
+screen.style.display=
+"block";
 
 
 
-    choicesBox.appendChild(button);
+let list =
+document.getElementById(
+"endingList"
+);
+
+
+
+list.innerHTML="";
+
+
+
+
+player.endingsUnlocked
+.forEach(id=>{
+
+
+let div =
+document.createElement(
+"div"
+);
+
+
+
+let ending =
+endings[id];
+
+
+
+if(ending){
+
+
+div.innerHTML=
+
+`
+
+<h3>
+${id}
+</h3>
+
+<p>
+Discovered
+</p>
+
+`;
+
+
+
+}
+
+
+
+list.appendChild(div);
+
+
+
+});
 
 
 
@@ -431,15 +447,41 @@ function createReturnButton(){
 
 
 
+
+
+
+
 // =====================================
-// AUTO UPDATE
+// CLOSE MENUS
 // =====================================
 
 
-setInterval(()=>{
+function closeHUDMenus(){
 
 
-    updateHUD();
+
+let a =
+document.getElementById(
+"achievementScreen"
+);
 
 
-},500);
+
+let e =
+document.getElementById(
+"endingScreen"
+);
+
+
+
+if(a)
+a.style.display="none";
+
+
+
+if(e)
+e.style.display="none";
+
+
+
+}
