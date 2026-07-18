@@ -3,13 +3,15 @@
 
     game.js
 
-    Core Game Engine
+    Main Game Engine
 */
 
 
 
+
+
 // =====================================
-// PLAYER DATA
+// PLAYER CREATION
 // =====================================
 
 
@@ -22,7 +24,13 @@ return {
 credits:500,
 
 
+
+chapter:1,
+
+
+
 memories:[],
+
 
 
 stats:{
@@ -43,34 +51,34 @@ identity:0
 
 
 
+
 special:{
 
 
 destroyedAuction:false,
 
-
 controlledAuction:false,
 
-
 rebuiltAuction:false,
-
 
 acceptedBurden:false,
 
 
 savedElias:false,
 
-
 lostElias:false,
 
 
 discoveredTruth:false,
 
+collectedAllMemories:false,
 
-collectedAllMemories:false
+
+secretChapterUnlocked:false
 
 
 },
+
 
 
 
@@ -92,19 +100,6 @@ endingsUnlocked:[]
 
 
 
-let player=createPlayer();
-
-
-
-
-
-
-
-// =====================================
-// ELIAS DATA
-// =====================================
-
-
 function createElias(){
 
 
@@ -113,24 +108,20 @@ return {
 
 trust:0,
 
-
 fear:0,
-
 
 truth:0,
 
 
 saved:false,
 
-
 lost:false,
 
 
-memoriesShared:0,
+betrayed:false,
 
 
-betrayed:false
-
+memoriesShared:0
 
 
 };
@@ -145,17 +136,12 @@ betrayed:false
 
 
 
+
+
+let player=createPlayer();
+
 let elias=createElias();
 
-
-
-
-
-
-
-// =====================================
-// GAME STATE
-// =====================================
 
 
 let currentScene="intro";
@@ -167,8 +153,9 @@ let currentScene="intro";
 
 
 
+
 // =====================================
-// START GAME
+// START
 // =====================================
 
 
@@ -191,9 +178,7 @@ openGame();
 
 
 
-loadScene(
-currentScene
-);
+loadScene(currentScene);
 
 
 
@@ -210,8 +195,9 @@ updateHUD();
 
 
 
+
 // =====================================
-// LOAD STORY SCENE
+// LOAD SCENE
 // =====================================
 
 
@@ -228,7 +214,7 @@ if(!scene){
 
 console.error(
 
-"Missing scene:",
+"Scene missing:",
 id
 
 );
@@ -241,20 +227,21 @@ return;
 
 
 
+
+
+
+
 currentScene=id;
 
 
 
-document.getElementById(
-"story"
-).innerHTML=scene.text;
+document.getElementById("story").innerHTML=
+scene.text;
 
 
 
 let choices=
-document.getElementById(
-"choices"
-);
+document.getElementById("choices");
 
 
 
@@ -262,13 +249,15 @@ choices.innerHTML="";
 
 
 
+
+
+
 scene.choices.forEach(choice=>{
 
 
-let button=
-document.createElement(
-"button"
-);
+
+let button =
+document.createElement("button");
 
 
 
@@ -280,18 +269,60 @@ choice.text;
 button.onclick=()=>{
 
 
-applyEffects(
-choice.effects
-);
+applyEffects(choice.effects);
 
 
 
 if(choice.next){
 
 
-loadScene(
-choice.next
-);
+
+// Chapter progression check
+
+
+if(
+choice.next==="chapter3Start"
+){
+
+player.chapter=3;
+
+
+}
+
+
+
+if(
+choice.next==="chapter4Start"
+){
+
+
+if(
+player.special.secretChapterUnlocked
+){
+
+
+player.chapter=4;
+
+
+}
+
+else{
+
+
+return;
+
+
+}
+
+
+
+}
+
+
+
+
+loadScene(choice.next);
+
 
 
 }
@@ -300,6 +331,7 @@ else{
 
 
 showEnding();
+
 
 
 }
@@ -340,6 +372,7 @@ updateHUD();
 function applyEffects(effects){
 
 
+
 if(!effects)
 return;
 
@@ -350,18 +383,15 @@ return;
 Object.keys(effects).forEach(key=>{
 
 
-let value=
-effects[key];
+let value=effects[key];
 
 
 
 
 
 
-// Elias changes
 
 if(key==="elias"){
-
 
 
 Object.keys(value).forEach(stat=>{
@@ -370,6 +400,7 @@ Object.keys(value).forEach(stat=>{
 if(
 typeof elias[stat] !== "number"
 ){
+
 
 elias[stat]=0;
 
@@ -396,7 +427,6 @@ return;
 
 
 
-// Special flags
 
 if(key==="special"){
 
@@ -422,7 +452,6 @@ return;
 
 
 
-// Memory collection
 
 if(key==="memory"){
 
@@ -450,7 +479,6 @@ return;
 
 
 
-// Credits
 
 if(key==="credits"){
 
@@ -468,7 +496,6 @@ return;
 
 
 
-// Normal stats
 
 if(
 player.stats[key] !== undefined
@@ -483,6 +510,35 @@ player.stats[key]+=value;
 
 
 });
+
+
+
+
+
+
+// unlock secret chapter
+
+
+
+if(
+
+player.special.discoveredTruth
+
+&&
+
+player.memories.length>=3
+
+){
+
+
+player.special.secretChapterUnlocked=true;
+
+
+}
+
+
+
+
 
 
 
@@ -511,7 +567,7 @@ updateHUD();
 
 
 // =====================================
-// ENDING UNLOCKS
+// ENDINGS
 // =====================================
 
 
@@ -553,16 +609,11 @@ function saveGame(slot=1){
 let save={
 
 
-player:player,
+player,
 
+elias,
 
-elias:elias,
-
-
-scene:currentScene,
-
-
-date:new Date().toLocaleString()
+currentScene
 
 
 };
@@ -571,7 +622,7 @@ date:new Date().toLocaleString()
 
 localStorage.setItem(
 
-"memoryAuction_slot"+slot,
+"memoryAuction_slot_"+slot,
 
 JSON.stringify(save)
 
@@ -592,14 +643,15 @@ updateSaveSlots();
 
 
 
+
 function loadSlot(slot){
 
 
 
-let data=
+let data =
 localStorage.getItem(
 
-"memoryAuction_slot"+slot
+"memoryAuction_slot_"+slot
 
 );
 
@@ -610,7 +662,7 @@ return;
 
 
 
-let save=
+let save =
 JSON.parse(data);
 
 
@@ -621,7 +673,7 @@ player=save.player;
 elias=save.elias;
 
 
-currentScene=save.scene;
+currentScene=save.currentScene;
 
 
 
@@ -629,34 +681,8 @@ openGame();
 
 
 
-loadScene(
-currentScene
-);
+loadScene(currentScene);
 
-
-
-}
-
-
-
-
-
-
-
-
-function deleteSlot(slot){
-
-
-
-localStorage.removeItem(
-
-"memoryAuction_slot"+slot
-
-);
-
-
-
-updateSaveSlots();
 
 
 }
@@ -677,11 +703,9 @@ updateSaveSlots();
 function openGame(){
 
 
-
 document.getElementById(
 "titleScreen"
 ).style.display="none";
-
 
 
 document.getElementById(
@@ -689,14 +713,15 @@ document.getElementById(
 ).style.display="none";
 
 
-
 document.getElementById(
 "game"
 ).style.display="block";
 
 
-
 }
+
+
+
 
 
 
@@ -706,11 +731,9 @@ document.getElementById(
 function openSaveSlots(){
 
 
-
 document.getElementById(
 "titleScreen"
 ).style.display="none";
-
 
 
 document.getElementById(
@@ -718,9 +741,7 @@ document.getElementById(
 ).style.display="block";
 
 
-
 updateSaveSlots();
-
 
 
 }
@@ -730,8 +751,10 @@ updateSaveSlots();
 
 
 
-function closeSaveSlots(){
 
+
+
+function closeSaveSlots(){
 
 
 document.getElementById(
@@ -739,11 +762,9 @@ document.getElementById(
 ).style.display="none";
 
 
-
 document.getElementById(
 "titleScreen"
 ).style.display="block";
-
 
 
 }
@@ -761,14 +782,12 @@ function updateSaveSlots(){
 
 
 for(
-let i=1;
-i<=3;
-i++
+let i=1;i<=3;i++
 ){
 
 
 
-let box=
+let box =
 document.getElementById(
 "slot"+i
 );
@@ -780,19 +799,19 @@ continue;
 
 
 
-let save=
+let save =
 localStorage.getItem(
 
-"memoryAuction_slot"+i
+"memoryAuction_slot_"+i
 
 );
 
 
 
-box.innerHTML=
+box.innerHTML =
 save ?
 
-"Memory Found"
+"Memory Saved"
 
 :
 
@@ -819,36 +838,18 @@ save ?
 // =====================================
 
 
-function testEnding(){
+function unlockSecret(){
 
 
 
-player.stats.good=10;
-
-
-player.stats.truth=10;
-
-
-player.special.destroyedAuction=true;
+player.special.secretChapterUnlocked=true;
 
 
 
-showEnding();
+console.log(
+"Secret Chapter Unlocked"
+);
 
 
 
 }
-
-
-
-
-
-
-
-window.onload=()=>{
-
-
-updateSaveSlots();
-
-
-};
