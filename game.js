@@ -3,13 +3,13 @@
 
     game.js
 
-    Main Game Engine
+    Main Engine
 */
 
 
 
 // =====================================
-// PLAYER DATA
+// PLAYER
 // =====================================
 
 
@@ -47,7 +47,7 @@ let player = {
 
 
 // =====================================
-// ELIAS DATA
+// ELIAS
 // =====================================
 
 
@@ -56,9 +56,12 @@ let elias = {
 
     trust:0,
 
+
     fear:0,
 
+
     truth:0,
+
 
     betrayed:false
 
@@ -70,8 +73,9 @@ let elias = {
 
 
 
+
 // =====================================
-// GAME STATE
+// STATE
 // =====================================
 
 
@@ -85,8 +89,9 @@ let gameStarted=false;
 
 
 
+
 // =====================================
-// START NEW GAME
+// START GAME
 // =====================================
 
 
@@ -124,19 +129,24 @@ function startNewGame(){
 
 
 
+
     elias={
 
 
         trust:0,
 
+
         fear:0,
 
+
         truth:0,
+
 
         betrayed:false
 
 
     };
+
 
 
 
@@ -157,6 +167,7 @@ function startNewGame(){
     );
 
 
+
     updateHUD();
 
 
@@ -171,16 +182,16 @@ function startNewGame(){
 
 
 // =====================================
-// LOAD STORY SCENE
+// LOAD SCENE
 // =====================================
 
 
-function loadScene(sceneID){
+function loadScene(id){
 
 
 
     let scene =
-    story[sceneID];
+    story[id];
 
 
 
@@ -189,9 +200,9 @@ function loadScene(sceneID){
 
         console.error(
 
-        "Scene missing:",
+        "Missing scene:",
 
-        sceneID
+        id
 
         );
 
@@ -203,16 +214,15 @@ function loadScene(sceneID){
 
 
 
-    currentScene =
-    sceneID;
+    currentScene=id;
 
 
 
-    const storyBox =
+    let storyBox =
     document.getElementById("story");
 
 
-    const choicesBox =
+    let choicesBox =
     document.getElementById("choices");
 
 
@@ -223,6 +233,8 @@ function loadScene(sceneID){
 
 
     choicesBox.innerHTML="";
+
+
 
 
 
@@ -260,6 +272,15 @@ function loadScene(sceneID){
 
             }
 
+            else{
+
+
+                showEnding();
+
+
+            }
+
+
 
         };
 
@@ -286,8 +307,9 @@ function loadScene(sceneID){
 
 
 
+
 // =====================================
-// APPLY CHOICE EFFECTS
+// APPLY EFFECTS
 // =====================================
 
 
@@ -301,14 +323,14 @@ function applyEffects(effects){
 
 
 
-    for(
-        let key in effects
-    ){
-
+    Object.keys(effects)
+    .forEach(key=>{
 
 
         let value =
         effects[key];
+
+
 
 
 
@@ -317,23 +339,21 @@ function applyEffects(effects){
         ){
 
 
-            for(
-                let stat in value
-            ){
+            Object.keys(value)
+            .forEach(stat=>{
 
 
                 elias[stat]+=value[stat];
 
 
-            }
+            });
 
 
 
-            continue;
+            return;
 
 
         }
-
 
 
 
@@ -355,12 +375,28 @@ function applyEffects(effects){
             }
 
 
-
-            continue;
+            return;
 
 
         }
 
+
+
+
+
+
+        if(
+            key==="credits"
+        ){
+
+
+            player.credits+=value;
+
+
+            return;
+
+
+        }
 
 
 
@@ -379,25 +415,13 @@ function applyEffects(effects){
 
 
 
-
-        if(
-            key==="credits"
-        ){
+    });
 
 
-            player.credits+=value;
-
-
-        }
-
-
-
-    }
 
 
 
     checkAchievements();
-
 
 
     updateHUD();
@@ -405,6 +429,8 @@ function applyEffects(effects){
 
 
 }
+
+
 
 
 
@@ -420,30 +446,27 @@ function applyEffects(effects){
 function getAlignment(){
 
 
-    let s =
-    player.stats;
+    let good =
+    player.stats.good;
 
 
+    let evil =
+    player.stats.evil;
 
-    if(
-        s.good >
-        s.evil
-    ){
-
-        return "Hero";
-
-    }
 
 
 
     if(
-        s.evil >
-        s.good
-    ){
+        good>evil
+    )
+    return "Hero";
 
-        return "Corrupted";
 
-    }
+
+    if(
+        evil>good
+    )
+    return "Corrupted";
 
 
 
@@ -451,6 +474,8 @@ function getAlignment(){
 
 
 }
+
+
 
 
 
@@ -467,16 +492,20 @@ function saveGame(slot=1){
 
 
 
-    let data={
+    let save={
 
 
-        player,
+        player:player,
 
-        elias,
 
-        achievements,
+        elias:elias,
 
-        currentScene,
+
+        achievements:achievements,
+
+
+        scene:currentScene,
+
 
         date:
         new Date().toLocaleString()
@@ -490,7 +519,7 @@ function saveGame(slot=1){
 
         "memoryAuction_slot"+slot,
 
-        JSON.stringify(data)
+        JSON.stringify(save)
 
     );
 
@@ -508,37 +537,41 @@ function saveGame(slot=1){
 
 
 
+
+
 function loadSlot(slot){
 
 
 
-    let save =
+    let raw =
 
     localStorage.getItem(
 
-        "memoryAuction_slot"+slot
+    "memoryAuction_slot"+slot
 
     );
 
 
 
-    if(!save)
+    if(!raw)
     return;
 
 
 
-    let data =
-    JSON.parse(save);
+    let save =
+    JSON.parse(raw);
 
 
 
-    player=data.player;
+    player=save.player;
 
 
-    elias=data.elias;
+    elias=save.elias;
 
 
-    currentScene=data.currentScene;
+
+    currentScene=
+    save.scene;
 
 
 
@@ -546,7 +579,7 @@ function loadSlot(slot){
 
         achievements,
 
-        data.achievements
+        save.achievements
 
     );
 
@@ -562,11 +595,9 @@ function loadSlot(slot){
 
 
 
-    updateHUD();
-
-
-
 }
+
+
 
 
 
@@ -579,15 +610,17 @@ function deleteSlot(slot){
 
     localStorage.removeItem(
 
-        "memoryAuction_slot"+slot
+    "memoryAuction_slot"+slot
 
     );
+
 
 
     updateSaveSlots();
 
 
 }
+
 
 
 
@@ -608,9 +641,11 @@ function openSaveSlots(){
     ).style.display="none";
 
 
+
     document.getElementById(
         "game"
     ).style.display="none";
+
 
 
     document.getElementById(
@@ -629,6 +664,7 @@ function openSaveSlots(){
 
 
 
+
 function closeSaveSlots(){
 
 
@@ -637,12 +673,15 @@ function closeSaveSlots(){
     ).style.display="none";
 
 
+
     document.getElementById(
         "titleScreen"
     ).style.display="block";
 
 
+
 }
+
 
 
 
@@ -660,45 +699,47 @@ function updateSaveSlots(){
     ){
 
 
-        let slot =
+        let element =
         document.getElementById(
             "slot"+i
         );
 
 
 
-        if(!slot)
+        if(!element)
         continue;
 
 
 
-        let save =
+        let raw =
 
         localStorage.getItem(
 
-            "memoryAuction_slot"+i
+        "memoryAuction_slot"+i
 
         );
 
 
 
-        if(save){
+        if(raw){
 
 
-            let data =
-            JSON.parse(save);
+            let save =
+            JSON.parse(raw);
 
 
 
-            slot.innerHTML=`
+            element.innerHTML=
+
+            `
 
             Scene:
-            ${data.currentScene}
+            ${save.scene}
 
             <br>
 
             Saved:
-            ${data.date}
+            ${save.date}
 
             `;
 
@@ -708,11 +749,12 @@ function updateSaveSlots(){
         else{
 
 
-            slot.innerHTML =
+            element.innerHTML=
             "Empty";
 
 
         }
+
 
 
     }
@@ -726,12 +768,14 @@ function updateSaveSlots(){
 
 
 
+
 // =====================================
-// SCREEN CONTROL
+// SCREENS
 // =====================================
 
 
 function openGame(){
+
 
 
     document.getElementById(
@@ -739,9 +783,11 @@ function openGame(){
     ).style.display="none";
 
 
+
     document.getElementById(
         "saveScreen"
     ).style.display="none";
+
 
 
     document.getElementById(
@@ -749,7 +795,10 @@ function openGame(){
     ).style.display="block";
 
 
+
 }
+
+
 
 
 
@@ -764,6 +813,7 @@ function openSettings(){
 
 
 }
+
 
 
 
@@ -799,9 +849,6 @@ function resetAchievements(){
 
 
 
-// =====================================
-// STARTUP
-// =====================================
 
 
 window.onload=()=>{
