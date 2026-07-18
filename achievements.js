@@ -8,19 +8,26 @@
 
 
 
-let achievements={
-
 
 
 // =====================================
+// ACHIEVEMENT DATABASE
+// =====================================
+
+
+const achievements={
+
+
+
+// ================================
 // STORY
-// =====================================
+// ================================
 
 
-first_memory:{
+firstMemory:{
 
 
-name:"The First Fragment",
+name:"First Fragment",
 
 
 description:
@@ -36,14 +43,14 @@ unlocked:false
 
 
 
-truth_seeker:{
+truthFound:{
 
 
-name:"Truth Seeker",
+name:"The Truth Beneath",
 
 
 description:
-"Discover the truth behind the auction.",
+"Discover the secret behind the auction.",
 
 
 unlocked:false
@@ -55,14 +62,14 @@ unlocked:false
 
 
 
-creator_revealed:{
+rememberYourself:{
 
 
-name:"The Creator",
+name:"Remember Yourself",
 
 
 description:
-"Learn that you built the auction.",
+"Recover your lost identity.",
 
 
 unlocked:false
@@ -76,15 +83,15 @@ unlocked:false
 
 
 
-// =====================================
+// ================================
 // ELIAS
-// =====================================
+// ================================
 
 
-elias_friend:{
+trustedElias:{
 
 
-name:"Old Friend",
+name:"A True Friend",
 
 
 description:
@@ -100,14 +107,14 @@ unlocked:false
 
 
 
-elias_enemy:{
+betrayedElias:{
 
 
-name:"Broken Trust",
+name:"Broken Promise",
 
 
 description:
-"Make Elias fear you.",
+"Lose Elias' trust.",
 
 
 unlocked:false
@@ -119,14 +126,14 @@ unlocked:false
 
 
 
-elias_saved:{
+savedElias:{
 
 
-name:"Not Alone",
+name:"Not Forgotten",
 
 
 description:
-"Save Elias.",
+"Protect Elias.",
 
 
 unlocked:false
@@ -140,19 +147,19 @@ unlocked:false
 
 
 
-// =====================================
-// MEMORY
-// =====================================
+// ================================
+// MEMORY COLLECTION
+// ================================
 
 
-memory_collector:{
+memoryCollector:{
 
 
 name:"Memory Collector",
 
 
 description:
-"Collect every lost memory.",
+"Collect every memory fragment.",
 
 
 unlocked:false
@@ -164,14 +171,14 @@ unlocked:false
 
 
 
-forbidden_memory:{
+hiddenMemory:{
 
 
-name:"Forbidden Memory",
+name:"The Missing Piece",
 
 
 description:
-"Find the hidden memory.",
+"Find a hidden memory.",
 
 
 unlocked:false
@@ -185,19 +192,19 @@ unlocked:false
 
 
 
-// =====================================
+// ================================
 // ENDINGS
-// =====================================
+// ================================
 
 
-first_ending:{
+firstEnding:{
 
 
-name:"A New Beginning",
+name:"The Story Ends",
 
 
 description:
-"Complete the story once.",
+"Reach your first ending.",
 
 
 unlocked:false
@@ -209,10 +216,10 @@ unlocked:false
 
 
 
-hero_path:{
+heroEnding:{
 
 
-name:"A Better World",
+name:"The Light Within",
 
 
 description:
@@ -228,10 +235,10 @@ unlocked:false
 
 
 
-evil_path:{
+evilEnding:{
 
 
-name:"The Price of Power",
+name:"The Dark Choice",
 
 
 description:
@@ -247,7 +254,7 @@ unlocked:false
 
 
 
-neutral_path:{
+neutralEnding:{
 
 
 name:"The Observer",
@@ -268,15 +275,15 @@ unlocked:false
 
 
 
-// =====================================
+// ================================
 // SECRET
-// =====================================
+// ================================
 
 
-true_ending:{
+trueEnding:{
 
 
-name:"The Final Truth",
+name:"The Final Memory",
 
 
 description:
@@ -292,10 +299,10 @@ unlocked:false
 
 
 
-all_endings:{
+endingMaster:{
 
 
-name:"The Complete Memory",
+name:"Memory Complete",
 
 
 description:
@@ -345,15 +352,19 @@ elias;
 
 
 
+// MEMORY
+
 
 
 if(
+
 player.memories.length>=1
+
 ){
 
 
 unlockAchievement(
-"first_memory"
+"firstMemory"
 );
 
 
@@ -365,83 +376,14 @@ unlockAchievement(
 
 
 if(
-sp.discoveredTruth
-){
 
-
-unlockAchievement(
-"truth_seeker"
-);
-
-
-}
-
-
-
-
-
-
-if(
-s.identity>=5
-){
-
-
-unlockAchievement(
-"creator_revealed"
-);
-
-
-}
-
-
-
-
-
-
-
-if(
-e.trust>=5
-){
-
-
-unlockAchievement(
-"elias_friend"
-);
-
-
-}
-
-
-
-
-
-
-
-if(
-e.fear>=5
-){
-
-
-unlockAchievement(
-"elias_enemy"
-);
-
-
-}
-
-
-
-
-
-
-
-if(
 player.memories.length>=10
+
 ){
 
 
 unlockAchievement(
-"memory_collector"
+"memoryCollector"
 );
 
 
@@ -455,18 +397,133 @@ player.special.collectedAllMemories=true;
 
 
 
+// TRUTH
+
+
 
 if(
-player.endingsUnlocked.length>=1
+
+sp.discoveredTruth
+
 ){
 
 
 unlockAchievement(
-"first_ending"
+"truthFound"
 );
 
 
 }
+
+
+
+
+
+
+if(
+
+s.identity>=5
+
+){
+
+
+unlockAchievement(
+"rememberYourself"
+);
+
+
+}
+
+
+
+
+
+
+// ELIAS
+
+
+
+if(
+
+e.trust>=5
+
+){
+
+
+unlockAchievement(
+"trustedElias"
+);
+
+
+}
+
+
+
+
+
+
+
+if(
+
+e.fear>=5
+
+|| e.betrayed
+
+){
+
+
+unlockAchievement(
+"betrayedElias"
+);
+
+
+}
+
+
+
+
+
+
+
+if(
+
+e.saved
+
+){
+
+
+unlockAchievement(
+"savedElias"
+);
+
+
+}
+
+
+
+
+
+
+
+
+// ENDINGS
+
+
+
+if(
+
+player.endingsUnlocked.length>=1
+
+){
+
+
+unlockAchievement(
+"firstEnding"
+);
+
+
+}
+
 
 
 
@@ -486,11 +543,12 @@ id.includes("hero")
 
 
 unlockAchievement(
-"hero_path"
+"heroEnding"
 );
 
 
 }
+
 
 
 
@@ -510,11 +568,12 @@ id.includes("evil")
 
 
 unlockAchievement(
-"evil_path"
+"evilEnding"
 );
 
 
 }
+
 
 
 
@@ -534,11 +593,12 @@ id.includes("neutral")
 
 
 unlockAchievement(
-"neutral_path"
+"neutralEnding"
 );
 
 
 }
+
 
 
 
@@ -556,11 +616,12 @@ player.endingsUnlocked.includes(
 
 
 unlockAchievement(
-"true_ending"
+"trueEnding"
 );
 
 
 }
+
 
 
 
@@ -576,7 +637,7 @@ player.endingsUnlocked.length>=40
 
 
 unlockAchievement(
-"all_endings"
+"endingMaster"
 );
 
 
@@ -595,7 +656,7 @@ unlockAchievement(
 
 
 // =====================================
-// UNLOCK
+// UNLOCK FUNCTION
 // =====================================
 
 
@@ -603,26 +664,27 @@ function unlockAchievement(id){
 
 
 
-if(
-!achievements[id]
-)
+let achievement =
+achievements[id];
+
+
+
+if(!achievement)
 return;
 
 
 
-if(
-achievements[id].unlocked
-)
+if(achievement.unlocked)
 return;
 
 
 
-achievements[id].unlocked=true;
+achievement.unlocked=true;
 
 
 
 showAchievementPopup(
-achievements[id].name
+achievement.name
 );
 
 
@@ -642,14 +704,14 @@ achievements[id].name
 // =====================================
 
 
-function showAchievementPopup(text){
+function showAchievementPopup(name){
 
 
 
 console.log(
 
 "Achievement Unlocked:",
-text
+name
 
 );
 
