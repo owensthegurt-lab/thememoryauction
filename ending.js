@@ -3,12 +3,12 @@
 
     ending.js
 
-    Final Ending Framework
+    FINAL ENDING SYSTEM
 */
 
 
 // =====================================
-// SHOW ENDING
+// ENDING ENGINE
 // =====================================
 
 
@@ -19,17 +19,39 @@ let ending = calculateEnding();
 
 
 
-unlockEnding(
-ending.id
-);
+unlockEnding(ending.id);
 
 
 
-document.getElementById("story").innerHTML = `
+if(typeof checkEndingAchievements === "function"){
+
+checkEndingAchievements();
+
+}
+
+
+
+let story =
+document.getElementById("story");
+
+
+let choices =
+document.getElementById("choices");
+
+
+
+story.innerHTML = `
+
+<div class="ending">
 
 <h1>
 ${ending.name}
 </h1>
+
+
+<h3>
+${ending.category.toUpperCase()} ENDING
+</h3>
 
 
 <p>
@@ -37,17 +59,9 @@ ${ending.text}
 </p>
 
 
-<p>
-Ending Type:
-${ending.category}
-</p>
+</div>
 
 `;
-
-
-
-let choices =
-document.getElementById("choices");
 
 
 
@@ -59,15 +73,15 @@ let button =
 document.createElement("button");
 
 
-
 button.innerHTML =
 "Return To Title";
 
 
-
 button.onclick=()=>{
 
+
 location.reload();
+
 
 };
 
@@ -88,7 +102,7 @@ choices.appendChild(button);
 
 
 // =====================================
-// FIND ENDING
+// ENDING CALCULATOR
 // =====================================
 
 
@@ -96,9 +110,18 @@ function calculateEnding(){
 
 
 
-for(
-let ending of endings
-){
+let possible =
+endings.sort(
+
+(a,b)=>
+
+b.priority-a.priority
+
+);
+
+
+
+for(let ending of possible){
 
 
 if(
@@ -112,8 +135,8 @@ return ending;
 }
 
 
-}
 
+}
 
 
 
@@ -136,7 +159,7 @@ e=>e.id==="ending_balance"
 
 
 // =====================================
-// ENDING UNLOCK
+// UNLOCK ENDING
 // =====================================
 
 
@@ -146,12 +169,14 @@ function unlockEnding(id){
 
 if(
 !player.endingsUnlocked.includes(id)
+
 ){
 
 
 player.endingsUnlocked.push(id);
 
 
+
 }
 
 
@@ -167,36 +192,38 @@ player.endingsUnlocked.push(id);
 
 
 // =====================================
-// ENDING TRACKING
+// ENDING PROGRESS
 // =====================================
 
 
 function getEndingProgress(){
 
 
-
-let total =
-endings.length;
+return{
 
 
+found:
 
-let found =
-player.endingsUnlocked.length;
-
-
-
-return {
+player.endingsUnlocked.length,
 
 
-found,
+total:
 
-total,
+endings.length,
+
 
 percent:
 
 Math.floor(
-(found/total)*100
+
+(player.endingsUnlocked.length /
+
+endings.length)
+
+*100
+
 )
+
 
 
 };
@@ -220,7 +247,9 @@ function getCategoryProgress(category){
 let total =
 endings.filter(
 
-e=>e.category===category
+e=>
+
+e.category===category
 
 ).length;
 
@@ -241,7 +270,7 @@ player.endingsUnlocked.includes(e.id)
 
 
 
-return {
+return{
 
 
 found,
@@ -264,11 +293,15 @@ total
 
 
 // =====================================
-// 40 ENDING DATABASE
+// ENDING DATABASE
 // =====================================
 
 
 const endings=[
+
+
+
+
 
 
 
@@ -281,17 +314,95 @@ const endings=[
 {
 
 
-id:"ending_final_memory",
+id:
 
-category:"secret",
+"ending_absolute_memory",
 
-name:"THE FINAL MEMORY",
+
+category:
+
+"secret",
+
+
+priority:
+
+100,
+
+
+name:
+
+"THE ABSOLUTE MEMORY",
+
 
 
 condition:()=>{
 
 
-return (
+return(
+
+player.memories.length>=20
+
+&&
+
+player.stats.truth>=20
+
+&&
+
+player.stats.identity>=15
+
+&&
+
+elias.trust>=10
+
+);
+
+
+
+},
+
+
+
+text:
+
+"You remember everything. The auction opens its final door. The truth was never hidden from you. It was waiting for you."
+
+},
+
+
+
+
+
+
+
+
+{
+
+
+id:
+
+"ending_final_memory",
+
+
+category:
+
+"secret",
+
+
+priority:
+
+95,
+
+
+name:
+
+"THE FINAL MEMORY",
+
+
+
+condition:()=>{
+
+
+return(
 
 player.special.collectedAllMemories
 
@@ -306,14 +417,17 @@ player.stats.identity>=10
 );
 
 
+
 },
+
 
 
 text:
 
-"The final memory reveals everything. The auction was never meant to destroy you. It was waiting for you to remember yourself."
+"Every forgotten fragment returns. Every choice. Every mistake. Every promise."
 
 },
+
 
 
 
@@ -324,17 +438,31 @@ text:
 {
 
 
-id:"ending_creator",
+id:
 
-category:"secret",
+"ending_creator",
 
-name:"THE CREATOR",
+
+category:
+
+"secret",
+
+
+priority:
+
+90,
+
+
+name:
+
+"THE CREATOR",
+
 
 
 condition:()=>{
 
 
-return (
+return(
 
 player.stats.identity>=12
 
@@ -345,14 +473,17 @@ player.stats.truth>=10
 );
 
 
+
 },
+
 
 
 text:
 
-"You discover why you built the auction. You were not escaping your past. You were stopping your future."
+"You discover why you built the auction. You were not escaping yourself. You were trying to save yourself."
 
 },
+
 
 
 
@@ -363,17 +494,91 @@ text:
 {
 
 
-id:"ending_dreamer",
+id:
 
-category:"secret",
+"ending_creator_of_dreams",
 
-name:"THE DREAMER",
+
+category:
+
+"secret",
+
+
+priority:
+
+85,
+
+
+name:
+
+"THE CREATOR OF DREAMS",
+
 
 
 condition:()=>{
 
 
-return (
+return(
+
+player.special.secretChapterUnlocked
+
+&&
+
+player.stats.identity>=15
+
+&&
+
+player.stats.good>=10
+
+);
+
+
+
+},
+
+
+
+text:
+
+"The auction was never a prison. It was a second chance."
+
+},
+
+
+
+
+
+
+
+
+{
+
+
+id:
+
+"ending_dreamer",
+
+
+category:
+
+"secret",
+
+
+priority:
+
+80,
+
+
+name:
+
+"THE DREAMER",
+
+
+
+condition:()=>{
+
+
+return(
 
 player.special.secretChapterUnlocked
 
@@ -384,12 +589,14 @@ player.stats.truth>=15
 );
 
 
+
 },
+
 
 
 text:
 
-"The world outside the auction may not be real. The only truth left is the choice you make."
+"You discover that reality itself may only be another memory."
 
 },
 
@@ -398,237 +605,3 @@ text:
 
 
 
-
-// =====================================
-// HERO ENDINGS
-// =====================================
-
-
-
-{
-
-
-id:"ending_memory_liberator",
-
-category:"hero",
-
-name:"THE MEMORY LIBERATOR",
-
-
-condition:()=>{
-
-
-return (
-
-player.special.destroyedAuction
-
-&&
-
-player.stats.good>=8
-
-);
-
-
-},
-
-
-text:
-
-"The auction falls. The truth returns. Humanity finally remembers."
-
-},
-
-
-
-
-
-
-
-{
-
-
-id:"ending_restorer",
-
-category:"hero",
-
-name:"THE RESTORER",
-
-
-condition:()=>{
-
-
-return (
-
-player.special.rebuiltAuction
-
-&&
-
-elias.trust>=5
-
-);
-
-
-},
-
-
-text:
-
-"You rebuild the auction into something better."
-
-},
-
-
-
-
-
-
-
-{
-
-
-id:"ending_burden",
-
-category:"hero",
-
-name:"THE BURDEN BEARER",
-
-
-condition:()=>{
-
-
-return (
-
-player.special.acceptedBurden
-
-);
-
-
-},
-
-
-text:
-
-"Everyone is free because you carry every forgotten memory."
-
-},
-
-
-
-
-
-
-
-// =====================================
-// EVIL
-// =====================================
-
-
-
-{
-
-
-id:"ending_new_auctioneer",
-
-category:"evil",
-
-name:"THE NEW AUCTIONEER",
-
-
-condition:()=>{
-
-
-return (
-
-player.special.controlledAuction
-
-&&
-
-player.stats.evil>=8
-
-);
-
-
-},
-
-
-text:
-
-"Memories become your weapon."
-
-},
-
-
-
-
-
-
-
-// =====================================
-// NEUTRAL
-// =====================================
-
-
-
-{
-
-
-id:"ending_watcher",
-
-category:"neutral",
-
-name:"THE WATCHER",
-
-
-condition:()=>{
-
-
-return (
-
-player.stats.truth>=5
-
-);
-
-
-},
-
-
-text:
-
-"You walk away and leave the world wondering."
-
-},
-
-
-
-
-
-
-
-{
-
-
-id:"ending_balance",
-
-category:"neutral",
-
-name:"THE BALANCED PATH",
-
-
-condition:()=>{
-
-
-return true;
-
-
-},
-
-
-text:
-
-"Some things heal. Some things never will."
-
-}
-
-
-
-];
