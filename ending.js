@@ -3,7 +3,7 @@
 
     ending.js
 
-    Ending Engine
+    Complete Ending System
 */
 
 
@@ -18,18 +18,15 @@
 function showEnding(){
 
 
-let endingID =
-calculateEnding();
+let endingID = calculateEnding();
 
 
 
-unlockEnding(
-endingID
-);
+unlockEnding(endingID);
 
 
 
-if(typeof checkAchievements==="function"){
+if(typeof checkAchievements === "function"){
 
 checkAchievements();
 
@@ -37,42 +34,30 @@ checkAchievements();
 
 
 
-let ending =
-endings[endingID];
+let ending = endings[endingID];
 
 
 
 if(!ending){
-
 
 console.error(
 "Missing ending:",
 endingID
 );
 
-
 return;
-
 
 }
 
 
 
-currentScene=endingID;
-
-
-
-document.getElementById(
-"story"
-).innerHTML=
+document.getElementById("story").innerHTML =
 ending.text;
 
 
 
-let choices=
-document.getElementById(
-"choices"
-);
+let choices =
+document.getElementById("choices");
 
 
 
@@ -80,19 +65,17 @@ choices.innerHTML="";
 
 
 
-let button=
-document.createElement(
-"button"
-);
+let button =
+document.createElement("button");
 
 
 
-button.innerHTML=
+button.innerHTML =
 "Return To Title";
 
 
 
-button.onclick=()=>{
+button.onclick = ()=>{
 
 
 location.reload();
@@ -125,20 +108,11 @@ function calculateEnding(){
 
 
 
-let s =
-player.stats;
+let s = player.stats;
 
+let sp = player.special;
 
-
-let sp =
-player.special;
-
-
-
-let e =
-elias;
-
-
+let e = elias;
 
 
 
@@ -156,11 +130,37 @@ sp.collectedAllMemories
 
 &&
 
-s.truth>=10
+s.truth >= 12
+
+&&
+
+s.identity >= 8
 
 ){
 
-return "ending_secret_true";
+
+return "ending_true_memory";
+
+
+}
+
+
+
+
+
+if(
+
+s.identity >= 10
+
+&&
+
+s.truth >= 10
+
+){
+
+
+return "ending_original_self";
+
 
 }
 
@@ -172,19 +172,45 @@ return "ending_secret_true";
 
 if(
 
-s.identity>=10
+e.trust >= 8
 
 &&
 
-s.truth>=8
+sp.discoveredTruth
+
+&&
+
+s.good >= 5
 
 ){
 
-return "ending_secret_original";
+
+return "ending_elias_guardian";
+
 
 }
 
 
+
+
+
+
+
+if(
+
+sp.controlledAuction
+
+&&
+
+s.corruption >= 8
+
+){
+
+
+return "ending_memory_god";
+
+
+}
 
 
 
@@ -200,19 +226,19 @@ return "ending_secret_original";
 
 if(
 
-e.trust>=8
+e.trust >= 8
 
 &&
 
-s.good>=8
+s.good >= 8
 
 ){
 
+
 return "ending_elias_friend";
 
+
 }
-
-
 
 
 
@@ -220,19 +246,19 @@ return "ending_elias_friend";
 
 if(
 
-e.fear>=8
+e.fear >= 8
 
 &&
 
-s.evil>=8
+s.evil >= 5
 
 ){
 
+
 return "ending_elias_betrayal";
 
+
 }
-
-
 
 
 
@@ -244,11 +270,13 @@ e.lost
 
 &&
 
-e.trust>=5
+e.trust >= 5
 
 ){
 
+
 return "ending_elias_brokenPromise";
+
 
 }
 
@@ -270,19 +298,19 @@ sp.destroyedAuction
 
 &&
 
-s.good>=8
+s.good >= 8
 
 &&
 
-s.truth>=5
+s.truth >= 5
 
 ){
 
+
 return "ending_hero_liberator";
 
+
 }
-
-
 
 
 
@@ -294,15 +322,15 @@ sp.rebuiltAuction
 
 &&
 
-e.trust>=5
+e.trust >= 5
 
 ){
 
+
 return "ending_hero_restorer";
 
+
 }
-
-
 
 
 
@@ -314,7 +342,9 @@ sp.acceptedBurden
 
 ){
 
+
 return "ending_hero_burden";
+
 
 }
 
@@ -322,15 +352,15 @@ return "ending_hero_burden";
 
 
 
-
-
 if(
 
-s.good>=10
+s.good >= 10
 
 ){
 
+
 return "ending_hero_secondChance";
+
 
 }
 
@@ -352,15 +382,15 @@ sp.controlledAuction
 
 &&
 
-s.evil>=8
+s.evil >= 8
 
 ){
+
 
 return "ending_evil_auctioneer";
 
+
 }
-
-
 
 
 
@@ -368,15 +398,15 @@ return "ending_evil_auctioneer";
 
 if(
 
-s.corruption>=10
+s.corruption >= 10
 
 ){
+
 
 return "ending_evil_brokenGod";
 
+
 }
-
-
 
 
 
@@ -384,12 +414,14 @@ return "ending_evil_brokenGod";
 
 if(
 
-s.evil>=10
+s.evil >= 10
 
 ){
+
 
 return "ending_evil_emperor";
 
+
 }
 
 
@@ -399,22 +431,22 @@ return "ending_evil_emperor";
 
 
 // ================================
-// NEUTRAL
+// NEUTRAL ENDINGS
 // ================================
 
 
 
 if(
 
-s.truth>=5
+s.truth >= 5
 
 ){
 
+
 return "ending_neutral_watcher";
 
+
 }
-
-
 
 
 
@@ -442,48 +474,35 @@ const endings={
 
 
 
-
-
-
-// ================================
-// HERO
-// ================================
-
-
-ending_hero_liberator:{
+ending_true_memory:{
 
 
 text:`
 
 <h1>
-THE MEMORY LIBERATOR
+THE TRUE MEMORY
 </h1>
 
-
 <p>
-The auction is destroyed.
+Every forgotten fragment returns.
 </p>
 
-
 <p>
-Every stolen memory returns.
+Every choice.
+Every mistake.
+Every promise.
 </p>
 
-
 <p>
-The world suffers from remembering.
+You finally understand the auction.
 </p>
 
-
 <p>
-But humanity finally has the truth.
+It was never meant to erase you.
 </p>
 
-
 <p>
-For the first time...
-
-people can heal honestly.
+It was waiting for you to remember yourself.
 </p>
 
 `
@@ -496,36 +515,29 @@ people can heal honestly.
 
 
 
-
-ending_hero_restorer:{
+ending_original_self:{
 
 
 text:`
 
 <h1>
-THE GENTLE RESTORER
+THE ORIGINAL SELF
 </h1>
 
-
 <p>
-The auction survives.
+You remember who you were.
 </p>
 
-
 <p>
-But it changes forever.
+Not the monster you feared becoming.
 </p>
 
-
 <p>
-No more stolen memories.
-
-No more forced forgetting.
+Not the person you tried to destroy.
 </p>
 
-
 <p>
-People choose their own healing.
+Just yourself.
 </p>
 
 `
@@ -538,38 +550,66 @@ People choose their own healing.
 
 
 
-
-ending_hero_burden:{
+ending_elias_guardian:{
 
 
 text:`
 
 <h1>
-THE BURDEN BEARER
+THE LAST GUARDIAN
 </h1>
 
-
 <p>
-You take every stolen memory into yourself.
+Elias stays.
 </p>
 
+<p>
+Not because he has to.
+</p>
 
 <p>
+Because he chooses to.
+</p>
+
+<p>
+Together you protect the memories of the world.
+</p>
+
+`
+
+},
+
+
+
+
+
+
+
+ending_memory_god:{
+
+
+text:`
+
+<h1>
+THE MEMORY GOD
+</h1>
+
+<p>
+The auction becomes part of you.
+</p>
+
+<p>
+Every memory.
+Every thought.
 Every regret.
-
-Every loss.
-
-Every scream.
 </p>
 
-
 <p>
-Everyone else is free.
+You have infinite knowledge.
 </p>
 
-
 <p>
-But you carry the world.
+But you no longer know which memories belonged to you.
 </p>
 
 `
@@ -580,44 +620,6 @@ But you carry the world.
 
 
 
-
-
-
-ending_hero_secondChance:{
-
-
-text:`
-
-<h1>
-THE SECOND CHANCE
-</h1>
-
-
-<p>
-You accept what you did.
-</p>
-
-
-<p>
-The person who created the disaster...
-
-repairs it.
-</p>
-
-`
-
-},
-
-
-
-
-
-
-
-
-// ================================
-// ELIAS
-// ================================
 
 
 ending_elias_friend:{
@@ -629,30 +631,21 @@ text:`
 THE LAST FRIEND
 </h1>
 
-
 <p>
-Elias remembers everything.
+Elias remembers the past.
 </p>
 
-
 <p>
-The mistakes.
-
-The pain.
-
-The betrayal.
+You remember the pain.
 </p>
 
-
 <p>
-But he stays.
+But neither of you leave.
 </p>
-
 
 `
 
 },
-
 
 
 
@@ -669,13 +662,9 @@ text:`
 THE FINAL BETRAYAL
 </h1>
 
-
 <p>
-The person who believed in you...
-
-becomes your first victim.
+The person who trusted you most becomes your first victim.
 </p>
-
 
 <p>
 Elias was right to fear you.
@@ -684,7 +673,6 @@ Elias was right to fear you.
 `
 
 },
-
 
 
 
@@ -701,21 +689,12 @@ text:`
 THE BROKEN PROMISE
 </h1>
 
-
 <p>
 You tried to save everyone.
 </p>
 
-
 <p>
-But the person who helped you most...
-
-paid the price.
-</p>
-
-
-<p>
-Elias disappears knowing you tried.
+You failed the one person who saved you.
 </p>
 
 `
@@ -728,10 +707,132 @@ Elias disappears knowing you tried.
 
 
 
+ending_hero_liberator:{
 
-// ================================
-// EVIL
-// ================================
+
+text:`
+
+<h1>
+THE MEMORY LIBERATOR
+</h1>
+
+<p>
+The auction falls.
+</p>
+
+<p>
+The truth returns.
+</p>
+
+<p>
+The world suffers...
+</p>
+
+<p>
+but it is finally free.
+</p>
+
+`
+
+},
+
+
+
+
+
+
+
+ending_hero_restorer:{
+
+
+text:`
+
+<h1>
+THE RESTORER
+</h1>
+
+<p>
+The auction survives.
+</p>
+
+<p>
+But no longer steals.
+</p>
+
+<p>
+People choose what they remember.
+</p>
+
+`
+
+},
+
+
+
+
+
+
+
+ending_hero_burden:{
+
+
+text:`
+
+<h1>
+THE BURDEN BEARER
+</h1>
+
+<p>
+Everyone is free.
+</p>
+
+<p>
+Except you.
+</p>
+
+<p>
+You carry every forgotten memory.
+</p>
+
+`
+
+},
+
+
+
+
+
+
+
+ending_hero_secondChance:{
+
+
+text:`
+
+<h1>
+SECOND CHANCE
+</h1>
+
+<p>
+You repair what you broke.
+</p>
+
+<p>
+The past cannot change.
+</p>
+
+<p>
+But the future can.
+</p>
+
+`
+
+},
+
+
+
+
+
 
 
 ending_evil_auctioneer:{
@@ -743,25 +844,17 @@ text:`
 THE NEW AUCTIONEER
 </h1>
 
-
 <p>
-The machine obeys.
+Memories become weapons.
 </p>
 
-
 <p>
-Memories become your weapon.
-</p>
-
-
-<p>
-Nobody can fight someone they cannot remember.
+Nobody can fight what they cannot remember.
 </p>
 
 `
 
 },
-
 
 
 
@@ -778,11 +871,9 @@ text:`
 THE MEMORY EMPEROR
 </h1>
 
-
 <p>
-Every mind becomes a kingdom.
+Every mind becomes your kingdom.
 </p>
-
 
 <p>
 Every memory becomes your law.
@@ -791,7 +882,6 @@ Every memory becomes your law.
 `
 
 },
-
 
 
 
@@ -808,26 +898,16 @@ text:`
 THE BROKEN GOD
 </h1>
 
-
 <p>
 You become the auction itself.
 </p>
 
-
 <p>
 Infinite memories.
-
-Infinite power.
 </p>
 
-
 <p>
-One problem.
-</p>
-
-
-<p>
-You no longer remember yourself.
+No identity.
 </p>
 
 `
@@ -838,12 +918,6 @@ You no longer remember yourself.
 
 
 
-
-
-
-// ================================
-// NEUTRAL
-// ================================
 
 
 ending_neutral_watcher:{
@@ -855,25 +929,21 @@ text:`
 THE WATCHER
 </h1>
 
-
 <p>
-You walk away.
+You leave the auction behind.
 </p>
 
-
 <p>
-The auction remains.
+The world continues.
 </p>
 
-
 <p>
-The world continues without knowing whether you were right.
+Nobody knows if you saved it or doomed it.
 </p>
 
 `
 
 },
-
 
 
 
@@ -890,101 +960,16 @@ text:`
 THE BALANCED PATH
 </h1>
 
-
 <p>
-You refuse extremes.
+You refuse both extremes.
 </p>
 
-
 <p>
-Some things are fixed.
-
-Some things remain broken.
+Some things heal.
 </p>
 
-
 <p>
-Life continues.
-</p>
-
-`
-
-},
-
-
-
-
-
-
-
-
-// ================================
-// SECRET
-// ================================
-
-
-ending_secret_true:{
-
-
-text:`
-
-<h1>
-THE TRUE MEMORY
-</h1>
-
-
-<p>
-You collected every fragment.
-</p>
-
-
-<p>
-The final memory reveals everything.
-</p>
-
-
-<p>
-The auction was never about forgetting.
-</p>
-
-
-<p>
-It was about deciding who you become.
-</p>
-
-`
-
-},
-
-
-
-
-
-
-
-
-ending_secret_original:{
-
-
-text:`
-
-<h1>
-THE ORIGINAL MEMORY
-</h1>
-
-
-<p>
-You finally understand why you erased yourself.
-</p>
-
-
-<p>
-The truth was not lost.
-</p>
-
-
-<p>
-It was hidden.
+Some things never will.
 </p>
 
 `
