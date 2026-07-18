@@ -7,10 +7,15 @@
 const story = {
 
 
+
 intro: {
 
-text: `
+
+text:`
+
 You wake up.
+
+<br><br>
 
 Not from sleep.
 
@@ -20,79 +25,97 @@ From nothing.
 
 The first thing you notice is the silence.
 
-Not peaceful silence.
+<br><br>
 
-The kind of silence that feels like something is missing.
+A room without history.
 
 <br><br>
 
-You are lying in a white room.
-
 The walls are covered with hundreds of glass containers.
 
-Inside every container is a glowing fragment of something.
+Inside each one:
 
-A laugh.
-
-A face.
+<br><br>
 
 A moment.
+
+A feeling.
 
 A memory.
 
 <br><br>
 
-You reach for your own past...
+You reach into your own mind...
 
 and find an empty space.
 
 <br><br>
 
-On the table beside you is a small black envelope.
+On the table sits a black envelope.
 
 Your name is written on it.
 
-You don't remember your name.
+<br><br>
+
+You don't remember writing it.
 
 `,
 
+
 choices:[
+
 
 {
 text:"Open the envelope",
+
 next:"letter",
+
 effects:{
 truth:1
 }
+
 },
+
 
 {
 text:"Search the room",
-next:"searchRoom",
+
+next:"search",
+
 effects:{
 identity:1
 }
+
 },
 
+
 {
-text:"Leave immediately",
+text:"Leave the room",
+
 next:"hallway",
+
 effects:{
 chaos:1
 }
+
 }
 
+
 ]
+
 
 },
 
 
 
-letter: {
+
+
+letter:{
+
 
 text:`
 
-Inside the envelope is a single piece of paper.
+Inside the envelope is one piece of paper.
 
 <br><br>
 
@@ -113,7 +136,7 @@ The handwriting is yours.
 <br><br>
 
 <i>
-"Do not ask why."
+"Do not trust the auctioneer."
 </i>
 
 <br><br>
@@ -123,110 +146,147 @@ At the bottom:
 <br><br>
 
 <i>
-"Trust yourself less than anyone else."
+"Most importantly..."
+
+</i>
+
+<br><br>
+
+<i>
+"Do not trust yourself."
 </i>
 
 `,
 
+
 choices:[
 
-{
-text:"Read the back",
-next:"letterBack",
-effects:{
-truth:1
-}
-},
 
 {
-text:"Ignore the note",
+text:"Read the hidden writing",
+
+next:"hiddenNote",
+
+effects:{
+truth:2
+}
+
+},
+
+
+{
+text:"Ignore it and leave",
+
 next:"hallway",
+
 effects:{
 chaos:1
 }
+
 }
 
+
 ]
+
 
 },
 
 
 
-letterBack: {
+
+
+
+hiddenNote:{
+
 
 text:`
 
-The back contains a date.
+You hold the paper near the light.
 
 <br><br>
 
-Seven years ago.
+A second message appears.
 
 <br><br>
 
-Below it:
+"Seven years ago you made a choice."
 
 <br><br>
 
-MEMORY PURCHASE:
-#000
+"You erased the memory."
 
 <br><br>
 
-BUYER:
-YOU
+"You erased yourself."
 
 <br><br>
 
-You purchased a memory.
-
-Then you erased it.
+A date is written below.
 
 <br><br>
 
-Why would someone erase their own memory?
+The same day the memory auction opened.
 
 `,
 
+
 choices:[
+
 
 {
 text:"Try to remember",
+
 next:"memoryFlash",
+
 effects:{
-identity:1
+identity:2
 }
+
 },
+
 
 {
 text:"Find the auction",
+
 next:"hallway",
+
 effects:{
 truth:1
 }
+
 }
 
+
 ]
+
 
 },
 
 
 
-searchRoom: {
+
+
+
+search:{
+
 
 text:`
 
 You search the room.
 
-Most containers are labeled with names you don't recognize.
+<br><br>
+
+Most containers have names.
+
+People you don't know.
+
+Lives you don't recognize.
 
 <br><br>
 
-One container is different.
+One container has no name.
 
 <br><br>
-
-It has no name.
 
 Only a number.
 
@@ -236,9 +296,7 @@ Only a number.
 
 <br><br>
 
-You reach toward it.
-
-The glass cracks.
+You touch the glass.
 
 <br><br>
 
@@ -250,79 +308,165 @@ A voice whispers:
 
 `,
 
+
 choices:[
 
+
 {
-text:"Pull your hand away",
+text:"Pull away",
+
 next:"hallway",
+
 effects:{
 truth:1
 }
+
+},
+
+
+{
+text:"Break the container",
+
+next:"forbiddenAttempt",
+
+effects:{
+chaos:2,
+corruption:1
 }
 
+}
+
+
 ]
+
 
 },
 
 
 
-memoryFlash: {
+
+
+
+forbiddenAttempt:{
+
 
 text:`
 
-For a second...
-
-you remember.
+The glass cracks.
 
 <br><br>
 
-A crowded room.
-
-A machine.
-
-Someone shouting.
+For a moment you see something.
 
 <br><br>
 
-A man grabbing your shoulder.
+Your own face.
 
 <br><br>
 
-"Don't do this."
+Covered in blood.
 
 <br><br>
 
-Then everything disappears.
+Then the memory disappears.
 
 <br><br>
 
-You wake up on the floor.
+You feel sick.
 
 <br><br>
 
-Someone else has been here.
+Whatever happened...
 
-Recently.
+you were there.
 
 `,
 
+
 choices:[
 
+
 {
-text:"Leave the room",
+text:"Leave immediately",
+
 next:"hallway",
+
 effects:{
-identity:1
+corruption:1
 }
+
 }
 
 ]
+
 
 },
 
 
 
-hallway: {
+
+
+
+memoryFlash:{
+
+
+text:`
+
+A memory forces itself through.
+
+<br><br>
+
+A machine.
+
+<br><br>
+
+A warning alarm.
+
+<br><br>
+
+Someone screaming your name.
+
+<br><br>
+
+A man grabbing your arm.
+
+<br><br>
+
+"Don't erase this."
+
+<br><br>
+
+Then darkness.
+
+`,
+
+
+choices:[
+
+
+{
+text:"Follow the memory",
+
+next:"hallway",
+
+effects:{
+truth:1
+}
+
+}
+
+]
+
+
+},
+
+
+
+
+
+
+hallway:{
+
 
 text:`
 
@@ -330,61 +474,91 @@ The door opens.
 
 <br><br>
 
-A long hallway stretches ahead.
-
-At the end stands a man wearing a dark coat.
+The hallway outside is endless.
 
 <br><br>
 
-He looks at you.
+At the end stands a man.
 
-Not surprised.
+<br><br>
 
-Not afraid.
+Dark coat.
 
-Relieved.
+Tired eyes.
+
+<br><br>
+
+He looks at you like he has been waiting years.
 
 <br><br>
 
 "You finally woke up."
 
-<br><br>
-
-You don't recognize him.
-
-But something inside you does.
-
 `,
+
 
 choices:[
 
+
 {
 text:"Ask who he is",
-next:"elias",
+
+next:"eliasIntro",
+
 effects:{
-truth:1
+elias:{
+trust:1
 }
+}
+
 },
+
 
 {
 text:"Ask how he knows you",
-next:"elias",
+
+next:"eliasIntro",
+
 effects:{
-suspicion:1
+elias:{
+truth:1
 }
 }
 
+},
+
+
+{
+text:"Threaten him",
+
+next:"eliasIntro",
+
+effects:{
+evil:1,
+elias:{
+fear:2
+}
+}
+
+}
+
+
 ]
+
 
 },
 
 
 
-elias: {
+
+
+
+eliasIntro:{
+
 
 text:`
 
-The man approaches slowly.
+The man steps closer.
 
 <br><br>
 
@@ -392,7 +566,17 @@ The man approaches slowly.
 
 <br><br>
 
-He studies your face.
+You wait for something else.
+
+A last name.
+
+An explanation.
+
+Anything.
+
+<br><br>
+
+Nothing comes.
 
 <br><br>
 
@@ -400,69 +584,100 @@ He studies your face.
 
 <br><br>
 
-It isn't a question.
+You feel uncomfortable.
 
 <br><br>
 
-You ask:
+Because he sounds hurt.
 
-<br><br>
+`,
 
-"Should I?"
 
-<br><br>
+choices:[
+
+
+{
+text:"Apologize",
+
+next:"eliasTruth",
+
+effects:{
+good:1,
+elias:{
+trust:2
+}
+}
+
+},
+
+
+{
+text:"Demand answers",
+
+next:"eliasTruth",
+
+effects:{
+law:1,
+elias:{
+fear:1
+}
+}
+
+},
+
+
+{
+text:"Accuse him of erasing you",
+
+next:"eliasTruth",
+
+effects:{
+evil:1,
+elias:{
+fear:2,
+betrayed:true
+}
+}
+
+}
+
+
+]
+
+
+},
+
+
+
+
+
+
+eliasTruth:{
+
+
+text:`
 
 Elias looks away.
 
 <br><br>
 
-"That's the problem."
-
-`,
-
-choices:[
-
-{
-text:"Ask what happened",
-next:"auctionEntrance",
-effects:{
-truth:1
-}
-},
-
-{
-text:"Ask if he erased your memories",
-next:"auctionEntrance",
-effects:{
-corruption:1
-}
-}
-
-]
-
-},
-
-
-
-auctionEntrance: {
-
-text:`
-
-Elias leads you through the building.
+"I helped you forget."
 
 <br><br>
 
-The walls slowly change.
-
-The white clinic disappears.
-
-The hallway becomes something older.
-
-Something hidden.
+The words hurt more than they should.
 
 <br><br>
 
-A massive door opens.
+"But I didn't make you do it."
+
+<br><br>
+
+"You asked me to."
+
+<br><br>
+
+Before you can respond, he opens a hidden door.
 
 <br><br>
 
@@ -472,47 +687,77 @@ Beyond it:
 
 THE MEMORY AUCTION.
 
-<br><br>
-
-Thousands of memories wait behind glass.
-
-<br><br>
-
-Elias whispers:
-
-<br><br>
-
-"Whatever you do..."
-
-<br><br>
-
-"Do not buy back your past."
-
 `,
+
 
 choices:[
 
+
 {
-text:"Enter the auction",
+text:"Enter with Elias",
+
 next:"auction",
+
 effects:{
-truth:1
+elias:{
+trust:1
 }
 }
 
+},
+
+
+{
+text:"Enter alone",
+
+next:"auction",
+
+effects:{
+chaos:1,
+elias:{
+fear:1
+}
+}
+
+}
+
+
 ]
+
 
 },
 
 
 
-auction: {
+
+
+
+auction:{
+
 
 text:`
 
-The auction hall is silent.
+The auction hall is impossible.
 
-Too silent.
+<br><br>
+
+Thousands of memories float behind glass.
+
+<br><br>
+
+A childhood.
+
+A war.
+
+A first kiss.
+
+A murder.
+
+<br><br>
+
+Anything a person wanted to forget...
+
+was here.
 
 <br><br>
 
@@ -526,38 +771,146 @@ Then smiles.
 
 "Welcome back."
 
-<br><br>
-
-You freeze.
-
-<br><br>
-
-"I've never been here."
-
-<br><br>
-
-The auctioneer laughs softly.
-
-<br><br>
-
-"That's what you said last time."
-
 `,
+
 
 choices:[
 
+
 {
-text:"Continue",
-next:"chapterEnd"
+text:"Ask what he means",
+
+next:"auctioneer",
+
+effects:{
+truth:2
 }
 
+},
+
+
+{
+text:"Look at the memories",
+
+next:"memoryMarket"
+
+}
+
+
 ]
+
 
 },
 
 
 
-chapterEnd: {
+
+
+
+auctioneer:{
+
+
+text:`
+
+The auctioneer laughs.
+
+<br><br>
+
+"You really don't remember."
+
+<br><br>
+
+He looks at Elias.
+
+<br><br>
+
+"How long until you tell him?"
+
+<br><br>
+
+Elias says nothing.
+
+<br><br>
+
+That scares you more.
+
+`,
+
+
+choices:[
+
+
+{
+text:"Demand the truth",
+
+next:"memoryMarket",
+
+effects:{
+truth:2
+}
+
+}
+
+
+]
+
+
+},
+
+
+
+
+
+
+memoryMarket:{
+
+
+text:`
+
+The auction begins.
+
+<br><br>
+
+Hundreds of memories become available.
+
+<br><br>
+
+Your past is waiting.
+
+<br><br>
+
+But some memories...
+
+<br><br>
+
+were never meant to be found.
+
+`,
+
+
+choices:[
+
+
+{
+text:"Browse memories",
+
+next:"chapterEnd"
+
+}
+
+
+]
+
+
+},
+
+
+
+
+
+
+chapterEnd:{
+
 
 text:`
 
@@ -565,21 +918,28 @@ CHAPTER ONE COMPLETE
 
 <br><br>
 
-The auction has begun.
+You entered the Memory Auction.
 
 <br><br>
 
-Your memories are waiting.
+You found Elias.
 
 <br><br>
 
-The question is:
+You discovered your past was hidden.
 
 <br><br>
 
-Are they yours?
+Now you must decide:
+
+<br><br>
+
+Do you want the truth...
+
+or do you want peace?
 
 `,
+
 
 choices:[]
 
