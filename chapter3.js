@@ -4,7 +4,7 @@
     chapter3.js
 
     Chapter 3:
-    The Truth Behind The Auction
+    The Final Choice
 */
 
 
@@ -35,11 +35,12 @@ The walls begin showing memories.
 
 
 <p>
-Thousands of lives.
+Not just yours.
+</p>
 
-Thousands of regrets.
 
-Thousands of choices.
+<p>
+Everyone's.
 </p>
 
 
@@ -49,12 +50,11 @@ Elias stands beside the machine beneath the floor.
 
 
 <p>
-"This is what you created."
+"This is what you built."
 </p>
 
 
 `,
-
 
 
 choices:[
@@ -62,13 +62,20 @@ choices:[
 
 {
 
-text:"Ask what the machine really does.",
+
+text:"Ask what the auction truly is.",
 
 next:"auctionTruth",
 
 effects:{
 
-truth:2
+truth:2,
+
+special:{
+
+discoveredTruth:true
+
+}
 
 }
 
@@ -78,9 +85,10 @@ truth:2
 
 {
 
-text:"Ask how to destroy it.",
 
-next:"destroyAuction",
+text:"Destroy the auction.",
+
+next:"destroyChoice",
 
 effects:{
 
@@ -94,9 +102,10 @@ good:2
 
 {
 
-text:"Ask how to control it.",
 
-next:"controlAuction",
+text:"Take control of the auction.",
+
+next:"controlChoice",
 
 effects:{
 
@@ -132,33 +141,34 @@ THE PRICE OF FORGETTING
 
 
 <p>
-The auction never erased pain.
+The auction never destroyed memories.
 </p>
 
 
 <p>
-It moved it.
+It stored them.
 </p>
 
 
 <p>
-Every memory removed from someone...
+Every painful moment removed from someone...
 
-was stored here.
+went somewhere.
 </p>
 
 
 <p>
-Every regret.
-
-Every fear.
-
-Every moment someone wanted to escape.
+Here.
 </p>
 
 
 <p>
-And someone had to carry all of it.
+Inside the machine.
+</p>
+
+
+<p>
+Inside you.
 </p>
 
 
@@ -170,93 +180,18 @@ choices:[
 
 {
 
-text:"Who carried it?",
 
-next:"memoryBurden"
+text:"Accept what you did.",
 
-}
-
-
-]
-
-
-};
-
-
-
-
-
-
-
-
-
-story.memoryBurden = {
-
-
-text:`
-
-<h2>
-THE LOST YEARS
-</h2>
-
-
-<p>
-Elias looks at you.
-</p>
-
-
-<p>
-"You did."
-</p>
-
-
-<p>
-Every memory.
-
-Every scream.
-
-Every person you saved and destroyed.
-</p>
-
-
-<p>
-You carried them all.
-</p>
-
-
-<p>
-That is why you erased yourself.
-</p>
-
-
-<p>
-You weren't running from the truth.
-
-You were running from the weight.
-</p>
-
-
-`,
-
-
-choices:[
-
-
-{
-
-text:"Accept the burden.",
-
-next:"finalDecision",
+next:"acceptBurden",
 
 effects:{
 
-good:3,
-
 truth:3,
 
-elias:{
+special:{
 
-trust:2
+acceptedBurden:true
 
 }
 
@@ -268,15 +203,14 @@ trust:2
 
 {
 
-text:"Reject the burden.",
+
+text:"Reject the truth.",
 
 next:"finalDecision",
 
 effects:{
 
-evil:3,
-
-corruption:3
+corruption:2
 
 }
 
@@ -297,7 +231,82 @@ corruption:3
 
 
 
-story.destroyAuction = {
+story.acceptBurden = {
+
+
+text:`
+
+<h2>
+THE WEIGHT OF EVERYTHING
+</h2>
+
+
+<p>
+The memories return.
+</p>
+
+
+<p>
+Every person.
+
+Every mistake.
+
+Every choice.
+</p>
+
+
+<p>
+You remember why you erased yourself.
+</p>
+
+
+<p>
+The truth was too heavy.
+</p>
+
+
+<p>
+But now you are strong enough to carry it.
+</p>
+
+
+`,
+
+
+choices:[
+
+
+{
+
+
+text:"Save everyone by carrying the burden.",
+
+next:"finalDecision",
+
+effects:{
+
+good:3
+
+}
+
+}
+
+
+
+]
+
+
+};
+
+
+
+
+
+
+
+
+
+story.destroyChoice = {
 
 
 text:`
@@ -313,28 +322,31 @@ The machine can be destroyed.
 
 
 <p>
-But Elias warns you.
+But if it breaks...
+
+all stolen memories return.
 </p>
 
 
 <p>
-"If it breaks..."
+Millions of forgotten moments.
 
+Millions of painful truths.
 </p>
 
 
 <p>
-"Every stolen memory returns."
+Elias looks at you.
 </p>
 
 
 <p>
-The world will remember everything.
+"This may hurt everyone."
 </p>
 
 
 <p>
-Even the things people begged to forget.
+"But maybe people deserve the truth."
 </p>
 
 
@@ -346,15 +358,20 @@ choices:[
 
 {
 
-text:"Destroy it anyway.",
+
+text:"Destroy it.",
 
 next:"finalDecision",
 
 effects:{
 
-good:4,
+good:3,
 
-truth:2
+special:{
+
+destroyedAuction:true
+
+}
 
 }
 
@@ -364,7 +381,8 @@ truth:2
 
 {
 
-text:"Find another solution.",
+
+text:"Find a safer way.",
 
 next:"auctionTruth"
 
@@ -385,7 +403,7 @@ next:"auctionTruth"
 
 
 
-story.controlAuction = {
+story.controlChoice = {
 
 
 text:`
@@ -396,35 +414,33 @@ THE PERFECT WORLD
 
 
 <p>
-The auction recognizes you.
+The machine recognizes you.
 </p>
 
 
 <p>
-The creator has returned.
+Its creator has returned.
 </p>
 
 
 <p>
-With control over the machine...
+With enough power...
 
-you could remove every painful memory.
+you could erase suffering forever.
 </p>
 
 
 <p>
 No war.
 
-No hatred.
+No grief.
 
-No suffering.
+No pain.
 </p>
 
 
 <p>
-But also...
-
-no choice.
+But nobody would be free.
 </p>
 
 
@@ -436,15 +452,22 @@ choices:[
 
 {
 
-text:"Take control.",
+
+text:"Become the Auctioneer.",
 
 next:"finalDecision",
 
 effects:{
 
-evil:5,
+evil:4,
 
-corruption:3
+corruption:3,
+
+special:{
+
+controlledAuction:true
+
+}
 
 }
 
@@ -454,7 +477,8 @@ corruption:3
 
 {
 
-text:"Refuse the power.",
+
+text:"Reject the power.",
 
 next:"finalDecision"
 
@@ -481,29 +505,29 @@ story.finalDecision = {
 text:`
 
 <h2>
-THE LAST CHOICE
+THE FINAL MEMORY
 </h2>
 
 
 <p>
-The auction falls silent.
+The auction waits.
 </p>
 
 
 <p>
-Elias watches you.
+Elias waits.
 </p>
 
 
 <p>
-The machine waits.
+The future waits.
 </p>
 
 
 <p>
-For the first time...
+For once...
 
-the future belongs only to you.
+the choice belongs entirely to you.
 </p>
 
 
@@ -515,13 +539,26 @@ choices:[
 
 {
 
-text:"Destroy the Memory Auction.",
+
+text:"Repair the auction.",
 
 next:"ending",
 
 effects:{
 
-good:5
+good:3,
+
+special:{
+
+rebuiltAuction:true
+
+},
+
+elias:{
+
+trust:3
+
+}
 
 }
 
@@ -531,13 +568,14 @@ good:5
 
 {
 
-text:"Become the new Auctioneer.",
+
+text:"Leave everything behind.",
 
 next:"ending",
 
 effects:{
 
-evil:5
+truth:2
 
 }
 
@@ -547,13 +585,20 @@ evil:5
 
 {
 
-text:"Leave the auction behind.",
+
+text:"Finish what you started.",
 
 next:"ending",
 
 effects:{
 
-truth:3
+evil:3,
+
+special:{
+
+controlledAuction:true
+
+}
 
 }
 
@@ -580,21 +625,17 @@ story.ending = {
 text:`
 
 <h2>
-THE FINAL MEMORY
+THE LAST MEMORY
 </h2>
 
 
 <p>
-The last memory unlocks.
+The final memory unlocks.
 </p>
 
 
 <p>
-Everything you did.
-
-Everything you lost.
-
-Everything you became.
+Every choice leads here.
 </p>
 
 
@@ -611,11 +652,13 @@ choices:[
 
 {
 
+
 text:"Accept your fate.",
 
 next:null
 
 }
+
 
 
 ]
