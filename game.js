@@ -3,7 +3,7 @@
 
     game.js
 
-    Core Engine
+    Core Game Engine
 */
 
 
@@ -13,71 +13,86 @@
 // =====================================
 
 
-let player = {
+function createPlayer(){
 
 
-    credits:500,
+return {
 
 
-    memories:[],
+credits:500,
 
 
-    stats:{
+memories:[],
 
 
-        good:0,
-
-        evil:0,
-
-        truth:0,
-
-        corruption:0,
-
-        identity:0
+stats:{
 
 
-    },
+good:0,
+
+evil:0,
+
+truth:0,
+
+corruption:0,
+
+identity:0
 
 
-
-    special:{
-
-
-        destroyedAuction:false,
-
-
-        controlledAuction:false,
-
-
-        rebuiltAuction:false,
-
-
-        acceptedBurden:false,
-
-
-        savedElias:false,
-
-
-        lostElias:false,
-
-
-        discoveredTruth:false,
-
-
-        collectedAllMemories:false
-
-
-    },
+},
 
 
 
-    endingsUnlocked:[]
+special:{
+
+
+destroyedAuction:false,
+
+
+controlledAuction:false,
+
+
+rebuiltAuction:false,
+
+
+acceptedBurden:false,
+
+
+savedElias:false,
+
+
+lostElias:false,
+
+
+discoveredTruth:false,
+
+
+collectedAllMemories:false
+
+
+},
+
+
+
+endingsUnlocked:[]
 
 
 
 };
 
 
+
+}
+
+
+
+
+
+
+
+
+
+let player=createPlayer();
 
 
 
@@ -86,28 +101,51 @@ let player = {
 
 
 // =====================================
-// ELIAS
+// ELIAS DATA
 // =====================================
 
 
-let elias={
+function createElias(){
 
 
-    trust:0,
+return {
 
 
-    fear:0,
+trust:0,
 
 
-    truth:0,
+fear:0,
 
 
-    betrayed:false
+truth:0,
+
+
+saved:false,
+
+
+lost:false,
+
+
+memoriesShared:0,
+
+
+betrayed:false
 
 
 
 };
 
+
+
+}
+
+
+
+
+
+
+
+let elias=createElias();
 
 
 
@@ -123,10 +161,6 @@ let elias={
 let currentScene="intro";
 
 
-let gameStarted=false;
-
-
-
 
 
 
@@ -134,7 +168,7 @@ let gameStarted=false;
 
 
 // =====================================
-// NEW GAME
+// START GAME
 // =====================================
 
 
@@ -142,103 +176,28 @@ function startNewGame(){
 
 
 
-    player={
+player=createPlayer();
 
 
-        credits:500,
+elias=createElias();
 
 
-        memories:[],
 
+currentScene="intro";
 
-        stats:{
 
 
-            good:0,
+openGame();
 
-            evil:0,
 
-            truth:0,
 
-            corruption:0,
+loadScene(
+currentScene
+);
 
-            identity:0
 
 
-        },
-
-
-
-        special:{
-
-
-            destroyedAuction:false,
-
-
-            controlledAuction:false,
-
-
-            rebuiltAuction:false,
-
-
-            acceptedBurden:false,
-
-
-            savedElias:false,
-
-
-            lostElias:false,
-
-
-            discoveredTruth:false,
-
-
-            collectedAllMemories:false
-
-
-        },
-
-
-
-        endingsUnlocked:[]
-
-
-    };
-
-
-
-    elias={
-
-
-        trust:0,
-
-
-        fear:0,
-
-
-        truth:0,
-
-
-        betrayed:false
-
-
-    };
-
-
-
-    currentScene="intro";
-
-
-
-    openGame();
-
-
-
-    loadScene(currentScene);
-
-
-
-    updateHUD();
+updateHUD();
 
 
 
@@ -251,9 +210,8 @@ function startNewGame(){
 
 
 
-
 // =====================================
-// SCENE LOADING
+// LOAD STORY SCENE
 // =====================================
 
 
@@ -261,108 +219,106 @@ function loadScene(id){
 
 
 
-    let scene=story[id];
+let scene=story[id];
 
 
 
-    if(!scene){
+if(!scene){
 
 
-        console.error(
+console.error(
 
-        "Missing scene:",
-        id
+"Missing scene:",
+id
 
-        );
-
-
-        return;
+);
 
 
-    }
+return;
 
 
-
-    currentScene=id;
+}
 
 
 
-    document.getElementById(
-        "story"
-    ).innerHTML=
-    scene.text;
+currentScene=id;
 
 
 
-    let choices=
-
-    document.getElementById(
-        "choices"
-    );
+document.getElementById(
+"story"
+).innerHTML=scene.text;
 
 
 
-    choices.innerHTML="";
+let choices=
+document.getElementById(
+"choices"
+);
 
 
 
-    scene.choices.forEach(choice=>{
-
-
-        let button=
-
-        document.createElement(
-            "button"
-        );
+choices.innerHTML="";
 
 
 
-        button.innerHTML=
-        choice.text;
+scene.choices.forEach(choice=>{
+
+
+let button=
+document.createElement(
+"button"
+);
 
 
 
-        button.onclick=()=>{
-
-
-            applyEffects(
-                choice.effects
-            );
+button.innerHTML=
+choice.text;
 
 
 
-            if(choice.next){
+button.onclick=()=>{
 
 
-                loadScene(
-                    choice.next
-                );
-
-
-            }
-
-            else{
-
-
-                showEnding();
-
-
-            }
-
-
-        };
+applyEffects(
+choice.effects
+);
 
 
 
-        choices.appendChild(button);
+if(choice.next){
+
+
+loadScene(
+choice.next
+);
+
+
+}
+
+else{
+
+
+showEnding();
+
+
+}
 
 
 
-    });
+};
 
 
 
-    updateHUD();
+choices.appendChild(button);
+
+
+
+});
+
+
+
+updateHUD();
 
 
 
@@ -384,128 +340,163 @@ function loadScene(id){
 function applyEffects(effects){
 
 
+if(!effects)
+return;
 
-    if(!effects)
-    return;
 
 
 
 
-    Object.keys(effects)
-    .forEach(key=>{
+Object.keys(effects).forEach(key=>{
 
 
-        let value=
-        effects[key];
+let value=
+effects[key];
 
 
 
 
 
-        if(key==="elias"){
 
+// Elias changes
 
-            Object.keys(value)
-            .forEach(stat=>{
+if(key==="elias"){
 
 
-                elias[stat]+=value[stat];
 
+Object.keys(value).forEach(stat=>{
 
-            });
 
+if(
+typeof elias[stat] !== "number"
+){
 
-            return;
+elias[stat]=0;
 
 
-        }
+}
 
 
 
+elias[stat]+=value[stat];
 
 
-        if(key==="special"){
 
+});
 
-            Object.keys(value)
-            .forEach(flag=>{
 
 
-                player.special[flag]=value[flag];
+return;
 
 
-            });
+}
 
 
-            return;
 
 
-        }
 
 
+// Special flags
 
+if(key==="special"){
 
 
 
-        if(key==="memory"){
+Object.keys(value).forEach(flag=>{
 
 
-            if(
-                !player.memories.includes(value)
-            ){
+player.special[flag]=value[flag];
 
 
-                player.memories.push(value);
+});
 
 
-            }
 
+return;
 
-            return;
 
+}
 
-        }
 
 
 
 
 
-        if(
-            key==="credits"
-        ){
+// Memory collection
 
+if(key==="memory"){
 
-            player.credits+=value;
 
 
-            return;
+if(
+!player.memories.includes(value)
+){
 
 
-        }
+player.memories.push(value);
 
 
+}
 
 
 
+return;
 
-        if(
-            player.stats[key]
-            !==undefined
-        ){
 
+}
 
-            player.stats[key]+=value;
 
 
-        }
 
 
 
-    });
+// Credits
 
+if(key==="credits"){
 
 
-    updateHUD();
+player.credits+=value;
+
+
+return;
+
+
+}
+
+
+
+
+
+
+// Normal stats
+
+if(
+player.stats[key] !== undefined
+){
+
+
+player.stats[key]+=value;
+
+
+}
+
+
+
+});
+
+
+
+if(typeof checkAchievements==="function"){
+
+
+checkAchievements();
+
+
+}
+
+
+
+updateHUD();
 
 
 
@@ -520,7 +511,7 @@ function applyEffects(effects){
 
 
 // =====================================
-// ENDING TRACKING
+// ENDING UNLOCKS
 // =====================================
 
 
@@ -528,15 +519,15 @@ function unlockEnding(id){
 
 
 
-    if(
-        !player.endingsUnlocked.includes(id)
-    ){
+if(
+!player.endingsUnlocked.includes(id)
+){
 
 
-        player.endingsUnlocked.push(id);
+player.endingsUnlocked.push(id);
 
 
-    }
+}
 
 
 
@@ -559,37 +550,36 @@ function saveGame(slot=1){
 
 
 
-    let data={
+let save={
 
 
-        player,
+player:player,
 
 
-        elias,
+elias:elias,
 
 
-        scene:currentScene,
+scene:currentScene,
 
 
-        date:
-        new Date().toLocaleString()
+date:new Date().toLocaleString()
 
 
-    };
-
-
-
-    localStorage.setItem(
-
-        "memoryAuction_slot"+slot,
-
-        JSON.stringify(data)
-
-    );
+};
 
 
 
-    updateSaveSlots();
+localStorage.setItem(
+
+"memoryAuction_slot"+slot,
+
+JSON.stringify(save)
+
+);
+
+
+
+updateSaveSlots();
 
 
 
@@ -602,47 +592,46 @@ function saveGame(slot=1){
 
 
 
-
 function loadSlot(slot){
 
 
 
-    let raw=
+let data=
+localStorage.getItem(
 
-    localStorage.getItem(
+"memoryAuction_slot"+slot
 
-    "memoryAuction_slot"+slot
-
-    );
-
-
-
-    if(!raw)
-    return;
+);
 
 
 
-    let data=
-    JSON.parse(raw);
+if(!data)
+return;
 
 
 
-    player=data.player;
-
-
-    elias=data.elias;
-
-
-    currentScene=data.scene;
+let save=
+JSON.parse(data);
 
 
 
-    openGame();
+player=save.player;
 
 
-    loadScene(
-        currentScene
-    );
+elias=save.elias;
+
+
+currentScene=save.scene;
+
+
+
+openGame();
+
+
+
+loadScene(
+currentScene
+);
 
 
 
@@ -658,14 +647,16 @@ function loadSlot(slot){
 function deleteSlot(slot){
 
 
-    localStorage.removeItem(
 
-    "memoryAuction_slot"+slot
+localStorage.removeItem(
 
-    );
+"memoryAuction_slot"+slot
+
+);
 
 
-    updateSaveSlots();
+
+updateSaveSlots();
 
 
 }
@@ -679,56 +670,84 @@ function deleteSlot(slot){
 
 
 // =====================================
-// MENU
+// MENUS
 // =====================================
-
-
-function openSaveSlots(){
-
-
-    document.getElementById(
-        "titleScreen"
-    ).style.display="none";
-
-
-    document.getElementById(
-        "game"
-    ).style.display="none";
-
-
-    document.getElementById(
-        "saveScreen"
-    ).style.display="block";
-
-
-    updateSaveSlots();
-
-
-}
-
-
-
 
 
 function openGame(){
 
 
-    document.getElementById(
-        "titleScreen"
-    ).style.display="none";
+
+document.getElementById(
+"titleScreen"
+).style.display="none";
 
 
-    document.getElementById(
-        "saveScreen"
-    ).style.display="none";
+
+document.getElementById(
+"saveScreen"
+).style.display="none";
 
 
-    document.getElementById(
-        "game"
-    ).style.display="block";
+
+document.getElementById(
+"game"
+).style.display="block";
+
 
 
 }
+
+
+
+
+
+
+function openSaveSlots(){
+
+
+
+document.getElementById(
+"titleScreen"
+).style.display="none";
+
+
+
+document.getElementById(
+"saveScreen"
+).style.display="block";
+
+
+
+updateSaveSlots();
+
+
+
+}
+
+
+
+
+
+
+function closeSaveSlots(){
+
+
+
+document.getElementById(
+"saveScreen"
+).style.display="none";
+
+
+
+document.getElementById(
+"titleScreen"
+).style.display="block";
+
+
+
+}
+
 
 
 
@@ -741,44 +760,48 @@ function updateSaveSlots(){
 
 
 
-    for(let i=1;i<=3;i++){
-
-
-        let box=
-
-        document.getElementById(
-            "slot"+i
-        );
+for(
+let i=1;
+i<=3;
+i++
+){
 
 
 
-        if(!box)
-        continue;
+let box=
+document.getElementById(
+"slot"+i
+);
 
 
 
-        let save=
-
-        localStorage.getItem(
-
-        "memoryAuction_slot"+i
-
-        );
+if(!box)
+continue;
 
 
 
-        box.innerHTML=
+let save=
+localStorage.getItem(
 
-        save ?
+"memoryAuction_slot"+i
 
-        "Memory Found"
-
-        :
-
-        "Empty";
+);
 
 
-    }
+
+box.innerHTML=
+save ?
+
+"Memory Found"
+
+:
+
+"Empty";
+
+
+
+}
+
 
 
 }
@@ -791,10 +814,41 @@ function updateSaveSlots(){
 
 
 
+// =====================================
+// DEBUG
+// =====================================
+
+
+function testEnding(){
+
+
+
+player.stats.good=10;
+
+
+player.stats.truth=10;
+
+
+player.special.destroyedAuction=true;
+
+
+
+showEnding();
+
+
+
+}
+
+
+
+
+
+
+
 window.onload=()=>{
 
 
-    updateSaveSlots();
+updateSaveSlots();
 
 
 };
