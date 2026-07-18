@@ -1,8 +1,9 @@
 /*
     THE MEMORY AUCTION
+
     ending.js
 
-    Ending Calculation System
+    Ending Judgment System
 */
 
 
@@ -15,61 +16,71 @@
 const endings = {
 
 
+    // =================================
+    // SECRET HERO ENDING
+    // =================================
 
-    // ==========================
-    // HERO ENDINGS
-    // ==========================
 
-
-    eliasForgiven: {
+    lastGuardian:{
 
 
         title:
         "The Last Guardian",
 
 
+        priority:100,
+
+
+        requirements:{
+
+
+            truth:8,
+
+            good:6,
+
+
+            achievement:
+            "trustedElias"
+
+
+        },
+
+
         text:`
 
-        You finally remember everything.
+        You remember everything.
 
         <br><br>
 
-        You were not a victim.
+        Every stolen memory.
 
-        You were the person who started this.
+        Every person you hurt.
 
-        <br><br>
-
-        But Elias stayed.
-
-        Even after knowing the truth.
+        Every lie you told yourself.
 
         <br><br>
 
-        "I don't forgive what you did."
+        Elias stands beside you.
+
+        Not because he forgot.
+
+        Because he remembered.
 
         <br><br>
 
-        "I forgive what you choose now."
+        Together, you destroy the auction.
 
         <br><br>
 
-        The auction burns behind you.
+        The world gets its memories back.
 
         <br><br>
 
-        The memories are free.
+        But you keep yours.
 
-        `,
+        Every single one.
 
-
-        requirement:{
-
-            good:5,
-
-            truth:8
-
-        }
+        `
 
 
     },
@@ -78,18 +89,30 @@ const endings = {
 
 
 
-    // ==========================
-    // BITTERSWEET
-    // ==========================
+    // =================================
+    // BITTERSWEET HERO
+    // =================================
 
 
     forgottenHero:{
 
 
         title:
-
         "The Person Nobody Remembers",
 
+
+        priority:90,
+
+
+        requirements:{
+
+
+            good:8,
+
+            corruption:0
+
+
+        },
 
 
         text:`
@@ -98,38 +121,29 @@ const endings = {
 
         <br><br>
 
-        You destroyed the auction.
+        The auction disappears.
+
+        The stolen memories return.
 
         <br><br>
 
-        You returned every stolen memory.
+        But the final memory was yours.
 
         <br><br>
 
-        Except yours.
+        The price of saving everyone...
+
+        was yourself.
 
         <br><br>
 
-        The world remembers what you did.
+        The world remembers the miracle.
 
         <br><br>
 
-        Nobody remembers who did it.
+        Nobody remembers the person who made it happen.
 
-        <br><br>
-
-        Not even you.
-
-        `,
-
-
-        requirement:{
-
-            good:7,
-
-            corruption:0
-
-        }
+        `
 
 
     },
@@ -138,82 +152,32 @@ const endings = {
 
 
 
-    // ==========================
-    // EVIL
-    // ==========================
 
 
-    auctionMaster:{
-
-
-        title:
-
-        "The New Auctioneer",
-
-
-
-        text:`
-
-        You finally understand.
-
-        <br><br>
-
-        Memories are not a curse.
-
-        They are currency.
-
-        <br><br>
-
-        People will pay anything
-
-        to forget their pain.
-
-        <br><br>
-
-        And you will be there.
-
-        Waiting.
-
-        <br><br>
-
-        The auction continues.
-
-        <br><br>
-
-        But now...
-
-        you own it.
-
-        `,
-
-
-        requirement:{
-
-            evil:8,
-
-            corruption:5
-
-        }
-
-
-    },
-
-
-
-
-
-    // ==========================
+    // =================================
     // ELIAS BETRAYAL
-    // ==========================
+    // =================================
 
 
-    eliasBetrayal:{
+    brokenTrust:{
 
 
         title:
-
         "The Man Who Remembered",
 
+
+        priority:85,
+
+
+        requirements:{
+
+
+            evil:5,
+
+            fear:5
+
+
+        },
 
 
         text:`
@@ -222,44 +186,27 @@ const endings = {
 
         <br><br>
 
-        You used that trust.
+        That was his mistake.
 
         <br><br>
 
-        When he finally remembered everything,
-
-        he understood.
+        He spent years searching for the truth.
 
         <br><br>
 
-        The worst thing you did
+        When he finally found it...
 
-        was not erasing your memory.
-
-        <br><br>
-
-        It was convincing him to help.
+        he wished he hadn't.
 
         <br><br>
 
-        Elias leaves.
+        You didn't erase your memory because you forgot.
 
         <br><br>
 
-        This time...
+        You erased it because you knew.
 
-        he doesn't come back.
-
-        `,
-
-
-        requirement:{
-
-            evil:5,
-
-            fear:5
-
-        }
+        `
 
 
     },
@@ -268,35 +215,171 @@ const endings = {
 
 
 
-    // ==========================
-    // TRUE NEUTRAL
-    // ==========================
 
 
-    memoryWanderer:{
+    // =================================
+    // EVIL ENDING
+    // =================================
+
+
+    auctionMaster:{
 
 
         title:
+        "The New Auctioneer",
 
-        "The Forgotten Witness",
 
+        priority:80,
+
+
+        requirements:{
+
+
+            evil:8,
+
+            corruption:5
+
+
+        },
 
 
         text:`
 
-        You never chose good.
-
-        You never chose evil.
+        You finally understand the auction.
 
         <br><br>
 
-        You only wanted the truth.
+        Memories are not sacred.
+
+        They are valuable.
 
         <br><br>
 
-        And the truth was worse
+        People will pay anything to forget.
 
-        than any lie.
+        <br><br>
+
+        You simply provide the service.
+
+        <br><br>
+
+        The old auctioneer is gone.
+
+        <br><br>
+
+        The new one has arrived.
+
+        `
+
+
+    },
+
+
+
+
+
+
+
+    // =================================
+    // CORRUPTION ENDING
+    // =================================
+
+
+    beautifulLie:{
+
+
+        title:
+        "A Beautiful Lie",
+
+
+        priority:70,
+
+
+        requirements:{
+
+
+            corruption:8
+
+
+        },
+
+
+        text:`
+
+        The memories are fake.
+
+        <br><br>
+
+        You know that.
+
+        <br><br>
+
+        But they are better than reality.
+
+        <br><br>
+
+        Eventually you stop asking:
+
+        "Is this real?"
+
+        <br><br>
+
+        You only ask:
+
+        "Does it hurt?"
+
+        <br><br>
+
+        And the answer is no.
+
+        `
+
+
+    },
+
+
+
+
+
+
+
+    // =================================
+    // TRUTH ENDING
+    // =================================
+
+
+    truthSeeker:{
+
+
+        title:
+        "The Forgotten Witness",
+
+
+        priority:50,
+
+
+        requirements:{
+
+
+            truth:7
+
+
+        },
+
+
+        text:`
+
+        You found the truth.
+
+        <br><br>
+
+        It was not justice.
+
+        It was not revenge.
+
+        <br><br>
+
+        It was simply the truth.
 
         <br><br>
 
@@ -304,19 +387,74 @@ const endings = {
 
         <br><br>
 
-        You disappear with it.
+        But the memories remain.
 
-        `,
+        <br><br>
+
+        Someone has to remember.
+
+        <br><br>
+
+        So you do.
+
+        `
 
 
-        requirement:{
+    },
 
-            truth:7
 
-        }
+
+
+
+
+
+    // =================================
+    // DEFAULT
+    // =================================
+
+
+    emptyMemory:{
+
+
+        title:
+        "The Empty Memory",
+
+
+        priority:0,
+
+
+        requirements:{},
+
+
+        text:`
+
+        The auction closes.
+
+        <br><br>
+
+        You walk away.
+
+        <br><br>
+
+        Not healed.
+
+        Not broken.
+
+        <br><br>
+
+        Just different.
+
+        <br><br>
+
+        Somewhere deep inside...
+
+        a memory waits.
+
+        `
 
 
     }
+
 
 
 };
@@ -325,8 +463,10 @@ const endings = {
 
 
 
+
+
 // =====================================
-// CHECK ENDINGS
+// GET BEST ENDING
 // =====================================
 
 
@@ -342,20 +482,19 @@ function getEnding(){
     ){
 
 
-
         let ending =
         endings[id];
 
 
 
         if(
-            checkEndingRequirement(
-                ending.requirement
+            checkEndingRequirements(
+                ending.requirements
             )
         ){
 
 
-            possible.push(id);
+            possible.push(ending);
 
 
         }
@@ -366,26 +505,18 @@ function getEnding(){
 
 
 
-    if(
-        possible.length===0
-    ){
 
+    possible.sort(
 
-        return "memoryWanderer";
+        (a,b)=>
 
+        b.priority-a.priority
 
-    }
-
+    );
 
 
 
-    // highest priority first
-
-
-    return possible[
-        possible.length-1
-    ];
-
+    return possible[0];
 
 
 }
@@ -396,35 +527,66 @@ function getEnding(){
 
 
 
+
 // =====================================
-// REQUIREMENTS
+// REQUIREMENT CHECK
 // =====================================
 
 
-function checkEndingRequirement(req){
+function checkEndingRequirements(req){
 
 
     for(
-        let stat in req
+        let key in req
     ){
 
 
-
-        let amount =
-        req[stat];
+        let value =
+        req[key];
 
 
 
         if(
-            player.stats[stat]
+            key==="achievement"
+        ){
+
+
+            if(
+
+                !achievements[value]
+
+                ||
+
+                !achievements[value].unlocked
+
+            ){
+
+
+                return false;
+
+
+            }
+
+
+            continue;
+
+
+        }
+
+
+
+
+
+        if(
+            player.stats[key]
             !==undefined
         ){
 
 
             if(
-                player.stats[stat]
+                player.stats[key]
                 <
-                amount
+                value
             ){
 
                 return false;
@@ -432,20 +594,25 @@ function checkEndingRequirement(req){
             }
 
 
+            continue;
+
+
         }
 
 
 
-        else if(
-            elias[stat]
+
+
+        if(
+            elias[key]
             !==undefined
         ){
 
 
             if(
-                elias[stat]
+                elias[key]
                 <
-                amount
+                value
             ){
 
                 return false;
@@ -470,8 +637,9 @@ function checkEndingRequirement(req){
 
 
 
+
 // =====================================
-// DISPLAY ENDING
+// SHOW ENDING
 // =====================================
 
 
@@ -479,13 +647,8 @@ function showEnding(){
 
 
 
-    let endingID =
-    getEnding();
-
-
-
     let ending =
-    endings[endingID];
+    getEnding();
 
 
 
@@ -498,7 +661,7 @@ function showEnding(){
 
 
 
-    storyBox.innerHTML=`
+    storyBox.innerHTML = `
 
 
     <h1>
@@ -520,6 +683,7 @@ function showEnding(){
 
 
     choicesBox.innerHTML="";
+
 
 
 }
