@@ -1,46 +1,64 @@
 /*
     THE MEMORY AUCTION
+
+    achievements.js
+
     Achievement System
 */
+
+
+
+// =====================================
+// ACHIEVEMENT DATABASE
+// =====================================
 
 
 const achievements = {
 
 
-    firstMemory: {
+    firstFragment: {
 
         name:"The First Fragment",
 
         description:
         "Recovered your first memory.",
 
-        unlocked:false
+        unlocked:false,
+
+        hidden:false
 
     },
 
 
-    forbiddenTouch: {
 
-        name:"Do Not Open",
+    forbiddenMemory: {
+
+        name:"Do Not Remember",
 
         description:
-        "Touched Memory #000.",
+        "Recovered Memory #000.",
 
-        unlocked:false
+        unlocked:false,
+
+        hidden:true
 
     },
 
 
-    metElias: {
+
+    familiarStranger: {
 
         name:"A Familiar Stranger",
 
         description:
         "Met Elias again.",
 
-        unlocked:false
+        unlocked:false,
+
+        hidden:false
 
     },
+
 
 
     trustedElias: {
@@ -48,11 +66,14 @@ const achievements = {
         name:"Someone Still Remembers",
 
         description:
-        "Built trust with Elias.",
+        "Earned Elias' trust.",
 
-        unlocked:false
+        unlocked:false,
+
+        hidden:false
 
     },
+
 
 
     fearedElias: {
@@ -62,9 +83,12 @@ const achievements = {
         description:
         "Made Elias afraid of you.",
 
-        unlocked:false
+        unlocked:false,
+
+        hidden:false
 
     },
+
 
 
     truthSeeker: {
@@ -72,45 +96,71 @@ const achievements = {
         name:"The Truth Hurts",
 
         description:
-        "Chose the truth over comfort.",
+        "Chose truth over comfort.",
 
-        unlocked:false
+        unlocked:false,
+
+        hidden:false
 
     },
+
 
 
     memoryCollector: {
 
-        name:"The Collector",
+        name:"Collector",
 
         description:
-        "Purchased multiple memories.",
+        "Collected five memories.",
 
-        unlocked:false
+        unlocked:false,
+
+        hidden:false
 
     },
 
 
-    corruptionPath: {
+
+    corruptedMemory: {
 
         name:"A Beautiful Lie",
 
         description:
         "Accepted a false memory.",
 
-        unlocked:false
+        unlocked:false,
+
+        hidden:false
 
     },
 
 
-    founder: {
 
-        name:"The First Seller",
+    auctionOwner: {
+
+        name:"The New Owner",
 
         description:
         "Discovered your connection to the auction.",
 
-        unlocked:false
+        unlocked:false,
+
+        hidden:true
+
+    },
+
+
+
+    forgottenHero: {
+
+        name:"Nobody Remembers",
+
+        description:
+        "Saved everyone at the cost of yourself.",
+
+        unlocked:false,
+
+        hidden:true
 
     }
 
@@ -119,114 +169,187 @@ const achievements = {
 
 
 
-// =====================
-// UNLOCK ACHIEVEMENT
-// =====================
+
+
+// =====================================
+// UNLOCK FUNCTION
+// =====================================
 
 
 function unlockAchievement(id){
 
 
+    let achievement =
+    achievements[id];
+
+
+
     if(
-        achievements[id]
-        &&
-        !achievements[id].unlocked
-    ){
-
-        achievements[id].unlocked=true;
+        !achievement
+    )
+    return;
 
 
-        console.log(
-        "Achievement unlocked:",
-        achievements[id].name
-        );
+
+    if(
+        achievement.unlocked
+    )
+    return;
 
 
-    }
+
+    achievement.unlocked=true;
+
+
+
+    showAchievementPopup(
+        achievement
+    );
+
 
 
 }
 
 
 
-// =====================
-// CHECK ACHIEVEMENTS
-// =====================
+
+
+
+
+// =====================================
+// CHECK ALL ACHIEVEMENTS
+// =====================================
 
 
 function checkAchievements(){
 
 
 
+    // First memory
+
     if(
-        player.memories.length >= 1
+        player.memories.length >=1
     ){
 
         unlockAchievement(
-        "firstMemory"
+            "firstFragment"
         );
 
     }
 
 
 
-    if(
-        hasMemory("000")
-    ){
 
-        unlockAchievement(
-        "forbiddenTouch"
-        );
-
-    }
-
-
+    // Elias met
 
     if(
         elias.trust > 0
+        ||
+        elias.fear >0
     ){
 
         unlockAchievement(
-        "trustedElias"
+            "familiarStranger"
         );
 
     }
 
 
+
+
+
+    // Elias trust
 
     if(
-        elias.fear >= 3
+        elias.trust >=5
     ){
 
         unlockAchievement(
-        "fearedElias"
+            "trustedElias"
         );
 
     }
 
 
+
+
+
+    // Elias fear
 
     if(
-        player.stats.truth >= 5
+        elias.fear >=5
     ){
 
         unlockAchievement(
-        "truthSeeker"
+            "fearedElias"
         );
 
     }
 
 
+
+
+
+    // Truth
 
     if(
-        player.memories.length >= 3
+        player.stats.truth >=5
     ){
 
         unlockAchievement(
-        "memoryCollector"
+            "truthSeeker"
         );
 
     }
+
+
+
+
+
+    // Collector
+
+    if(
+        player.memories.length >=5
+    ){
+
+        unlockAchievement(
+            "memoryCollector"
+        );
+
+    }
+
+
+
+
+
+    // Corrupted memory
+
+    if(
+        hasCorruptedMemory()
+    ){
+
+        unlockAchievement(
+            "corruptedMemory"
+        );
+
+    }
+
+
+
+
+
+    // Forbidden memory
+
+    if(
+        player.memories.includes("000")
+    ){
+
+        unlockAchievement(
+            "forbiddenMemory"
+        );
+
+    }
+
 
 
 
@@ -234,12 +357,59 @@ function checkAchievements(){
 
 
 
-// =====================
-// ACHIEVEMENT MENU
-// =====================
+
+
+
+// =====================================
+// MEMORY CHECK
+// =====================================
+
+
+function hasCorruptedMemory(){
+
+
+    for(
+        let id of player.memories
+    ){
+
+
+        let memory =
+        memoryDatabase[id];
+
+
+
+        if(
+            memory
+            &&
+            memory.fake
+        ){
+
+            return true;
+
+        }
+
+
+    }
+
+
+
+    return false;
+
+
+}
+
+
+
+
+
+
+// =====================================
+// ACHIEVEMENT PAGE
+// =====================================
 
 
 function openAchievements(){
+
 
 
     const storyBox =
@@ -251,13 +421,17 @@ function openAchievements(){
 
 
 
-    storyBox.innerHTML = `
+    storyBox.innerHTML=`
 
     <h2>
     MEMORY ARCHIVE
     </h2>
 
     `;
+
+
+
+    let unlocked=0;
 
 
 
@@ -269,43 +443,94 @@ function openAchievements(){
         achievements[id];
 
 
-        storyBox.innerHTML += `
 
-        <div>
+        if(
+            a.unlocked
+        ){
 
-        <h3>
+            unlocked++;
 
-        ${
-        a.unlocked
-        ?
-        "◆ "+a.name
-        :
-        "???"
+
+
+            storyBox.innerHTML += `
+
+
+            <div class="memoryCard">
+
+            <h3>
+            ◆ ${a.name}
+            </h3>
+
+
+            <p>
+            ${a.description}
+            </p>
+
+
+            </div>
+
+
+            `;
+
+
         }
 
-        </h3>
 
 
-        <p>
+        else if(
+            !a.hidden
+        ){
 
-        ${
-        a.unlocked
-        ?
-        a.description
-        :
-        "Unknown memory"
+
+            storyBox.innerHTML += `
+
+
+            <div class="memoryCard">
+
+
+            <h3>
+            Locked
+            </h3>
+
+
+            <p>
+            Unknown memory
+            </p>
+
+
+            </div>
+
+
+            `;
+
 
         }
 
-        </p>
-
-        </div>
-
-
-        `;
 
 
     });
+
+
+
+
+
+    storyBox.innerHTML += `
+
+
+    <br>
+
+    Progress:
+
+    ${unlocked}
+
+    /
+
+    ${Object.keys(achievements).length}
+
+
+    `;
+
+
 
 
 
@@ -317,22 +542,51 @@ function openAchievements(){
     document.createElement("button");
 
 
+
     button.innerText =
     "Return";
+
 
 
     button.onclick=()=>{
 
 
         loadScene(
-        currentScene
+            currentScene
         );
 
 
     };
 
 
+
     choicesBox.appendChild(button);
+
+
+
+}
+
+
+
+
+
+
+// =====================================
+// POPUP
+// =====================================
+
+
+function showAchievementPopup(a){
+
+
+    console.log(
+
+        "Achievement Unlocked:",
+
+        a.name
+
+    );
+
 
 
 }
