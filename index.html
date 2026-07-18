@@ -23,9 +23,10 @@ The Memory Auction
 <body>
 
 
-<!-- ==============================
+
+<!-- =========================
 TITLE SCREEN
-============================== -->
+========================= -->
 
 
 <div id="titleScreen">
@@ -36,26 +37,27 @@ THE MEMORY AUCTION
 </h1>
 
 
+
 <p>
-A story about memories, choices, and the things we cannot forget.
+Every memory has a price.
+</p>
+
+
+
+<p>
+Some things were never meant to be forgotten.
 </p>
 
 
 
 <button onclick="startNewGame()">
-New Game
+Begin Memory
 </button>
 
 
 
 <button onclick="openSaveSlots()">
-Load Game
-</button>
-
-
-
-<button onclick="openSettings()">
-Settings
+Load Memory
 </button>
 
 
@@ -68,9 +70,11 @@ Settings
 
 
 
-<!-- ==============================
+
+
+<!-- =========================
 SAVE SCREEN
-============================== -->
+========================= -->
 
 
 <div id="saveScreen" style="display:none;">
@@ -82,10 +86,8 @@ Memory Slots
 
 
 
-<div class="saveSlot" id="slot1">
-
+<div id="slot1" class="saveSlot">
 Empty
-
 </div>
 
 
@@ -96,10 +98,10 @@ Load Slot 1
 
 
 
-<div class="saveSlot" id="slot2">
 
+
+<div id="slot2" class="saveSlot">
 Empty
-
 </div>
 
 
@@ -110,10 +112,10 @@ Load Slot 2
 
 
 
-<div class="saveSlot" id="slot3">
 
+
+<div id="slot3" class="saveSlot">
 Empty
-
 </div>
 
 
@@ -124,14 +126,11 @@ Load Slot 3
 
 
 
-<br>
-
 
 
 <button onclick="closeSaveSlots()">
-Back
+Return
 </button>
-
 
 
 </div>
@@ -143,9 +142,10 @@ Back
 
 
 
-<!-- ==============================
+
+<!-- =========================
 GAME
-============================== -->
+========================= -->
 
 
 <div id="game" style="display:none;">
@@ -154,35 +154,28 @@ GAME
 
 <div id="hud">
 
-
 </div>
-
 
 
 
 
 <div id="story">
 
-
 </div>
-
 
 
 
 
 <div id="choices">
 
-
 </div>
 
 
 
-<br>
-
 
 
 <button onclick="saveGame(1)">
-Save
+Save Memory
 </button>
 
 
@@ -194,7 +187,7 @@ Achievements
 
 
 <button onclick="openEndingGallery()">
-Endings
+Ending Gallery
 </button>
 
 
@@ -209,18 +202,17 @@ Endings
 
 
 
-<!-- ==============================
+<!-- =========================
 ACHIEVEMENTS
-============================== -->
+========================= -->
 
 
-<div id="achievementScreen"
-style="display:none;">
+<div id="achievementScreen" style="display:none;">
 
 
 
 <h2>
-Achievements
+Recovered Memories
 </h2>
 
 
@@ -236,7 +228,6 @@ Close
 </button>
 
 
-
 </div>
 
 
@@ -247,18 +238,17 @@ Close
 
 
 
-<!-- ==============================
+<!-- =========================
 ENDING GALLERY
-============================== -->
+========================= -->
 
 
-<div id="endingScreen"
-style="display:none;">
+<div id="endingScreen" style="display:none;">
 
 
 
 <h2>
-Ending Gallery
+Memory Archive
 </h2>
 
 
@@ -274,7 +264,6 @@ Close
 </button>
 
 
-
 </div>
 
 
@@ -285,9 +274,9 @@ Close
 
 
 
-<!-- ==============================
+<!-- =========================
 SCRIPTS
-============================== -->
+========================= -->
 
 
 <script src="story.js"></script>
@@ -295,6 +284,9 @@ SCRIPTS
 <script src="chapter2.js"></script>
 
 <script src="chapter3.js"></script>
+
+<script src="chapter4.js"></script>
+
 
 <script src="achievements.js"></script>
 
@@ -307,5 +299,6 @@ SCRIPTS
 
 
 </body>
+
 
 </html>
