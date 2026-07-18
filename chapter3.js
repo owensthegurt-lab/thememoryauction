@@ -25,7 +25,7 @@ THE MACHINE THAT REMEMBERS
 
 
 <p>
-The auction floor changes.
+The auction changes.
 </p>
 
 
@@ -35,26 +35,26 @@ The walls begin showing memories.
 
 
 <p>
-Not yours.
+Thousands of lives.
+
+Thousands of regrets.
+
+Thousands of choices.
 </p>
 
 
 <p>
-Everyone's.
+Elias stands beside the machine beneath the floor.
 </p>
 
 
 <p>
-Elias looks at the machine beneath the auction.
-</p>
-
-
-<p>
-"This is what you built."
+"This is what you created."
 </p>
 
 
 `,
+
 
 
 choices:[
@@ -62,8 +62,7 @@ choices:[
 
 {
 
-
-text:"Ask what the machine does.",
+text:"Ask what the machine really does.",
 
 next:"auctionTruth",
 
@@ -79,10 +78,9 @@ truth:2
 
 {
 
-
 text:"Ask how to destroy it.",
 
-next:"destroyPlan",
+next:"destroyAuction",
 
 effects:{
 
@@ -96,10 +94,9 @@ good:2
 
 {
 
-
 text:"Ask how to control it.",
 
-next:"controlPlan",
+next:"controlAuction",
 
 effects:{
 
@@ -135,24 +132,19 @@ THE PRICE OF FORGETTING
 
 
 <p>
-The auction does not remove pain.
+The auction never erased pain.
 </p>
 
 
 <p>
-It moves it.
+It moved it.
 </p>
 
 
 <p>
-Every memory taken from someone...
+Every memory removed from someone...
 
-has to go somewhere.
-</p>
-
-
-<p>
-The machine stores every lost emotion.
+was stored here.
 </p>
 
 
@@ -161,12 +153,12 @@ Every regret.
 
 Every fear.
 
-Every broken moment.
+Every moment someone wanted to escape.
 </p>
 
 
 <p>
-And someone has to carry it.
+And someone had to carry all of it.
 </p>
 
 
@@ -178,14 +170,11 @@ choices:[
 
 {
 
+text:"Who carried it?",
 
-text:"Who carries it?",
-
-next:"playerBurden"
-
+next:"memoryBurden"
 
 }
-
 
 
 ]
@@ -201,13 +190,13 @@ next:"playerBurden"
 
 
 
-story.playerBurden = {
+story.memoryBurden = {
 
 
 text:`
 
 <h2>
-THE FINAL MEMORY
+THE LOST YEARS
 </h2>
 
 
@@ -222,15 +211,16 @@ Elias looks at you.
 
 
 <p>
-Every memory stolen.
+Every memory.
 
-Every person changed.
+Every scream.
 
+Every person you saved and destroyed.
 </p>
 
 
 <p>
-You carried all of it.
+You carried them all.
 </p>
 
 
@@ -240,13 +230,9 @@ That is why you erased yourself.
 
 
 <p>
-Not because you forgot.
+You weren't running from the truth.
 
-</p>
-
-
-<p>
-Because you couldn't survive remembering.
+You were running from the weight.
 </p>
 
 
@@ -258,16 +244,21 @@ choices:[
 
 {
 
-
 text:"Accept the burden.",
 
-next:"finalChoice",
+next:"finalDecision",
 
 effects:{
 
 good:3,
 
-truth:3
+truth:3,
+
+elias:{
+
+trust:2
+
+}
 
 }
 
@@ -277,16 +268,15 @@ truth:3
 
 {
 
-
 text:"Reject the burden.",
 
-next:"finalChoice",
+next:"finalDecision",
 
 effects:{
 
 evil:3,
 
-corruption:2
+corruption:3
 
 }
 
@@ -307,18 +297,18 @@ corruption:2
 
 
 
-story.destroyPlan = {
+story.destroyAuction = {
 
 
 text:`
 
 <h2>
-BREAK THE MACHINE
+THE END OF THE AUCTION
 </h2>
 
 
 <p>
-The auction can be destroyed.
+The machine can be destroyed.
 </p>
 
 
@@ -328,23 +318,23 @@ But Elias warns you.
 
 
 <p>
-"If you destroy it..."
+"If it breaks..."
 
 </p>
 
 
 <p>
-"Everyone gets their memories back."
+"Every stolen memory returns."
 </p>
 
 
 <p>
-"Even the memories they begged to forget."
+The world will remember everything.
 </p>
 
 
 <p>
-Some people may not survive the truth.
+Even the things people begged to forget.
 </p>
 
 
@@ -356,14 +346,13 @@ choices:[
 
 {
 
-
 text:"Destroy it anyway.",
 
-next:"finalChoice",
+next:"finalDecision",
 
 effects:{
 
-good:3,
+good:4,
 
 truth:2
 
@@ -375,8 +364,7 @@ truth:2
 
 {
 
-
-text:"Find another way.",
+text:"Find another solution.",
 
 next:"auctionTruth"
 
@@ -397,44 +385,46 @@ next:"auctionTruth"
 
 
 
-story.controlPlan = {
+story.controlAuction = {
 
 
 text:`
 
 <h2>
-THE NEW AUCTION
+THE PERFECT WORLD
 </h2>
 
 
 <p>
-The machine responds to you.
+The auction recognizes you.
 </p>
 
 
 <p>
-It recognizes its creator.
+The creator has returned.
 </p>
 
 
 <p>
-With control...
+With control over the machine...
 
-you could rewrite anyone's memories.
+you could remove every painful memory.
 </p>
 
 
 <p>
-Remove wars.
+No war.
 
-Remove suffering.
+No hatred.
 
-Remove choice.
+No suffering.
 </p>
 
 
 <p>
-Forever.
+But also...
+
+no choice.
 </p>
 
 
@@ -446,14 +436,13 @@ choices:[
 
 {
 
-
 text:"Take control.",
 
-next:"finalChoice",
+next:"finalDecision",
 
 effects:{
 
-evil:4,
+evil:5,
 
 corruption:3
 
@@ -465,10 +454,9 @@ corruption:3
 
 {
 
+text:"Refuse the power.",
 
-text:"Walk away.",
-
-next:"finalChoice"
+next:"finalDecision"
 
 }
 
@@ -487,23 +475,23 @@ next:"finalChoice"
 
 
 
-story.finalChoice = {
+story.finalDecision = {
 
 
 text:`
 
 <h2>
-THE LAST DECISION
+THE LAST CHOICE
 </h2>
 
 
 <p>
-The auction waits.
+The auction falls silent.
 </p>
 
 
 <p>
-Elias waits.
+Elias watches you.
 </p>
 
 
@@ -515,7 +503,7 @@ The machine waits.
 <p>
 For the first time...
 
-the choice is completely yours.
+the future belongs only to you.
 </p>
 
 
@@ -527,8 +515,7 @@ choices:[
 
 {
 
-
-text:"Destroy the auction.",
+text:"Destroy the Memory Auction.",
 
 next:"ending",
 
@@ -544,8 +531,7 @@ good:5
 
 {
 
-
-text:"Become the new auctioneer.",
+text:"Become the new Auctioneer.",
 
 next:"ending",
 
@@ -561,8 +547,7 @@ evil:5
 
 {
 
-
-text:"Leave and let it remain.",
+text:"Leave the auction behind.",
 
 next:"ending",
 
@@ -595,17 +580,26 @@ story.ending = {
 text:`
 
 <h2>
-THE END
+THE FINAL MEMORY
 </h2>
 
 
 <p>
-The final memory returns.
+The last memory unlocks.
 </p>
 
 
 <p>
-Everything you chose brought you here.
+Everything you did.
+
+Everything you lost.
+
+Everything you became.
+</p>
+
+
+<p>
+There is nowhere left to hide.
 </p>
 
 
@@ -617,13 +611,11 @@ choices:[
 
 {
 
-
-text:"See your fate.",
+text:"Accept your fate.",
 
 next:null
 
 }
-
 
 
 ]
