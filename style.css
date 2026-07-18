@@ -1,192 +1,327 @@
 /*
-    THE MEMORY AUCTION
-
-    UI EFFECTS UPGRADE
+THE MEMORY AUCTION
+Dream UI Theme
 */
 
 
-/* =========================
-   STORY TRANSITIONS
-========================= */
+*{
+
+box-sizing:border-box;
+
+}
 
 
-#story{
+
+body{
+
+
+margin:0;
+
+min-height:100vh;
+
+background:
+
+radial-gradient(
+circle at top,
+#241044,
+#050505 60%
+);
+
+
+color:#ddd;
+
+font-family:
+
+"Cinzel",
+"Times New Roman",
+serif;
+
+
+overflow:hidden;
+
+
+}
+
+
+
+/* drifting dream effect */
+
+
+body::before{
+
+
+content:"";
+
+position:fixed;
+
+inset:0;
+
+
+background:
+
+radial-gradient(
+circle,
+rgba(140,80,255,.15),
+transparent 60%
+);
+
 
 animation:
-memoryFade 1.2s ease;
 
-}
-
-
-@keyframes memoryFade{
-
-0%{
-
-opacity:0;
-
-transform:
-translateY(20px)
-scale(.98);
-
-}
+dreamPulse 8s infinite alternate;
 
 
-100%{
-
-opacity:1;
-
-transform:
-translateY(0)
-scale(1);
-
-}
+pointer-events:none;
 
 
 }
 
 
 
+@keyframes dreamPulse{
 
 
-/* =========================
-   DREAMING TEXT
-========================= */
+from{
+
+opacity:.3;
+
+}
 
 
-#story p{
+
+to{
+
+opacity:.8;
+
+}
+
+
+}
+
+
+
+
+
+
+/* MAIN SCREENS */
+
+
+#titleScreen,
+#saveScreen,
+#game,
+#achievementScreen,
+#endingScreen{
+
+
+position:relative;
+
+width:80%;
+
+max-width:900px;
+
+margin:80px auto;
+
+
+padding:40px;
+
+
+background:
+
+rgba(10,10,20,.85);
+
+
+border:
+
+1px solid rgba(150,100,255,.3);
+
+
+border-radius:20px;
+
+
+box-shadow:
+
+0 0 40px rgba(120,70,255,.25);
+
+
+backdrop-filter:
+
+blur(10px);
 
 
 animation:
 
-textAppear .8s ease;
+fadeIn 1s;
 
 
 }
 
 
 
-@keyframes textAppear{
+
+@keyframes fadeIn{
 
 
 from{
 
 opacity:0;
 
-filter:
-blur(5px);
-
+transform:translateY(20px);
 
 }
+
 
 
 to{
 
 opacity:1;
 
-filter:
-blur(0);
+transform:translateY(0);
+
+}
 
 
 }
 
 
 
-}
 
 
 
+h1{
 
 
+font-size:48px;
+
+text-align:center;
 
 
-
-/* =========================
-   CHOICE BUTTONS
-========================= */
+color:#c9b6ff;
 
 
-#choices button{
+text-shadow:
 
-
-position:relative;
-
-
-overflow:hidden;
-
+0 0 20px purple;
 
 
 }
 
 
 
-#choices button::before{
+
+h2{
 
 
-content:"";
+color:#bfa7ff;
 
 
-position:absolute;
+}
 
 
-top:0;
 
 
-left:-100%;
+
+p{
 
 
-width:100%;
+font-size:20px;
+
+line-height:1.6;
 
 
-height:100%;
+}
 
+
+
+
+/* BUTTONS */
+
+
+button{
+
+
+display:block;
+
+
+width:80%;
+
+
+margin:15px auto;
+
+
+padding:16px;
 
 
 background:
 
+
 linear-gradient(
 
-90deg,
+135deg,
 
-transparent,
+#1a102b,
 
-rgba(255,255,255,.25),
-
-transparent
+#32145c
 
 );
 
 
 
-transition:.5s;
+border:
+
+1px solid #8060ff;
 
 
-
-}
-
+border-radius:15px;
 
 
-#choices button:hover::before{
+color:white;
 
 
-left:100%;
+font-size:18px;
 
 
-}
+cursor:pointer;
 
 
-
-#choices button:hover{
+transition:.3s;
 
 
 box-shadow:
 
-0 0 30px
-
-rgba(180,150,255,.8);
+0 0 15px rgba(120,70,255,.3);
 
 
+}
 
-letter-spacing:1px;
+
+
+
+button:hover{
+
+
+transform:
+
+scale(1.05);
+
+
+background:
+
+
+linear-gradient(
+
+135deg,
+
+#32145c,
+
+#5220a0
+
+);
+
+
+
+box-shadow:
+
+0 0 30px purple;
 
 
 }
@@ -197,60 +332,105 @@ letter-spacing:1px;
 
 
 
-
-/* =========================
-   MEMORY GLOW
-========================= */
+/* STORY BOX */
 
 
-.memory{
+#story{
+
+
+padding:30px;
+
+
+background:
+
+rgba(0,0,0,.35);
+
+
+border-radius:15px;
+
+
+min-height:250px;
+
+
+}
+
+
+
+
+
+/* CHOICES */
+
+
+#choices button{
+
+
+background:
+
+rgba(20,10,40,.9);
+
+
+}
+
+
+
+
+
+
+/* SAVE SLOTS */
+
+
+.saveSlot{
+
+
+padding:20px;
+
+
+margin:15px;
+
+
+background:
+
+rgba(255,255,255,.05);
+
+
+border-radius:12px;
+
+
+border:
+
+1px solid rgba(255,255,255,.15);
+
+
+text-align:center;
+
+
+}
+
+
+
+
+
+/* ENDING STYLE */
+
+
+.ending h1{
+
+
+color:#ffccff;
+
+
+}
+
+
+.ending{
+
+
+text-align:center;
 
 
 animation:
 
-memoryPulse 3s infinite;
-
-
-}
-
-
-
-@keyframes memoryPulse{
-
-
-0%{
-
-box-shadow:
-
-0 0 10px rgba(200,200,255,.2);
-
-
-}
-
-
-
-50%{
-
-
-box-shadow:
-
-0 0 35px rgba(200,200,255,.8);
-
-
-}
-
-
-
-100%{
-
-
-box-shadow:
-
-0 0 10px rgba(200,200,255,.2);
-
-
-}
-
+dreamPulse 5s infinite alternate;
 
 
 }
@@ -258,91 +438,508 @@ box-shadow:
 
 
 
+/* scrollbar */
+
+
+::-webkit-scrollbar{
+
+
+width:10px;
+
+
+}
+
+
+
+::-webkit-scrollbar-track{
+
+
+background:#050505;
+
+
+}
+
+
+
+::-webkit-scrollbar-thumb{
+
+
+background:#5d32a8;
+
+
+border-radius:10px;
+
+
+}/*
+THE MEMORY AUCTION
+Dream UI Theme
+*/
+
+
+*{
+
+box-sizing:border-box;
+
+}
+
+
+
+body{
+
+
+margin:0;
+
+min-height:100vh;
+
+background:
+
+radial-gradient(
+circle at top,
+#241044,
+#050505 60%
+);
+
+
+color:#ddd;
+
+font-family:
+
+"Cinzel",
+"Times New Roman",
+serif;
+
+
+overflow:hidden;
+
+
+}
+
+
+
+/* drifting dream effect */
+
+
+body::before{
+
+
+content:"";
+
+position:fixed;
+
+inset:0;
+
+
+background:
+
+radial-gradient(
+circle,
+rgba(140,80,255,.15),
+transparent 60%
+);
+
+
+animation:
+
+dreamPulse 8s infinite alternate;
+
+
+pointer-events:none;
+
+
+}
+
+
+
+@keyframes dreamPulse{
+
+
+from{
+
+opacity:.3;
+
+}
+
+
+
+to{
+
+opacity:.8;
+
+}
+
+
+}
 
 
 
 
-/* =========================
-   FLOATING PANELS
-========================= */
 
 
+/* MAIN SCREENS */
+
+
+#titleScreen,
+#saveScreen,
 #game,
 #achievementScreen,
 #endingScreen{
 
 
-animation:
+position:relative;
 
-floatPanel 8s infinite ease-in-out;
+width:80%;
 
+max-width:900px;
 
-}
-
-
-
-@keyframes floatPanel{
+margin:80px auto;
 
 
-0%{
+padding:40px;
 
 
-transform:
+background:
 
-translateY(0);
-
-
-}
+rgba(10,10,20,.85);
 
 
+border:
 
-50%{
-
-
-transform:
-
-translateY(-8px);
+1px solid rgba(150,100,255,.3);
 
 
-}
-
-
-
-100%{
-
-
-transform:
-
-translateY(0);
-
-
-}
-
-
-
-}
-
-
-
-
-
-
-
-
-/* =========================
-   BUTTON CLICK EFFECT
-========================= */
-
-
-button:active{
+border-radius:20px;
 
 
 box-shadow:
 
-0 0 50px white;
+0 0 40px rgba(120,70,255,.25);
 
+
+backdrop-filter:
+
+blur(10px);
+
+
+animation:
+
+fadeIn 1s;
 
 
 }
 
 
+
+
+@keyframes fadeIn{
+
+
+from{
+
+opacity:0;
+
+transform:translateY(20px);
+
+}
+
+
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+
+}
+
+
+
+
+
+
+h1{
+
+
+font-size:48px;
+
+text-align:center;
+
+
+color:#c9b6ff;
+
+
+text-shadow:
+
+0 0 20px purple;
+
+
+}
+
+
+
+
+h2{
+
+
+color:#bfa7ff;
+
+
+}
+
+
+
+
+
+p{
+
+
+font-size:20px;
+
+line-height:1.6;
+
+
+}
+
+
+
+
+/* BUTTONS */
+
+
+button{
+
+
+display:block;
+
+
+width:80%;
+
+
+margin:15px auto;
+
+
+padding:16px;
+
+
+background:
+
+
+linear-gradient(
+
+135deg,
+
+#1a102b,
+
+#32145c
+
+);
+
+
+
+border:
+
+1px solid #8060ff;
+
+
+border-radius:15px;
+
+
+color:white;
+
+
+font-size:18px;
+
+
+cursor:pointer;
+
+
+transition:.3s;
+
+
+box-shadow:
+
+0 0 15px rgba(120,70,255,.3);
+
+
+}
+
+
+
+
+button:hover{
+
+
+transform:
+
+scale(1.05);
+
+
+background:
+
+
+linear-gradient(
+
+135deg,
+
+#32145c,
+
+#5220a0
+
+);
+
+
+
+box-shadow:
+
+0 0 30px purple;
+
+
+}
+
+
+
+
+
+
+
+/* STORY BOX */
+
+
+#story{
+
+
+padding:30px;
+
+
+background:
+
+rgba(0,0,0,.35);
+
+
+border-radius:15px;
+
+
+min-height:250px;
+
+
+}
+
+
+
+
+
+/* CHOICES */
+
+
+#choices button{
+
+
+background:
+
+rgba(20,10,40,.9);
+
+
+}
+
+
+
+
+
+
+/* SAVE SLOTS */
+
+
+.saveSlot{
+
+
+padding:20px;
+
+
+margin:15px;
+
+
+background:
+
+rgba(255,255,255,.05);
+
+
+border-radius:12px;
+
+
+border:
+
+1px solid rgba(255,255,255,.15);
+
+
+text-align:center;
+
+
+}
+
+
+
+
+
+/* ENDING STYLE */
+
+
+.ending h1{
+
+
+color:#ffccff;
+
+
+}
+
+
+.ending{
+
+
+text-align:center;
+
+
+animation:
+
+dreamPulse 5s infinite alternate;
+
+
+}
+
+
+
+
+/* scrollbar */
+
+
+::-webkit-scrollbar{
+
+
+width:10px;
+
+
+}
+
+
+
+::-webkit-scrollbar-track{
+
+
+background:#050505;
+
+
+}
+
+
+
+::-webkit-scrollbar-thumb{
+
+
+background:#5d32a8;
+
+
+border-radius:10px;
+
+
+}
