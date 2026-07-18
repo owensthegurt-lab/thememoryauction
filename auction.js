@@ -2,184 +2,162 @@
     THE MEMORY AUCTION
     auction.js
 
-    Memory marketplace system
+    Memory Marketplace System
 */
 
 
-// =========================
+// =====================================
 // MEMORY DATABASE
-// =========================
+// =====================================
 
 
 const memoryDatabase = {
 
 
-    memory001: {
-
-        id:"001",
+    "001": {
 
         name:"The First Day",
 
-        description:
-        "A childhood memory. A schoolyard. Someone calling your name.",
+        rarity:"COMMON",
 
         cost:500,
 
-        rarity:"Common",
-
-        danger:false,
-
-        fake:false,
+        description:
+        "A childhood memory. A forgotten voice calls your name.",
 
 
         effects:{
 
             identity:2,
 
-            truth:1
+            good:1
 
-        }
+        },
+
+
+        unlocked:true
 
     },
 
 
 
-    memory002: {
-
-        id:"002",
+    "002": {
 
         name:"The Hospital Room",
 
-        description:
-        "A memory of a conversation you cannot remember having.",
+        rarity:"UNCOMMON",
 
         cost:1200,
 
-        rarity:"Uncommon",
-
-        danger:false,
-
-        fake:false,
+        description:
+        "A conversation you remember having, but nobody else does.",
 
 
         effects:{
 
-            truth:3,
+            truth:3
 
-            identity:1
+        },
 
-        }
+
+        unlocked:true
 
     },
 
 
 
-    memory003: {
-
-        id:"003",
+    "003": {
 
         name:"The Locked Door",
 
+        rarity:"RARE",
+
+        cost:2500,
+
         description:
-        "You stand outside a door you were never supposed to open.",
-
-        cost:2000,
-
-        rarity:"Rare",
-
-        danger:true,
-
-        fake:false,
+        "You stand outside a door that should never have opened.",
 
 
         effects:{
 
-            truth:3,
+            truth:4,
 
             corruption:1
 
-        }
+        },
+
+
+        unlocked:true
 
     },
 
 
 
-    memory004: {
-
-        id:"004",
+    "004": {
 
         name:"Someone Else's Life",
 
+        rarity:"CORRUPTED",
+
+        cost:900,
+
         description:
-        "A memory that feels familiar. But it does not belong to you.",
-
-        cost:800,
-
-        rarity:"Unknown",
-
-        danger:false,
-
-        fake:true,
+        "A memory that feels like yours. It isn't.",
 
 
         effects:{
 
             corruption:3
 
-        }
+        },
+
+
+        fake:true,
+
+
+        unlocked:true
 
     },
 
 
 
-    memory005: {
-
-        id:"005",
+    "005": {
 
         name:"The Last Conversation",
 
+        rarity:"LEGENDARY",
+
+        cost:7000,
+
         description:
-        "A conversation with someone who knows what you became.",
-
-        cost:5000,
-
-        rarity:"Legendary",
-
-        danger:true,
-
-        fake:false,
+        "Someone begs you not to make the choice you already made.",
 
 
         effects:{
 
             truth:5,
 
-            identity:3,
+            identity:3
 
-            corruption:2
+        },
 
-        }
+
+        unlocked:true
 
     },
 
 
 
-    memory000: {
-
-        id:"000",
+    "000": {
 
         name:"The Forbidden Memory",
 
-        description:
-        "The memory you erased yourself.",
+        rarity:"FORBIDDEN",
 
         cost:99999,
 
-        rarity:"FORBIDDEN",
-
-        danger:true,
-
-        fake:false,
+        description:
+        "The memory you erased yourself.",
 
 
         effects:{
@@ -190,7 +168,10 @@ const memoryDatabase = {
 
             corruption:5
 
-        }
+        },
+
+
+        unlocked:false
 
     }
 
@@ -199,50 +180,75 @@ const memoryDatabase = {
 
 
 
-// =========================
+
+
+// =====================================
 // OPEN AUCTION
-// =========================
+// =====================================
 
 
 function openAuction(){
 
 
-    const story =
+    unlockAuctionMemories();
+
+
+
+    const storyBox =
     document.getElementById("story");
 
 
-    const choices =
+    const choicesBox =
     document.getElementById("choices");
 
 
 
-    story.innerHTML = `
+    storyBox.innerHTML = `
 
-    <h2>THE MEMORY AUCTION</h2>
+
+    <h2>
+    THE MEMORY AUCTION
+    </h2>
+
 
     <p>
-    Available memories appear before you.
-    </p>
 
-    <p>
     Credits:
     ${player.credits}
+
     </p>
+
+
+    <p>
+
+    Every memory has a price.
+
+    Some prices are not paid with money.
+
+    </p>
+
 
     `;
 
 
 
-    choices.innerHTML="";
+    choicesBox.innerHTML="";
 
 
 
     Object.keys(memoryDatabase)
-    .forEach(key=>{
+    .forEach(id=>{
 
 
         let memory =
-        memoryDatabase[key];
+        memoryDatabase[id];
+
+
+
+        if(
+            !memory.unlocked
+        )
+        return;
 
 
 
@@ -251,13 +257,17 @@ function openAuction(){
 
 
 
-        button.innerHTML = `
+        button.innerHTML=`
 
         ${memory.name}
 
         <br>
 
         <small>
+
+        ${memory.rarity}
+
+        -
 
         ${memory.cost} credits
 
@@ -270,20 +280,40 @@ function openAuction(){
         button.onclick=()=>{
 
 
-            purchaseMemory(
-                key
-            );
+            buyMemory(id);
 
 
         };
 
 
 
-        choices.appendChild(button);
-
+        choicesBox.appendChild(button);
 
 
     });
+
+
+
+    let leave =
+    document.createElement("button");
+
+
+    leave.innerText =
+    "Leave Auction";
+
+
+    leave.onclick=()=>{
+
+
+        loadScene(
+        currentScene
+        );
+
+
+    };
+
+
+    choicesBox.appendChild(leave);
 
 
 
@@ -291,15 +321,17 @@ function openAuction(){
 
 
 
-// =========================
-// BUY MEMORY
-// =========================
 
 
-function purchaseMemory(id){
+// =====================================
+// PURCHASE MEMORY
+// =====================================
 
 
-    const memory =
+function buyMemory(id){
+
+
+    let memory =
     memoryDatabase[id];
 
 
@@ -308,11 +340,14 @@ function purchaseMemory(id){
         player.memories.includes(id)
     ){
 
-        alert(
+
+        showAuctionMessage(
         "You already own this memory."
         );
 
+
         return;
+
 
     }
 
@@ -324,8 +359,8 @@ function purchaseMemory(id){
     ){
 
 
-        alert(
-        "Not enough credits."
+        showAuctionMessage(
+        "You cannot afford this memory."
         );
 
 
@@ -351,32 +386,56 @@ function purchaseMemory(id){
 
 
 
-    showMemory(memory);
+    unlockAchievement(
+        "firstMemory"
+    );
 
+
+
+    if(
+        memory.fake
+    ){
+
+
+        unlockAchievement(
+        "corruptionPath"
+        );
+
+
+    }
+
+
+
+    showMemoryReveal(
+        memory
+    );
 
 
 }
 
 
 
-// =========================
+
+
+// =====================================
 // MEMORY REVEAL
-// =========================
+// =====================================
 
 
-function showMemory(memory){
+function showMemoryReveal(memory){
 
 
-    const story =
+    const storyBox =
     document.getElementById("story");
 
 
-    const choices =
+    const choicesBox =
     document.getElementById("choices");
 
 
 
-    story.innerHTML = `
+    storyBox.innerHTML = `
+
 
     <h2>
     MEMORY RESTORED
@@ -389,7 +448,9 @@ function showMemory(memory){
 
 
     <p>
+
     ${memory.description}
+
     </p>
 
 
@@ -400,16 +461,19 @@ function showMemory(memory){
     if(memory.fake){
 
 
-        story.innerHTML += `
+        storyBox.innerHTML += `
+
 
         <p>
-        Something feels wrong.
+
+        Something is wrong.
 
         <br><br>
 
-        This memory belongs to someone else.
+        This memory does not belong to you.
 
         </p>
+
 
         `;
 
@@ -418,29 +482,7 @@ function showMemory(memory){
 
 
 
-    if(memory.danger){
-
-
-        story.innerHTML += `
-
-        <p>
-
-        Your body reacts before your mind does.
-
-        <br><br>
-
-        You were afraid of this memory.
-
-        </p>
-
-        `;
-
-
-    }
-
-
-
-    choices.innerHTML="";
+    choicesBox.innerHTML="";
 
 
 
@@ -448,10 +490,8 @@ function showMemory(memory){
     document.createElement("button");
 
 
-
     button.innerText =
-    "Return to auction";
-
+    "Return to Auction";
 
 
     button.onclick=()=>{
@@ -463,8 +503,7 @@ function showMemory(memory){
     };
 
 
-
-    choices.appendChild(button);
+    choicesBox.appendChild(button);
 
 
 
@@ -472,51 +511,72 @@ function showMemory(memory){
 
 
 
-// =========================
-// CHECK MEMORY
-// =========================
 
 
-function hasMemory(id){
+// =====================================
+// SECRET UNLOCKS
+// =====================================
 
 
-    return player.memories.includes(id);
-
-
-}
+function unlockAuctionMemories(){
 
 
 
-// =========================
-// SECRET MEMORY UNLOCKS
-// =========================
-
-
-function unlockForbiddenMemory(){
+    // Memory 000
 
 
     if(
 
-        player.stats.truth >= 8
+        player.stats.truth >=8
 
         &&
 
-        player.stats.identity >= 5
+        player.stats.identity >=5
 
     ){
 
 
-        memoryDatabase.memory000.cost =
-        0;
-
-
-        memoryDatabase.memory000.description =
-
-        "The memory is waiting for you.";
-
+        memoryDatabase["000"]
+        .unlocked=true;
 
 
     }
+
+
+
+    // Elias path unlock
+
+
+    if(
+
+        elias.trust >=5
+
+    ){
+
+
+        memoryDatabase["005"]
+        .unlocked=true;
+
+
+    }
+
+
+
+}
+
+
+
+
+
+// =====================================
+// MESSAGE
+// =====================================
+
+
+function showAuctionMessage(message){
+
+
+    alert(message);
 
 
 }
