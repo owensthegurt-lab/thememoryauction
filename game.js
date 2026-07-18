@@ -4,56 +4,88 @@
 */
 
 
-// =========================
+// =============================
 // PLAYER DATA
-// =========================
+// =============================
+
 
 const player = {
 
-    name: "Unknown",
+    name:"Unknown",
 
-    credits: 5000,
+    credits:5000,
 
-    memories: [],
+    memories:[],
 
-    stats: {
 
-        identity: 0,
-        truth: 0,
-        corruption: 0,
+    stats:{
 
-        good: 0,
-        evil: 0,
+        identity:0,
+        truth:0,
+        corruption:0,
 
-        law: 0,
-        chaos: 0
+
+        good:0,
+        evil:0,
+
+
+        law:0,
+        chaos:0
 
     }
+
 
 };
 
 
 
-// Current scene
+// =============================
+// ELIAS DATA
+// =============================
 
-let currentScene = "intro";
+
+const elias = {
+
+
+    trust:0,
+
+    fear:0,
+
+    truth:0,
+
+    remembers:false,
+
+    betrayed:false
+
+
+};
 
 
 
-// =========================
-// LOAD SCENES
-// =========================
+// =============================
+// CURRENT SCENE
+// =============================
 
-function loadScene(id) {
+
+let currentScene="intro";
+
+
+
+// =============================
+// LOAD SCENE
+// =============================
+
+
+function loadScene(id){
 
 
     const scene = story[id];
 
 
-    if (!scene) {
+    if(!scene){
 
         console.error(
-            "Scene does not exist:",
+            "Missing scene:",
             id
         );
 
@@ -63,7 +95,7 @@ function loadScene(id) {
 
 
 
-    currentScene = id;
+    currentScene=id;
 
 
 
@@ -76,9 +108,9 @@ function loadScene(id) {
 
 
 
-    // Fade effect
+    // memory fade effect
 
-    storyBox.style.opacity = 0;
+    storyBox.style.opacity="0";
 
 
 
@@ -89,38 +121,49 @@ function loadScene(id) {
         scene.text;
 
 
-        storyBox.style.opacity = 1;
+        storyBox.style.opacity="1";
 
 
     },400);
 
 
 
-    // Clear old buttons
-
-    choicesBox.innerHTML = "";
+    choicesBox.innerHTML="";
 
 
-
-    // Create new choices
 
     scene.choices.forEach(choice=>{
 
 
-        const button =
+        // Check requirements
+
+        if(
+            !checkRequirements(
+                choice.requirements
+            )
+        ){
+
+            return;
+
+        }
+
+
+
+        let button =
         document.createElement("button");
 
 
 
-        button.innerText =
+        button.innerHTML =
         choice.text;
 
 
 
-        button.onclick = ()=>{
+        button.onclick=()=>{
 
 
             playClick();
+
 
 
             applyEffects(
@@ -147,9 +190,10 @@ function loadScene(id) {
 
 
 
-// =========================
-// APPLY CHOICE EFFECTS
-// =========================
+// =============================
+// APPLY EFFECTS
+// =============================
+
 
 function applyEffects(effects){
 
@@ -159,22 +203,24 @@ function applyEffects(effects){
 
 
 
-    Object.keys(effects).forEach(effect=>{
+    Object.keys(effects)
+    .forEach(type=>{
 
 
         let value =
-        effects[effect];
+        effects[type];
 
 
 
-        // Stats
+        // Player stats
 
         if(
-            player.stats[effect]
-            !== undefined
+            player.stats[type]
+            !==undefined
         ){
 
-            player.stats[effect]
+
+            player.stats[type]
             += value;
 
 
@@ -185,11 +231,11 @@ function applyEffects(effects){
         // Credits
 
         else if(
-            effect === "credits"
+            type==="credits"
         ){
 
-            player.credits
-            += value;
+
+            player.credits += value;
 
 
         }
@@ -199,8 +245,9 @@ function applyEffects(effects){
         // Memories
 
         else if(
-            effect === "memory"
+            type==="memory"
         ){
+
 
             if(
                 !player.memories.includes(value)
@@ -210,50 +257,146 @@ function applyEffects(effects){
 
             }
 
+
         }
 
+
+
+        // Elias system
+
+        else if(
+            type==="elias"
+        ){
+
+
+            Object.keys(value)
+            .forEach(stat=>{
+
+
+                if(
+                    elias[stat]
+                    !==undefined
+                ){
+
+                    elias[stat]
+                    += value[stat];
+
+                }
+
+
+            });
+
+
+        }
 
 
     });
 
 
-
 }
 
 
 
-// =========================
-// MEMORY FUNCTIONS
-// =========================
+// =============================
+// REQUIREMENTS
+// =============================
 
 
-function hasMemory(memory){
+function checkRequirements(req){
 
 
-    return player.memories.includes(memory);
-
-
-}
+    if(!req)
+    return true;
 
 
 
-function addMemory(memory){
+    for(let key in req){
 
 
-    if(!hasMemory(memory)){
+        let needed =
+        req[key];
 
-        player.memories.push(memory);
+
+
+        // Player stats
+
+        if(
+            player.stats[key]
+            !==undefined
+        ){
+
+
+            if(
+                player.stats[key]
+                < needed
+            ){
+
+                return false;
+
+            }
+
+
+        }
+
+
+
+        // Elias stats
+
+        else if(
+            elias[key]
+            !==undefined
+        ){
+
+
+            if(
+                elias[key]
+                < needed
+            ){
+
+                return false;
+
+            }
+
+
+        }
+
+
+
+        // Memories
+
+        else if(
+            key==="memory"
+        ){
+
+
+            if(
+                !player.memories.includes(
+                    needed
+                )
+            ){
+
+                return false;
+
+            }
+
+
+        }
+
 
     }
 
 
+
+    return true;
+
+
 }
 
 
 
-// =========================
-// ALIGNMENT CHECKS
-// =========================
+// =============================
+// ALIGNMENT
+// =============================
 
 
 function getAlignment(){
@@ -266,14 +409,12 @@ function getAlignment(){
 
 
 
-    // Good / Evil
-
     if(
         player.stats.good >
         player.stats.evil
     ){
 
-        morality = "Good";
+        morality="Good";
 
     }
 
@@ -282,26 +423,24 @@ function getAlignment(){
         player.stats.good
     ){
 
-        morality = "Evil";
+        morality="Evil";
 
     }
 
-    else {
+    else{
 
-        morality = "Neutral";
+        morality="Neutral";
 
     }
 
 
-
-    // Law / Chaos
 
     if(
         player.stats.law >
         player.stats.chaos
     ){
 
-        order = "Lawful";
+        order="Lawful";
 
     }
 
@@ -310,35 +449,41 @@ function getAlignment(){
         player.stats.law
     ){
 
-        order = "Chaotic";
+        order="Chaotic";
 
     }
 
-    else {
+    else{
 
-        order = "Neutral";
+        order="True";
 
     }
 
 
 
-    return order + " " + morality;
+    return order+" "+morality;
 
 
 }
 
 
 
-// =========================
-// DEBUG MENU
-// =========================
+// =============================
+// DEBUG TOOLS
+// =============================
 
-function showStats(){
 
+function debug(){
 
     console.log(
         "PLAYER:",
         player
+    );
+
+
+    console.log(
+        "ELIAS:",
+        elias
     );
 
 
@@ -352,49 +497,37 @@ function showStats(){
 
 
 
-// =========================
-// SOUND EFFECT
-// =========================
+// =============================
+// CLICK SOUND
+// =============================
+
 
 function playClick(){
 
 
-    try {
+    let sound =
+    new Audio(
+        "assets/sounds/click.mp3"
+    );
 
 
-        const sound =
-        new Audio(
-            "assets/sounds/click.mp3"
-        );
+    sound.volume=.3;
 
 
-        sound.volume = 0.4;
-
-
-        sound.play();
-
-
-
-    }
-
-    catch(error){
-
-
-        // Ignore if sound missing
-
-    }
+    sound.play()
+    .catch(()=>{});
 
 
 }
 
 
 
-// =========================
-// START GAME
-// =========================
+// =============================
+// START
+// =============================
 
 
-window.onload = ()=>{
+window.onload=()=>{
 
 
     loadScene(
