@@ -18,82 +18,91 @@
 function showEnding(){
 
 
-    let endingID =
-    calculateEnding();
+let endingID =
+calculateEnding();
 
 
 
-    unlockEnding(
-        endingID
-    );
+unlockEnding(
+endingID
+);
 
 
 
-    let ending =
-    endings[endingID];
+if(typeof checkAchievements==="function"){
+
+checkAchievements();
+
+}
 
 
 
-    if(!ending){
-
-
-        console.error(
-            "Missing ending:",
-            endingID
-        );
-
-
-        return;
-
-
-    }
+let ending =
+endings[endingID];
 
 
 
-
-    currentScene=endingID;
-
+if(!ending){
 
 
-    document.getElementById(
-        "story"
-    ).innerHTML=
-    ending.text;
+console.error(
+"Missing ending:",
+endingID
+);
 
 
+return;
 
-    let choices =
-    document.getElementById(
-        "choices"
-    );
+
+}
 
 
 
-    choices.innerHTML="";
+currentScene=endingID;
 
 
 
-    let button =
-    document.createElement("button");
+document.getElementById(
+"story"
+).innerHTML=
+ending.text;
 
 
 
-    button.innerHTML=
-    "Return to Title";
+let choices=
+document.getElementById(
+"choices"
+);
 
 
 
-    button.onclick=()=>{
-
-
-        location.reload();
-
-
-    };
+choices.innerHTML="";
 
 
 
-    choices.appendChild(button);
+let button=
+document.createElement(
+"button"
+);
+
+
+
+button.innerHTML=
+"Return To Title";
+
+
+
+button.onclick=()=>{
+
+
+location.reload();
+
+
+};
+
+
+
+choices.appendChild(button);
 
 
 
@@ -116,18 +125,18 @@ function calculateEnding(){
 
 
 
-    let s =
-    player.stats;
+let s =
+player.stats;
 
 
 
-    let sp =
-    player.special;
+let sp =
+player.special;
 
 
 
-    let e =
-    elias;
+let e =
+elias;
 
 
 
@@ -135,115 +144,113 @@ function calculateEnding(){
 
 
 
-    // =============================
-    // SECRET ENDINGS
-    // =============================
+// ================================
+// SECRET ENDINGS
+// ================================
 
 
 
-    if(
+if(
 
-        sp.collectedAllMemories
+sp.collectedAllMemories
 
-        &&
+&&
 
-        s.truth>=10
+s.truth>=10
 
-    ){
+){
 
-        return "ending_secret_true";
+return "ending_secret_true";
 
-    }
+}
 
 
 
 
 
 
-    if(
 
-        s.identity>=10
+if(
 
-        &&
+s.identity>=10
 
-        s.truth>=8
+&&
 
-    ){
+s.truth>=8
 
-        return "ending_secret_original";
+){
 
-    }
+return "ending_secret_original";
 
+}
 
 
 
 
 
 
-    if(
 
-        e.trust>=8
 
-        &&
 
-        s.good>=8
+// ================================
+// ELIAS ENDINGS
+// ================================
 
-    ){
 
-        return "ending_elias_friend";
 
-    }
+if(
 
+e.trust>=8
 
+&&
 
+s.good>=8
 
+){
 
+return "ending_elias_friend";
 
+}
 
-    if(
 
-        e.fear>=8
 
-        &&
 
-        s.evil>=8
 
-    ){
 
-        return "ending_elias_betrayal";
 
-    }
+if(
 
+e.fear>=8
 
+&&
 
+s.evil>=8
 
+){
 
+return "ending_elias_betrayal";
 
+}
 
-    // =============================
-    // HERO
-    // =============================
 
 
 
 
-    if(
 
-        sp.destroyedAuction
 
-        &&
+if(
 
-        s.good>=8
+e.lost
 
-        &&
+&&
 
-        s.truth>=5
+e.trust>=5
 
-    ){
+){
 
-        return "ending_hero_liberator";
+return "ending_elias_brokenPromise";
 
-    }
+}
 
 
 
@@ -251,142 +258,167 @@ function calculateEnding(){
 
 
 
-    if(
+// ================================
+// HERO ENDINGS
+// ================================
 
-        sp.rebuiltAuction
 
-        &&
 
-        e.trust>=5
+if(
 
-    ){
+sp.destroyedAuction
 
-        return "ending_hero_restorer";
+&&
 
-    }
+s.good>=8
 
+&&
 
+s.truth>=5
 
+){
 
+return "ending_hero_liberator";
 
+}
 
 
-    if(
 
-        sp.acceptedBurden
 
-    ){
 
-        return "ending_hero_burden";
 
-    }
 
+if(
 
+sp.rebuiltAuction
 
+&&
 
+e.trust>=5
 
+){
 
+return "ending_hero_restorer";
 
+}
 
-    if(
 
-        s.good>=10
 
-    ){
 
-        return "ending_hero_secondChance";
 
-    }
 
 
+if(
 
+sp.acceptedBurden
 
+){
 
+return "ending_hero_burden";
 
+}
 
-    // =============================
-    // EVIL
-    // =============================
 
 
 
-    if(
 
-        sp.controlledAuction
 
-        &&
 
-        s.evil>=8
+if(
 
-    ){
+s.good>=10
 
-        return "ending_evil_auctioneer";
+){
 
-    }
+return "ending_hero_secondChance";
 
+}
 
 
 
 
 
 
-    if(
 
-        s.corruption>=10
+// ================================
+// EVIL ENDINGS
+// ================================
 
-    ){
 
-        return "ending_evil_brokenGod";
 
-    }
+if(
 
+sp.controlledAuction
 
+&&
 
+s.evil>=8
 
+){
 
+return "ending_evil_auctioneer";
 
+}
 
-    if(
 
-        s.evil>=10
 
-    ){
 
-        return "ending_evil_emperor";
 
-    }
 
 
+if(
 
+s.corruption>=10
 
+){
 
+return "ending_evil_brokenGod";
 
+}
 
-    // =============================
-    // NEUTRAL
-    // =============================
 
 
 
-    if(
 
-        s.truth>=5
 
-        &&
 
-        s.good===s.evil
+if(
 
-    ){
+s.evil>=10
 
-        return "ending_neutral_watcher";
+){
 
-    }
+return "ending_evil_emperor";
 
+}
 
 
 
 
-    return "ending_neutral_balance";
+
+
+
+// ================================
+// NEUTRAL
+// ================================
+
+
+
+if(
+
+s.truth>=5
+
+){
+
+return "ending_neutral_watcher";
+
+}
+
+
+
+
+
+return "ending_neutral_balance";
 
 
 
@@ -413,10 +445,9 @@ const endings={
 
 
 
-// =============================
+// ================================
 // HERO
-// =============================
-
+// ================================
 
 
 ending_hero_liberator:{
@@ -435,29 +466,30 @@ The auction is destroyed.
 
 
 <p>
-The world remembers everything.
+Every stolen memory returns.
 </p>
 
 
 <p>
-The pain returns.
+The world suffers from remembering.
 </p>
 
 
 <p>
-But so does the truth.
+But humanity finally has the truth.
 </p>
 
 
 <p>
 For the first time...
 
-people are free to heal.
+people can heal honestly.
 </p>
 
 `
 
 },
+
 
 
 
@@ -476,12 +508,12 @@ THE GENTLE RESTORER
 
 
 <p>
-The auction remains.
+The auction survives.
 </p>
 
 
 <p>
-But it changes.
+But it changes forever.
 </p>
 
 
@@ -493,12 +525,13 @@ No more forced forgetting.
 
 
 <p>
-People choose what they leave behind.
+People choose their own healing.
 </p>
 
 `
 
 },
+
 
 
 
@@ -517,7 +550,7 @@ THE BURDEN BEARER
 
 
 <p>
-Every stolen memory enters you.
+You take every stolen memory into yourself.
 </p>
 
 
@@ -536,12 +569,13 @@ Everyone else is free.
 
 
 <p>
-But you carry everything.
+But you carry the world.
 </p>
 
 `
 
 },
+
 
 
 
@@ -560,14 +594,14 @@ THE SECOND CHANCE
 
 
 <p>
-You forgive yourself.
+You accept what you did.
 </p>
 
 
 <p>
 The person who created the disaster...
 
-becomes the person who repairs it.
+repairs it.
 </p>
 
 `
@@ -580,10 +614,10 @@ becomes the person who repairs it.
 
 
 
-// =============================
-// ELIAS
-// =============================
 
+// ================================
+// ELIAS
+// ================================
 
 
 ending_elias_friend:{
@@ -604,22 +638,21 @@ Elias remembers everything.
 <p>
 The mistakes.
 
-The damage.
+The pain.
 
 The betrayal.
 </p>
 
 
 <p>
-And still...
-
-he stays.
+But he stays.
 </p>
 
 
 `
 
 },
+
 
 
 
@@ -638,14 +671,14 @@ THE FINAL BETRAYAL
 
 
 <p>
-The last person who trusted you...
+The person who believed in you...
 
-was the first person you sacrificed.
+becomes your first victim.
 </p>
 
 
 <p>
-Elias was right to be afraid.
+Elias was right to fear you.
 </p>
 
 `
@@ -658,10 +691,47 @@ Elias was right to be afraid.
 
 
 
-// =============================
-// EVIL
-// =============================
 
+ending_elias_brokenPromise:{
+
+
+text:`
+
+<h1>
+THE BROKEN PROMISE
+</h1>
+
+
+<p>
+You tried to save everyone.
+</p>
+
+
+<p>
+But the person who helped you most...
+
+paid the price.
+</p>
+
+
+<p>
+Elias disappears knowing you tried.
+</p>
+
+`
+
+},
+
+
+
+
+
+
+
+
+// ================================
+// EVIL
+// ================================
 
 
 ending_evil_auctioneer:{
@@ -675,22 +745,23 @@ THE NEW AUCTIONEER
 
 
 <p>
-The machine obeys you.
+The machine obeys.
 </p>
 
 
 <p>
-The world forgets what you want it to forget.
+Memories become your weapon.
 </p>
 
 
 <p>
-Nobody can oppose someone they cannot remember.
+Nobody can fight someone they cannot remember.
 </p>
 
 `
 
 },
+
 
 
 
@@ -709,17 +780,18 @@ THE MEMORY EMPEROR
 
 
 <p>
-You rule through memories.
+Every mind becomes a kingdom.
 </p>
 
 
 <p>
-Every person becomes a story you can rewrite.
+Every memory becomes your law.
 </p>
 
 `
 
 },
+
 
 
 
@@ -743,9 +815,19 @@ You become the auction itself.
 
 
 <p>
-A machine that remembers everything...
+Infinite memories.
 
-except who you were.
+Infinite power.
+</p>
+
+
+<p>
+One problem.
+</p>
+
+
+<p>
+You no longer remember yourself.
 </p>
 
 `
@@ -758,10 +840,10 @@ except who you were.
 
 
 
-// =============================
-// NEUTRAL
-// =============================
 
+// ================================
+// NEUTRAL
+// ================================
 
 
 ending_neutral_watcher:{
@@ -775,29 +857,23 @@ THE WATCHER
 
 
 <p>
-You leave.
+You walk away.
 </p>
 
 
 <p>
-The auction continues.
+The auction remains.
 </p>
 
 
 <p>
-Some are saved.
-
-Some are lost.
-</p>
-
-
-<p>
-You never learn if you chose correctly.
+The world continues without knowing whether you were right.
 </p>
 
 `
 
 },
+
 
 
 
@@ -816,14 +892,19 @@ THE BALANCED PATH
 
 
 <p>
-You accept that some things cannot be fixed.
+You refuse extremes.
 </p>
 
 
 <p>
-The auction remains.
+Some things are fixed.
 
-So does humanity.
+Some things remain broken.
+</p>
+
+
+<p>
+Life continues.
 </p>
 
 `
@@ -836,10 +917,10 @@ So does humanity.
 
 
 
-// =============================
-// SECRET
-// =============================
 
+// ================================
+// SECRET
+// ================================
 
 
 ending_secret_true:{
@@ -853,12 +934,12 @@ THE TRUE MEMORY
 
 
 <p>
-You found every lost piece.
+You collected every fragment.
 </p>
 
 
 <p>
-The final memory reveals the truth.
+The final memory reveals everything.
 </p>
 
 
@@ -868,12 +949,13 @@ The auction was never about forgetting.
 
 
 <p>
-It was about choosing who you become.
+It was about deciding who you become.
 </p>
 
 `
 
 },
+
 
 
 
@@ -892,12 +974,17 @@ THE ORIGINAL MEMORY
 
 
 <p>
-You discover why you erased yourself.
+You finally understand why you erased yourself.
 </p>
 
 
 <p>
-The original you was afraid of what you were becoming.
+The truth was not lost.
+</p>
+
+
+<p>
+It was hidden.
 </p>
 
 `
