@@ -1,34 +1,141 @@
 /*
     THE MEMORY AUCTION
+
     style.css
+
+    Dream UI
 */
 
 
-/* =========================
-   GLOBAL
-========================= */
-
-
-* {
+*{
 
     box-sizing:border-box;
 
 }
 
 
-body {
+
+body{
 
 
     margin:0;
 
+    min-height:100vh;
 
-    height:100vh;
+    background:
+
+    radial-gradient(
+        circle at top,
+        #35245c,
+        #100d20,
+        #050509
+    );
 
 
-    overflow:hidden;
+    color:#eee;
+
+
+    font-family:
+
+    "Segoe UI",
+    sans-serif;
+
+
+    overflow-x:hidden;
+
+
+}
+
+
+
+
+
+
+body::before{
+
+
+    content:"";
+
+
+    position:fixed;
+
+
+    inset:0;
+
+
+    background:
+
+    radial-gradient(
+        circle,
+        rgba(255,255,255,0.08)
+        1px,
+        transparent 2px
+    );
+
+
+    background-size:
+
+    80px 80px;
+
+
+    animation:
+
+    drift 25s linear infinite;
+
+
+    pointer-events:none;
+
+
+}
+
+
+
+
+
+
+
+@keyframes drift{
+
+
+    from{
+
+        transform:translateY(0);
+
+    }
+
+
+    to{
+
+        transform:translateY(-300px);
+
+    }
+
+
+}
+
+
+
+
+
+
+
+/* ==========================
+   TITLE SCREEN
+========================== */
+
+
+
+#titleScreen,
+#saveScreen{
+
+
+    min-height:100vh;
 
 
     display:flex;
+
+
+    flex-direction:column;
 
 
     justify-content:center;
@@ -37,238 +144,33 @@ body {
     align-items:center;
 
 
-
-    font-family:
-
-    "Georgia",
-    serif;
-
-
-
-    color:#e8e9ff;
-
-
-
-    background:
-
-
-    radial-gradient(
-
-        circle at center,
-
-        #303957,
-
-        #090b14 70%
-
-    );
-
-}
-
-
-
-/* floating memory particles */
-
-
-body::before {
-
-
-    content:"";
-
-
-    position:absolute;
-
-
-    width:200%;
-
-    height:200%;
-
-
-
-    background:
-
-
-    radial-gradient(
-
-        circle,
-
-        rgba(255,255,255,.15) 1px,
-
-        transparent 2px
-
-    );
-
-
-
-    background-size:
-
-    80px 80px;
-
-
-
-    animation:
-
-    drift 40s linear infinite;
-
-
-
-    opacity:.25;
-
-
-}
-
-
-
-/* =========================
-   MAIN WINDOW
-========================= */
-
-
-#game {
-
-
-    position:relative;
-
-
-    width:750px;
-
-
-    max-height:90vh;
-
-
-    padding:35px;
-
-
-
-    overflow:hidden;
-
-
-
-    background:
-
-
-    rgba(20,25,45,.65);
-
-
-
-    backdrop-filter:
-
-    blur(18px);
-
-
-
-    border:
-
-
-    1px solid
-
-    rgba(255,255,255,.15);
-
-
-
-    border-radius:25px;
-
-
-
-    box-shadow:
-
-
-    0 0 60px
-
-    rgba(120,150,255,.25),
-
-
-
-    inset 0 0 50px
-
-    rgba(255,255,255,.05);
-
-
-
-    animation:
-
-    floating 8s ease-in-out infinite;
-
-
-}
-
-
-
-
-/* =========================
- HEADER
-========================= */
-
-
-h1 {
-
-
     text-align:center;
 
 
-    font-weight:normal;
+}
 
 
-    letter-spacing:10px;
 
 
-    font-size:35px;
 
+
+#titleScreen h1{
+
+
+    font-size:4rem;
+
+
+    letter-spacing:8px;
 
 
     text-shadow:
 
-
-    0 0 20px
-
-    rgba(200,220,255,.8);
-
-
-
-}
-
-
-
-#subtitle {
-
-
-    text-align:center;
-
-
-    opacity:.7;
-
-
-    font-style:italic;
-
-
-}
-
-
-
-/* =========================
- STORY
-========================= */
-
-
-#story {
-
-
-    margin-top:25px;
-
-
-    min-height:220px;
-
-
-
-    line-height:1.8;
-
-
-    font-size:18px;
-
+    0 0 20px #c8b6ff;
 
 
     animation:
 
-    memoryFade .8s;
+    pulse 4s infinite;
 
 
 }
@@ -276,48 +178,84 @@ h1 {
 
 
 
-/* =========================
- CHOICES
-========================= */
 
 
-#choices button,
+
+@keyframes pulse{
 
 
-#menu button {
+    0%,100%{
+
+        opacity:.8;
+
+    }
 
 
-    width:100%;
+    50%{
+
+        opacity:1;
+
+    }
 
 
-    margin:10px 0;
+}
 
 
-    padding:16px;
 
+
+
+
+
+#titleScreen p{
+
+
+    font-size:1.3rem;
+
+
+    opacity:.8;
+
+
+}
+
+
+
+
+
+
+
+button{
+
+
+    background:
+
+
+    rgba(255,255,255,.08);
 
 
     color:white;
 
 
-
-    background:
-
-
-    rgba(255,255,255,.06);
-
-
-
     border:
 
-
-    1px solid
-
-    rgba(255,255,255,.2);
+    1px solid rgba(255,255,255,.3);
 
 
 
-    border-radius:14px;
+    padding:
+
+    14px 28px;
+
+
+
+    margin:
+
+    8px;
+
+
+
+    border-radius:
+
+    15px;
 
 
 
@@ -325,52 +263,44 @@ h1 {
 
 
 
-    font-family:
+    backdrop-filter:
 
-    inherit;
-
-
-
-    font-size:16px;
+    blur(10px);
 
 
 
     transition:
 
-    .35s;
-
+    .3s;
 
 
 }
 
 
 
-#choices button:hover,
 
 
-#menu button:hover {
 
+button:hover{
 
 
     transform:
 
-    translateY(-5px);
+    translateY(-5px)
+    scale(1.05);
 
 
 
     background:
 
-
-    rgba(160,190,255,.2);
+    rgba(255,255,255,.18);
 
 
 
     box-shadow:
 
-
     0 0 25px
-
-    rgba(150,180,255,.5);
+    rgba(255,255,255,.4);
 
 
 
@@ -378,53 +308,34 @@ h1 {
 
 
 
-#choices button:active,
-
-
-#menu button:active {
-
-
-    transform:
-
-    scale(.95);
-
-
-}
 
 
 
 
-/* =========================
- MENU
-========================= */
 
-
-#menu {
-
-
-    margin-top:25px;
-
-
-    display:grid;
-
-
-    grid-template-columns:
-
-    1fr 1fr;
+/* ==========================
+   GAME
+========================== */
 
 
 
-    gap:10px;
+#game{
 
 
-}
+    width:
+
+    min(1000px,95%);
 
 
 
-#menu button {
+    margin:
+
+    auto;
 
 
-    margin:0;
+    padding:
+
+    20px;
 
 
 }
@@ -432,87 +343,95 @@ h1 {
 
 
 
-/* =========================
- STATUS PANEL
-========================= */
-
-
-#status {
-
-
-    margin-top:20px;
-
-
-    display:flex;
-
-
-    justify-content:space-between;
 
 
 
-    opacity:.7;
+header{
 
 
+    text-align:center;
 
-    font-size:14px;
+
+    margin-bottom:
+
+    30px;
 
 
 }
 
 
 
-/* =========================
- ANIMATIONS
-========================= */
 
 
-@keyframes floating {
+header h1{
 
 
-    0%,100%{
+    letter-spacing:
 
-        transform:
-        translateY(0);
-
-    }
-
-
-    50%{
-
-        transform:
-        translateY(-12px);
-
-    }
+    5px;
 
 
 }
 
 
 
-@keyframes drift {
 
 
-    from{
-
-        transform:
-        translate(0,0);
-
-    }
 
 
-    to{
+#story{
 
-        transform:
-        translate(-200px,-200px);
 
-    }
+    min-height:
+
+    300px;
+
+
+
+    padding:
+
+    35px;
+
+
+
+    background:
+
+    rgba(255,255,255,.07);
+
+
+
+    border-radius:
+
+    25px;
+
+
+
+    backdrop-filter:
+
+    blur(15px);
+
+
+
+    box-shadow:
+
+    0 0 40px
+    rgba(0,0,0,.5);
+
+
+
+    animation:
+
+    appear .7s;
 
 
 }
 
 
 
-@keyframes memoryFade {
+
+
+
+@keyframes appear{
 
 
     from{
@@ -521,9 +440,9 @@ h1 {
         opacity:0;
 
 
-        filter:
+        transform:
 
-        blur(12px);
+        translateY(20px);
 
 
     }
@@ -535,11 +454,6 @@ h1 {
         opacity:1;
 
 
-        filter:
-
-        blur(0);
-
-
     }
 
 
@@ -547,48 +461,247 @@ h1 {
 
 
 
-/* =========================
- GLITCH EFFECT
-========================= */
 
 
-.glitch {
+
+
+#choices{
+
+
+    text-align:center;
+
+
+    margin-top:
+
+    25px;
+
+
+}
+
+
+
+
+
+
+
+
+/* ==========================
+   HUD
+========================== */
+
+
+#status{
+
+
+    position:
+
+    fixed;
+
+
+    bottom:
+
+    20px;
+
+
+    left:
+
+    20px;
+
+
+    padding:
+
+    15px;
+
+
+
+    background:
+
+    rgba(0,0,0,.4);
+
+
+
+    border-radius:
+
+    15px;
+
+
+
+    backdrop-filter:
+
+    blur(10px);
+
+
+}
+
+
+
+
+
+
+
+
+/* ==========================
+   MENU
+========================== */
+
+
+#menu{
+
+
+    text-align:center;
+
+
+    margin-top:
+
+    25px;
+
+
+}
+
+
+
+
+
+
+
+/* ==========================
+   MEMORY CARDS
+========================== */
+
+
+
+.memoryCard{
+
+
+    background:
+
+    rgba(255,255,255,.08);
+
+
+
+    padding:
+
+    20px;
+
+
+
+    margin:
+
+    15px;
+
+
+
+    border-radius:
+
+    20px;
+
+
+
+    border:
+
+    1px solid
+    rgba(255,255,255,.2);
+
 
 
     animation:
 
-    glitch .3s;
+    appear .5s;
 
 
 }
 
 
 
-@keyframes glitch {
 
 
-    0%{
 
-        transform:
-        translateX(3px);
+
+/* ==========================
+   SAVE SLOTS
+========================== */
+
+
+
+.saveSlot{
+
+
+    width:
+
+    350px;
+
+
+
+    margin:
+
+    20px;
+
+
+
+    padding:
+
+    25px;
+
+
+
+    background:
+
+    rgba(255,255,255,.08);
+
+
+
+    border-radius:
+
+    20px;
+
+
+
+    backdrop-filter:
+
+    blur(15px);
+
+
+
+}
+
+
+
+
+
+
+
+/* ==========================
+   MOBILE
+========================== */
+
+
+
+@media(max-width:700px){
+
+
+
+    #titleScreen h1{
+
+
+        font-size:
+
+        2.2rem;
+
 
     }
 
 
-    50%{
 
-        transform:
-        translateX(-3px);
-
-    }
+    #story{
 
 
-    100%{
+        padding:
 
-        transform:
-        translateX(0);
+        20px;
+
 
     }
+
 
 
 }
