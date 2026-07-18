@@ -8,161 +8,305 @@
 
 
 
+let achievements={
+
+
+
 // =====================================
-// ACHIEVEMENT DATABASE
+// STORY
 // =====================================
 
 
-const achievements = {
+first_memory:{
 
 
-    firstFragment: {
+name:"The First Fragment",
 
-        name:"The First Fragment",
 
-        description:
-        "Recovered your first memory.",
+description:
+"Recover your first lost memory.",
 
-        unlocked:false,
 
-        hidden:false
+unlocked:false
 
-    },
 
+},
 
 
-    forbiddenMemory: {
 
-        name:"Do Not Remember",
 
-        description:
-        "Recovered Memory #000.",
 
-        unlocked:false,
+truth_seeker:{
 
-        hidden:true
 
-    },
+name:"Truth Seeker",
 
 
+description:
+"Discover the truth behind the auction.",
 
-    familiarStranger: {
 
-        name:"A Familiar Stranger",
+unlocked:false
 
-        description:
-        "Met Elias again.",
 
-        unlocked:false,
+},
 
-        hidden:false
 
-    },
 
 
 
-    trustedElias: {
+creator_revealed:{
 
-        name:"Someone Still Remembers",
 
-        description:
-        "Earned Elias' trust.",
+name:"The Creator",
 
-        unlocked:false,
 
-        hidden:false
+description:
+"Learn that you built the auction.",
 
-    },
 
+unlocked:false
 
 
-    fearedElias: {
+},
 
-        name:"The Look In His Eyes",
 
-        description:
-        "Made Elias afraid of you.",
 
-        unlocked:false,
 
-        hidden:false
 
-    },
 
 
+// =====================================
+// ELIAS
+// =====================================
 
-    truthSeeker: {
 
-        name:"The Truth Hurts",
+elias_friend:{
 
-        description:
-        "Chose truth over comfort.",
 
-        unlocked:false,
+name:"Old Friend",
 
-        hidden:false
 
-    },
+description:
+"Earn Elias' trust.",
 
 
+unlocked:false
 
-    memoryCollector: {
 
-        name:"Collector",
+},
 
-        description:
-        "Collected five memories.",
 
-        unlocked:false,
 
-        hidden:false
 
-    },
 
+elias_enemy:{
 
 
-    corruptedMemory: {
+name:"Broken Trust",
 
-        name:"A Beautiful Lie",
 
-        description:
-        "Accepted a false memory.",
+description:
+"Make Elias fear you.",
 
-        unlocked:false,
 
-        hidden:false
+unlocked:false
 
-    },
 
+},
 
 
-    auctionOwner: {
 
-        name:"The New Owner",
 
-        description:
-        "Discovered your connection to the auction.",
 
-        unlocked:false,
+elias_saved:{
 
-        hidden:true
 
-    },
+name:"Not Alone",
 
 
+description:
+"Save Elias.",
 
-    forgottenHero: {
 
-        name:"Nobody Remembers",
+unlocked:false
 
-        description:
-        "Saved everyone at the cost of yourself.",
 
-        unlocked:false,
+},
 
-        hidden:true
 
-    }
+
+
+
+
+
+// =====================================
+// MEMORY
+// =====================================
+
+
+memory_collector:{
+
+
+name:"Memory Collector",
+
+
+description:
+"Collect every lost memory.",
+
+
+unlocked:false
+
+
+},
+
+
+
+
+
+forbidden_memory:{
+
+
+name:"Forbidden Memory",
+
+
+description:
+"Find the hidden memory.",
+
+
+unlocked:false
+
+
+},
+
+
+
+
+
+
+
+// =====================================
+// ENDINGS
+// =====================================
+
+
+first_ending:{
+
+
+name:"A New Beginning",
+
+
+description:
+"Complete the story once.",
+
+
+unlocked:false
+
+
+},
+
+
+
+
+
+hero_path:{
+
+
+name:"A Better World",
+
+
+description:
+"Reach a hero ending.",
+
+
+unlocked:false
+
+
+},
+
+
+
+
+
+evil_path:{
+
+
+name:"The Price of Power",
+
+
+description:
+"Reach an evil ending.",
+
+
+unlocked:false
+
+
+},
+
+
+
+
+
+neutral_path:{
+
+
+name:"The Observer",
+
+
+description:
+"Reach a neutral ending.",
+
+
+unlocked:false
+
+
+},
+
+
+
+
+
+
+
+// =====================================
+// SECRET
+// =====================================
+
+
+true_ending:{
+
+
+name:"The Final Truth",
+
+
+description:
+"Unlock the true ending.",
+
+
+unlocked:false
+
+
+},
+
+
+
+
+
+all_endings:{
+
+
+name:"The Complete Memory",
+
+
+description:
+"Discover every ending.",
+
+
+unlocked:false
+
+
+}
+
 
 
 };
@@ -171,53 +315,12 @@ const achievements = {
 
 
 
-// =====================================
-// UNLOCK FUNCTION
-// =====================================
-
-
-function unlockAchievement(id){
-
-
-    let achievement =
-    achievements[id];
-
-
-
-    if(
-        !achievement
-    )
-    return;
-
-
-
-    if(
-        achievement.unlocked
-    )
-    return;
-
-
-
-    achievement.unlocked=true;
-
-
-
-    showAchievementPopup(
-        achievement
-    );
-
-
-
-}
-
-
-
 
 
 
 
 // =====================================
-// CHECK ALL ACHIEVEMENTS
+// CHECK ACHIEVEMENTS
 // =====================================
 
 
@@ -225,131 +328,259 @@ function checkAchievements(){
 
 
 
-    // First memory
-
-    if(
-        player.memories.length >=1
-    ){
-
-        unlockAchievement(
-            "firstFragment"
-        );
-
-    }
+let s =
+player.stats;
 
 
 
+let sp =
+player.special;
 
-    // Elias met
 
-    if(
-        elias.trust > 0
-        ||
-        elias.fear >0
-    ){
 
-        unlockAchievement(
-            "familiarStranger"
-        );
-
-    }
+let e =
+elias;
 
 
 
 
 
-    // Elias trust
-
-    if(
-        elias.trust >=5
-    ){
-
-        unlockAchievement(
-            "trustedElias"
-        );
-
-    }
 
 
+if(
+player.memories.length>=1
+){
 
 
+unlockAchievement(
+"first_memory"
+);
 
-    // Elias fear
 
-    if(
-        elias.fear >=5
-    ){
-
-        unlockAchievement(
-            "fearedElias"
-        );
-
-    }
+}
 
 
 
 
 
-    // Truth
 
-    if(
-        player.stats.truth >=5
-    ){
-
-        unlockAchievement(
-            "truthSeeker"
-        );
-
-    }
+if(
+sp.discoveredTruth
+){
 
 
+unlockAchievement(
+"truth_seeker"
+);
 
 
-
-    // Collector
-
-    if(
-        player.memories.length >=5
-    ){
-
-        unlockAchievement(
-            "memoryCollector"
-        );
-
-    }
+}
 
 
 
 
 
-    // Corrupted memory
 
-    if(
-        hasCorruptedMemory()
-    ){
-
-        unlockAchievement(
-            "corruptedMemory"
-        );
-
-    }
+if(
+s.identity>=5
+){
 
 
+unlockAchievement(
+"creator_revealed"
+);
+
+
+}
 
 
 
-    // Forbidden memory
 
-    if(
-        player.memories.includes("000")
-    ){
 
-        unlockAchievement(
-            "forbiddenMemory"
-        );
 
-    }
 
+if(
+e.trust>=5
+){
+
+
+unlockAchievement(
+"elias_friend"
+);
+
+
+}
+
+
+
+
+
+
+
+if(
+e.fear>=5
+){
+
+
+unlockAchievement(
+"elias_enemy"
+);
+
+
+}
+
+
+
+
+
+
+
+if(
+player.memories.length>=10
+){
+
+
+unlockAchievement(
+"memory_collector"
+);
+
+
+player.special.collectedAllMemories=true;
+
+
+}
+
+
+
+
+
+
+
+if(
+player.endingsUnlocked.length>=1
+){
+
+
+unlockAchievement(
+"first_ending"
+);
+
+
+}
+
+
+
+
+
+
+
+if(
+
+player.endingsUnlocked.some(id=>
+
+id.includes("hero")
+
+)
+
+){
+
+
+unlockAchievement(
+"hero_path"
+);
+
+
+}
+
+
+
+
+
+
+
+if(
+
+player.endingsUnlocked.some(id=>
+
+id.includes("evil")
+
+)
+
+){
+
+
+unlockAchievement(
+"evil_path"
+);
+
+
+}
+
+
+
+
+
+
+
+if(
+
+player.endingsUnlocked.some(id=>
+
+id.includes("neutral")
+
+)
+
+){
+
+
+unlockAchievement(
+"neutral_path"
+);
+
+
+}
+
+
+
+
+
+
+
+if(
+
+player.endingsUnlocked.includes(
+"ending_secret_true"
+)
+
+){
+
+
+unlockAchievement(
+"true_ending"
+);
+
+
+}
+
+
+
+
+
+
+
+if(
+
+player.endingsUnlocked.length>=40
+
+){
+
+
+unlockAchievement(
+"all_endings"
+);
+
+
+}
 
 
 
@@ -360,211 +591,46 @@ function checkAchievements(){
 
 
 
+
+
+
 // =====================================
-// MEMORY CHECK
+// UNLOCK
 // =====================================
 
 
-function hasCorruptedMemory(){
-
-
-    for(
-        let id of player.memories
-    ){
-
-
-        let memory =
-        memoryDatabase[id];
+function unlockAchievement(id){
 
 
 
-        if(
-            memory
-            &&
-            memory.fake
-        ){
-
-            return true;
-
-        }
-
-
-    }
+if(
+!achievements[id]
+)
+return;
 
 
 
-    return false;
+if(
+achievements[id].unlocked
+)
+return;
+
+
+
+achievements[id].unlocked=true;
+
+
+
+showAchievementPopup(
+achievements[id].name
+);
+
 
 
 }
 
 
 
-
-
-
-// =====================================
-// ACHIEVEMENT PAGE
-// =====================================
-
-
-function openAchievements(){
-
-
-
-    const storyBox =
-    document.getElementById("story");
-
-
-    const choicesBox =
-    document.getElementById("choices");
-
-
-
-    storyBox.innerHTML=`
-
-    <h2>
-    MEMORY ARCHIVE
-    </h2>
-
-    `;
-
-
-
-    let unlocked=0;
-
-
-
-    Object.keys(achievements)
-    .forEach(id=>{
-
-
-        let a =
-        achievements[id];
-
-
-
-        if(
-            a.unlocked
-        ){
-
-            unlocked++;
-
-
-
-            storyBox.innerHTML += `
-
-
-            <div class="memoryCard">
-
-            <h3>
-            ◆ ${a.name}
-            </h3>
-
-
-            <p>
-            ${a.description}
-            </p>
-
-
-            </div>
-
-
-            `;
-
-
-        }
-
-
-
-        else if(
-            !a.hidden
-        ){
-
-
-            storyBox.innerHTML += `
-
-
-            <div class="memoryCard">
-
-
-            <h3>
-            Locked
-            </h3>
-
-
-            <p>
-            Unknown memory
-            </p>
-
-
-            </div>
-
-
-            `;
-
-
-        }
-
-
-
-    });
-
-
-
-
-
-    storyBox.innerHTML += `
-
-
-    <br>
-
-    Progress:
-
-    ${unlocked}
-
-    /
-
-    ${Object.keys(achievements).length}
-
-
-    `;
-
-
-
-
-
-    choicesBox.innerHTML="";
-
-
-
-    let button =
-    document.createElement("button");
-
-
-
-    button.innerText =
-    "Return";
-
-
-
-    button.onclick=()=>{
-
-
-        loadScene(
-            currentScene
-        );
-
-
-    };
-
-
-
-    choicesBox.appendChild(button);
-
-
-
-}
 
 
 
@@ -576,16 +642,16 @@ function openAchievements(){
 // =====================================
 
 
-function showAchievementPopup(a){
+function showAchievementPopup(text){
 
 
-    console.log(
 
-        "Achievement Unlocked:",
+console.log(
 
-        a.name
+"Achievement Unlocked:",
+text
 
-    );
+);
 
 
 
