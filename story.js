@@ -4,277 +4,73 @@
     story.js
 
     Chapter 1:
-    The Beginning
+    The Forgotten Beginning
 */
 
 
-const story = {
+
+const story={};
 
 
 
-intro:{
+
+
+
+
+// =====================================
+// INTRO
+// =====================================
+
+
+story.intro={
+
 
 
 text:`
 
-<h2>
-THE EMPTY ROOM
-</h2>
 
-
-<p>
-You wake up somewhere impossible.
-</p>
-
-
-<p>
-There are no walls.
-
-No ceiling.
-
-No door.
-</p>
-
-
-<p>
-Only a table.
-</p>
-
-
-<p>
-On the table sits a single memory.
-</p>
-
-
-<p>
-You reach for it...
-
-and realize something terrifying.
-</p>
-
-
-<p>
-You do not know your own name.
-</p>
-
-`,
-
-
-
-choices:[
-
-
-{
-
-text:"Touch the memory.",
-
-next:"firstMemory",
-
-effects:{
-
-truth:1
-
-}
-
-},
-
-
-
-{
-
-text:"Leave it alone.",
-
-next:"ignoreMemory",
-
-effects:{
-
-corruption:1
-
-}
-
-}
-
-
-]
-
-
-},
-
-
-
-
-
-
-
-firstMemory:{
-
-
-text:`
-
-<h2>
-THE FIRST MEMORY
-</h2>
-
-
-<p>
-The world disappears.
-</p>
-
-
-<p>
-You see yourself.
-</p>
-
-
-<p>
-Older.
-
-Broken.
-
-Afraid.
-</p>
-
-
-<p>
-A voice whispers:
-</p>
-
-
-<p>
-"Do not trust the auction."
-</p>
-
-`,
-
-
-
-choices:[
-
-
-{
-
-text:"Search the memory.",
-
-next:"auctionDoor",
-
-effects:{
-
-identity:2,
-
-truth:2
-
-}
-
-},
-
-
-
-{
-
-text:"Forget what you saw.",
-
-next:"auctionDoor",
-
-effects:{
-
-corruption:1
-
-}
-
-}
-
-
-]
-
-
-},
-
-
-
-
-
-
-
-ignoreMemory:{
-
-
-text:`
-
-<h2>
-THE SILENCE
-</h2>
-
-
-<p>
-You turn away.
-</p>
-
-
-<p>
-The memory disappears.
-</p>
-
-
-<p>
-But something noticed.
-</p>
-
-
-`,
-
-
-choices:[
-
-
-{
-
-text:"Continue.",
-
-next:"auctionDoor"
-
-}
-
-
-]
-
-
-},
-
-
-
-
-
-
-
-auctionDoor:{
-
-
-text:`
-
-<h2>
+<h1>
 THE MEMORY AUCTION
-</h2>
+</h1>
 
 
 <p>
-A door appears.
+You wake up in a room that does not exist.
 </p>
 
 
 <p>
-A sign hangs above it.
+The walls shift between places you recognize.
 </p>
 
 
-<h3>
-MEMORY AUCTION
-</h3>
+<p>
+A childhood bedroom.
+</p>
 
 
 <p>
-"Sell what hurts.
+A hospital hallway.
+</p>
 
-Buy what was lost."
+
+<p>
+A place you have never seen.
+</p>
+
+
+<p>
+You cannot remember your name.
+</p>
+
+
+<p>
+But you remember one thing.
+</p>
+
+
+<p>
+You were here before.
 </p>
 
 
@@ -285,16 +81,27 @@ Buy what was lost."
 choices:[
 
 
+
 {
 
-text:"Enter.",
 
-next:"meetElias"
+text:
+"Search the room.",
+
+
+next:
+"firstMemory",
+
+
+effects:{
+
+
+memory:
+"forgotten_room"
+
 
 }
 
-
-]
 
 
 },
@@ -304,39 +111,199 @@ next:"meetElias"
 
 
 
+{
 
-meetElias:{
+
+text:
+"Call out for someone.",
+
+
+next:
+"eliasArrival"
+
+
+}
+
+
+
+]
+
+
+
+};
+
+
+
+
+
+
+
+
+
+// =====================================
+// FIRST MEMORY
+// =====================================
+
+
+story.firstMemory={
+
 
 
 text:`
 
+
 <h2>
-THE STRANGER
+THE FIRST FRAGMENT
 </h2>
 
 
 <p>
-Inside stands a man.
+You find a small glass container.
 </p>
 
 
 <p>
-He looks relieved.
+Inside is a memory.
 </p>
 
 
 <p>
-Then terrified.
+Your memory.
 </p>
 
 
 <p>
-"You..."
+You see yourself standing beside a machine.
 </p>
 
 
 <p>
-"You are alive."
+Someone is crying.
+</p>
+
+
+<p>
+Someone you promised to protect.
+</p>
+
+
+<p>
+You cannot remember who.
+</p>
+
+
+`,
+
+
+
+choices:[
+
+
+
+{
+
+
+text:
+"Keep the memory.",
+
+
+next:
+"eliasArrival",
+
+
+effects:{
+
+
+truth:1,
+
+
+identity:1
+
+
+}
+
+
+
+},
+
+
+
+
+
+
+{
+
+
+text:
+"Destroy the memory.",
+
+
+next:
+"eliasArrival",
+
+
+effects:{
+
+
+corruption:1
+
+
+}
+
+
+
+}
+
+
+
+]
+
+
+
+};
+
+
+
+
+
+
+
+
+
+// =====================================
+// ELIAS INTRODUCTION
+// =====================================
+
+
+story.eliasArrival={
+
+
+
+text:`
+
+
+<h2>
+THE STRANGER WHO REMEMBERS
+</h2>
+
+
+<p>
+A door opens.
+</p>
+
+
+<p>
+A man steps inside.
+</p>
+
+
+<p>
+He looks at you like he has been waiting years.
+</p>
+
+
+<p>
+"You really don't remember me?"
 </p>
 
 
@@ -344,6 +311,14 @@ Then terrified.
 His name is Elias.
 </p>
 
+
+<p>
+And somehow...
+
+you know he is telling the truth.
+</p>
+
+
 `,
 
 
@@ -351,65 +326,342 @@ His name is Elias.
 choices:[
 
 
+
 {
 
-text:"Ask who he is.",
 
-next:"chapter2Start",
+text:
+"Trust Elias.",
+
+
+next:
+"firstConversation",
+
 
 effects:{
 
+
 elias:{
 
-trust:2,
+
+trust:2
+
+
+}
+
+
+
+}
+
+
+
+},
+
+
+
+
+
+
+{
+
+
+text:
+"Ask what he wants.",
+
+
+next:
+"firstConversation",
+
+
+effects:{
+
+
+elias:{
+
 
 truth:1
 
-}
 
 }
+
+
+
+}
+
+
 
 },
 
 
 
+
+
+
 {
 
-text:"Threaten him.",
 
-next:"chapter2Start",
+text:
+"Threaten him.",
+
+
+next:
+"firstConversation",
+
 
 effects:{
 
-evil:2,
+
+evil:1,
+
 
 elias:{
 
+
 fear:2
 
-}
 
 }
 
-},
 
-
-
-{
-
-text:"Walk away.",
-
-next:"chapter2Start"
 
 }
+
+
+
+}
+
 
 
 ]
 
 
+
+};
+
+
+
+
+
+
+
+
+
+// =====================================
+// FIRST CONVERSATION
+// =====================================
+
+
+story.firstConversation={
+
+
+
+text:`
+
+
+<h2>
+THE MAN WHO REMEMBERED YOU
+</h2>
+
+
+<p>
+Elias explains that you entered the auction willingly.
+</p>
+
+
+<p>
+You were searching for something.
+</p>
+
+
+<p>
+Something painful enough that you wanted to forget.
+</p>
+
+
+<p>
+"But you didn't just erase your memory."
+</p>
+
+
+<p>
+"You erased yourself."
+</p>
+
+
+`,
+
+
+
+choices:[
+
+
+
+{
+
+
+text:
+"Ask what you lost.",
+
+
+next:
+"lostMemory",
+
+
+effects:{
+
+
+truth:2
+
+
 }
 
 
+
+},
+
+
+
+
+
+
+{
+
+
+text:
+"Ask how to leave.",
+
+
+next:
+"lostMemory"
+
+
+}
+
+
+
+]
+
+
+
+};
+
+
+
+
+
+
+
+
+
+// =====================================
+// LOST MEMORY
+// =====================================
+
+
+story.lostMemory={
+
+
+
+text:`
+
+
+<h2>
+THE EMPTY SPACE
+</h2>
+
+
+<p>
+Elias takes you deeper into the auction.
+</p>
+
+
+<p>
+Every room contains a piece of someone.
+</p>
+
+
+<p>
+Every memory has a price.
+</p>
+
+
+<p>
+Some people paid to forget.
+</p>
+
+
+<p>
+Others were forced to.
+</p>
+
+
+<p>
+And you were the one who built it.
+</p>
+
+
+`,
+
+
+
+choices:[
+
+
+
+{
+
+
+text:
+"Find the truth.",
+
+
+next:
+"chapter3Start",
+
+
+effects:{
+
+
+truth:3,
+
+
+special:{
+
+
+discoveredTruth:true
+
+
+}
+
+
+
+}
+
+
+
+},
+
+
+
+
+
+
+{
+
+
+text:
+"Find a way out.",
+
+
+next:
+"chapter3Start"
+
+
+}
+
+
+
+]
 
 
 
