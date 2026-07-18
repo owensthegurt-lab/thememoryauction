@@ -3,13 +3,14 @@
 
     style.css
 
-    Dream UI
+    Dreamlike Interface
 */
+
 
 
 *{
 
-    box-sizing:border-box;
+box-sizing:border-box;
 
 }
 
@@ -18,30 +19,42 @@
 body{
 
 
-    margin:0;
-
-    min-height:100vh;
-
-    background:
-
-    radial-gradient(
-        circle at top,
-        #35245c,
-        #100d20,
-        #050509
-    );
+margin:0;
 
 
-    color:#eee;
+min-height:100vh;
 
 
-    font-family:
+font-family:
 
-    "Segoe UI",
-    sans-serif;
+"Georgia",
+serif;
 
 
-    overflow-x:hidden;
+background:
+
+radial-gradient(
+
+circle at center,
+
+#29264a,
+
+#090914
+
+);
+
+
+
+color:#eee;
+
+
+overflow-x:hidden;
+
+
+animation:
+
+fadeIn 2s ease;
+
 
 
 }
@@ -51,39 +64,65 @@ body{
 
 
 
+/* =========================
+   FLOATING BACKGROUND EFFECT
+========================= */
+
+
+
 body::before{
 
 
-    content:"";
+content:"";
 
 
-    position:fixed;
+position:fixed;
 
 
-    inset:0;
+width:100%;
 
 
-    background:
-
-    radial-gradient(
-        circle,
-        rgba(255,255,255,0.08)
-        1px,
-        transparent 2px
-    );
+height:100%;
 
 
-    background-size:
-
-    80px 80px;
+top:0;
 
 
-    animation:
-
-    drift 25s linear infinite;
+left:0;
 
 
-    pointer-events:none;
+
+background:
+
+radial-gradient(
+
+circle,
+
+rgba(255,255,255,.08)
+
+1px,
+
+transparent
+
+1px
+
+);
+
+
+
+background-size:
+
+40px 40px;
+
+
+
+animation:
+
+drift 20s linear infinite;
+
+
+
+pointer-events:none;
 
 
 }
@@ -97,18 +136,27 @@ body::before{
 @keyframes drift{
 
 
-    from{
-
-        transform:translateY(0);
-
-    }
+from{
 
 
-    to{
+transform:
 
-        transform:translateY(-300px);
+translateY(0);
 
-    }
+
+}
+
+
+to{
+
+
+transform:
+
+translateY(-200px);
+
+
+}
+
 
 
 }
@@ -119,83 +167,98 @@ body::before{
 
 
 
-/* ==========================
-   TITLE SCREEN
-========================== */
 
+@keyframes fadeIn{
+
+
+from{
+
+
+opacity:0;
+
+
+}
+
+
+to{
+
+
+opacity:1;
+
+
+}
+
+
+}
+
+
+
+
+
+
+
+
+
+/* =========================
+   MAIN CONTAINERS
+========================= */
 
 
 #titleScreen,
-#saveScreen{
+#saveScreen,
+#game,
+#achievementScreen,
+#endingScreen{
 
 
-    min-height:100vh;
+width:80%;
 
 
-    display:flex;
+max-width:900px;
 
 
-    flex-direction:column;
+margin:
 
-
-    justify-content:center;
-
-
-    align-items:center;
-
-
-    text-align:center;
-
-
-}
+80px auto;
 
 
 
+padding:40px;
 
 
 
-#titleScreen h1{
+background:
 
-
-    font-size:4rem;
-
-
-    letter-spacing:8px;
-
-
-    text-shadow:
-
-    0 0 20px #c8b6ff;
-
-
-    animation:
-
-    pulse 4s infinite;
-
-
-}
+rgba(20,20,40,.75);
 
 
 
+border:
+
+1px solid rgba(255,255,255,.15);
 
 
 
-
-@keyframes pulse{
-
-
-    0%,100%{
-
-        opacity:.8;
-
-    }
+border-radius:25px;
 
 
-    50%{
 
-        opacity:1;
+backdrop-filter:
 
-    }
+blur(15px);
+
+
+
+box-shadow:
+
+0 0 40px rgba(150,120,255,.25);
+
+
+
+animation:
+
+floatIn 1s ease;
+
 
 
 }
@@ -206,13 +269,36 @@ body::before{
 
 
 
-#titleScreen p{
+
+@keyframes floatIn{
 
 
-    font-size:1.3rem;
+from{
 
 
-    opacity:.8;
+opacity:0;
+
+
+transform:
+
+translateY(30px);
+
+
+}
+
+
+to{
+
+
+opacity:1;
+
+
+transform:
+
+translateY(0);
+
+
+}
 
 
 }
@@ -221,86 +307,235 @@ body::before{
 
 
 
+
+
+
+
+/* =========================
+   TITLES
+========================= */
+
+
+h1{
+
+
+font-size:55px;
+
+
+text-align:center;
+
+
+
+letter-spacing:5px;
+
+
+
+text-shadow:
+
+0 0 20px #aaa;
+
+
+
+}
+
+
+
+h2{
+
+
+text-align:center;
+
+
+letter-spacing:3px;
+
+
+}
+
+
+
+
+h3{
+
+
+color:#d8c7ff;
+
+
+}
+
+
+
+
+
+p{
+
+
+font-size:18px;
+
+
+line-height:1.8;
+
+
+text-align:center;
+
+
+}
+
+
+
+
+
+
+
+
+/* =========================
+   STORY
+========================= */
+
+
+#story{
+
+
+min-height:250px;
+
+
+
+animation:
+
+fadeText .8s ease;
+
+
+
+}
+
+
+
+@keyframes fadeText{
+
+
+from{
+
+
+opacity:0;
+
+
+}
+
+
+to{
+
+
+opacity:1;
+
+
+}
+
+
+}
+
+
+
+
+
+
+
+
+
+/* =========================
+   BUTTONS
+========================= */
 
 
 button{
 
 
-    background:
+display:block;
 
 
-    rgba(255,255,255,.08);
+width:80%;
 
 
-    color:white;
+margin:
 
-
-    border:
-
-    1px solid rgba(255,255,255,.3);
+15px auto;
 
 
 
-    padding:
+padding:
 
-    14px 28px;
-
-
-
-    margin:
-
-    8px;
+15px;
 
 
 
-    border-radius:
-
-    15px;
+font-size:18px;
 
 
 
-    cursor:pointer;
+color:white;
 
 
 
-    backdrop-filter:
+background:
 
-    blur(10px);
+rgba(100,80,180,.35);
 
 
 
-    transition:
+border:
 
-    .3s;
+1px solid rgba(255,255,255,.3);
+
+
+
+border-radius:20px;
+
+
+
+cursor:pointer;
+
+
+
+transition:
+
+all .3s ease;
+
 
 
 }
-
-
-
 
 
 
 button:hover{
 
 
-    transform:
+transform:
 
-    translateY(-5px)
-    scale(1.05);
-
-
-
-    background:
-
-    rgba(255,255,255,.18);
+translateY(-5px)
+scale(1.03);
 
 
 
-    box-shadow:
+background:
 
-    0 0 25px
-    rgba(255,255,255,.4);
+rgba(150,120,255,.5);
+
+
+
+box-shadow:
+
+0 0 25px rgba(180,150,255,.6);
+
+
+
+}
+
+
+
+button:active{
+
+
+transform:
+
+scale(.95);
 
 
 
@@ -313,222 +548,82 @@ button:hover{
 
 
 
-/* ==========================
-   GAME
-========================== */
 
-
-
-#game{
-
-
-    width:
-
-    min(1000px,95%);
-
-
-
-    margin:
-
-    auto;
-
-
-    padding:
-
-    20px;
-
-
-}
-
-
-
-
-
-
-
-header{
-
-
-    text-align:center;
-
-
-    margin-bottom:
-
-    30px;
-
-
-}
-
-
-
-
-
-header h1{
-
-
-    letter-spacing:
-
-    5px;
-
-
-}
-
-
-
-
-
-
-
-#story{
-
-
-    min-height:
-
-    300px;
-
-
-
-    padding:
-
-    35px;
-
-
-
-    background:
-
-    rgba(255,255,255,.07);
-
-
-
-    border-radius:
-
-    25px;
-
-
-
-    backdrop-filter:
-
-    blur(15px);
-
-
-
-    box-shadow:
-
-    0 0 40px
-    rgba(0,0,0,.5);
-
-
-
-    animation:
-
-    appear .7s;
-
-
-}
-
-
-
-
-
-
-@keyframes appear{
-
-
-    from{
-
-
-        opacity:0;
-
-
-        transform:
-
-        translateY(20px);
-
-
-    }
-
-
-    to{
-
-
-        opacity:1;
-
-
-    }
-
-
-}
-
-
-
-
-
-
-
-#choices{
-
-
-    text-align:center;
-
-
-    margin-top:
-
-    25px;
-
-
-}
-
-
-
-
-
-
-
-
-/* ==========================
+/* =========================
    HUD
-========================== */
+========================= */
 
 
-#status{
+#hud{
 
 
-    position:
+position:
 
-    fixed;
-
-
-    bottom:
-
-    20px;
+fixed;
 
 
-    left:
-
-    20px;
+top:20px;
 
 
-    padding:
-
-    15px;
+right:20px;
 
 
 
-    background:
-
-    rgba(0,0,0,.4);
+width:230px;
 
 
 
-    border-radius:
-
-    15px;
+padding:20px;
 
 
 
-    backdrop-filter:
+background:
 
-    blur(10px);
+rgba(0,0,0,.45);
+
+
+
+border-radius:20px;
+
+
+
+backdrop-filter:
+
+blur(10px);
+
+
+
+font-size:14px;
+
+
+
+box-shadow:
+
+0 0 20px rgba(150,150,255,.3);
+
+
+
+}
+
+
+
+
+
+
+.hud-title{
+
+
+text-align:center;
+
+
+font-size:18px;
+
+
+margin-bottom:10px;
+
+
+
+color:#e4d9ff;
 
 
 }
@@ -540,125 +635,50 @@ header h1{
 
 
 
-/* ==========================
-   MENU
-========================== */
 
-
-#menu{
-
-
-    text-align:center;
-
-
-    margin-top:
-
-    25px;
-
-
-}
-
-
-
-
-
-
-
-/* ==========================
-   MEMORY CARDS
-========================== */
-
-
-
-.memoryCard{
-
-
-    background:
-
-    rgba(255,255,255,.08);
-
-
-
-    padding:
-
-    20px;
-
-
-
-    margin:
-
-    15px;
-
-
-
-    border-radius:
-
-    20px;
-
-
-
-    border:
-
-    1px solid
-    rgba(255,255,255,.2);
-
-
-
-    animation:
-
-    appear .5s;
-
-
-}
-
-
-
-
-
-
-
-/* ==========================
+/* =========================
    SAVE SLOTS
-========================== */
-
+========================= */
 
 
 .saveSlot{
 
 
-    width:
-
-    350px;
+padding:20px;
 
 
-
-    margin:
-
-    20px;
+margin:20px;
 
 
 
-    padding:
+background:
 
-    25px;
-
-
-
-    background:
-
-    rgba(255,255,255,.08);
+rgba(255,255,255,.05);
 
 
 
-    border-radius:
-
-    20px;
+border-radius:15px;
 
 
 
-    backdrop-filter:
+text-align:center;
 
-    blur(15px);
+
+
+transition:.3s;
+
+
+
+}
+
+
+
+.saveSlot:hover{
+
+
+background:
+
+rgba(255,255,255,.12);
 
 
 
@@ -670,37 +690,75 @@ header h1{
 
 
 
-/* ==========================
-   MOBILE
-========================== */
+
+
+/* =========================
+   MENUS
+========================= */
+
+
+#achievementList,
+#endingList{
+
+
+max-height:500px;
+
+
+overflow-y:auto;
 
 
 
-@media(max-width:700px){
+}
 
 
 
-    #titleScreen h1{
+#achievementList div,
+#endingList div{
 
 
-        font-size:
-
-        2.2rem;
+padding:20px;
 
 
-    }
+margin:10px;
 
 
 
-    #story{
+background:
+
+rgba(255,255,255,.05);
 
 
-        padding:
 
-        20px;
+border-radius:15px;
 
 
-    }
+
+}
+
+
+
+
+
+
+
+
+/* =========================
+   MEMORY EFFECTS
+========================= */
+
+
+#story::first-letter{
+
+
+font-size:40px;
+
+
+color:#d8c7ff;
+
+
+text-shadow:
+
+0 0 15px #fff;
 
 
 
