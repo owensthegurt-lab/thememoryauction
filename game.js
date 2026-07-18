@@ -1,9 +1,11 @@
 /*
     THE MEMORY AUCTION
+
     game.js
 
     Main Game Engine
 */
+
 
 
 // =====================================
@@ -11,36 +13,35 @@
 // =====================================
 
 
-const player = {
-
-    name: "Unknown",
-
-    credits: 5000,
-
-    memories: [],
+let player = {
 
 
-    stats: {
-
-        identity: 0,
-
-        truth: 0,
-
-        corruption: 0,
+    credits:500,
 
 
-        good: 0,
-
-        evil: 0,
+    memories:[],
 
 
-        law: 0,
+    stats:{
 
-        chaos: 0
+
+        good:0,
+
+        evil:0,
+
+        truth:0,
+
+        corruption:0,
+
+        identity:0
+
 
     }
 
+
 };
+
+
 
 
 
@@ -50,17 +51,14 @@ const player = {
 // =====================================
 
 
-const elias = {
+let elias = {
 
 
-    trust: 0,
+    trust:0,
 
-    fear: 0,
+    fear:0,
 
-    truth: 0,
-
-
-    remembers:false,
+    truth:0,
 
     betrayed:false
 
@@ -70,29 +68,119 @@ const elias = {
 
 
 
+
+
 // =====================================
 // GAME STATE
 // =====================================
 
 
-let currentScene = "intro";
+let currentScene="intro";
 
-let gameStarted = false;
+
+let gameStarted=false;
+
 
 
 
 
 
 // =====================================
-// SCENE LOADING
+// START NEW GAME
 // =====================================
 
 
-function loadScene(id){
+function startNewGame(){
 
 
-    const scene =
-    story[id];
+
+    player={
+
+
+        credits:500,
+
+
+        memories:[],
+
+
+        stats:{
+
+
+            good:0,
+
+            evil:0,
+
+            truth:0,
+
+            corruption:0,
+
+            identity:0
+
+
+        }
+
+
+    };
+
+
+
+    elias={
+
+
+        trust:0,
+
+        fear:0,
+
+        truth:0,
+
+        betrayed:false
+
+
+    };
+
+
+
+    resetAchievements();
+
+
+
+    currentScene="intro";
+
+
+
+    openGame();
+
+
+
+    loadScene(
+        currentScene
+    );
+
+
+    updateHUD();
+
+
+
+}
+
+
+
+
+
+
+
+
+// =====================================
+// LOAD STORY SCENE
+// =====================================
+
+
+function loadScene(sceneID){
+
+
+
+    let scene =
+    story[sceneID];
 
 
 
@@ -100,8 +188,11 @@ function loadScene(id){
 
 
         console.error(
-            "Scene not found:",
-            id
+
+        "Scene missing:",
+
+        sceneID
+
         );
 
 
@@ -112,7 +203,8 @@ function loadScene(id){
 
 
 
-    currentScene=id;
+    currentScene =
+    sceneID;
 
 
 
@@ -125,24 +217,8 @@ function loadScene(id){
 
 
 
-    storyBox.style.opacity=0;
-
-
-
-    setTimeout(()=>{
-
-
-        storyBox.innerHTML =
-        scene.text;
-
-
-
-        storyBox.style.opacity=1;
-
-
-
-    },350);
-
+    storyBox.innerHTML =
+    scene.text;
 
 
 
@@ -151,18 +227,6 @@ function loadScene(id){
 
 
     scene.choices.forEach(choice=>{
-
-
-        if(
-            !checkRequirements(
-                choice.requirements
-            )
-        ){
-
-            return;
-
-        }
-
 
 
         let button =
@@ -178,27 +242,23 @@ function loadScene(id){
         button.onclick=()=>{
 
 
-            playClick();
-
-
-
             applyEffects(
                 choice.effects
             );
 
 
 
-            checkAchievements();
-
-
-
-            updateHUD();
-
-
-
-            loadScene(
+            if(
                 choice.next
-            );
+            ){
+
+
+                loadScene(
+                    choice.next
+                );
+
+
+            }
 
 
         };
@@ -224,12 +284,15 @@ function loadScene(id){
 
 
 
+
+
 // =====================================
-// APPLY EFFECTS
+// APPLY CHOICE EFFECTS
 // =====================================
 
 
 function applyEffects(effects){
+
 
 
     if(!effects)
@@ -237,79 +300,21 @@ function applyEffects(effects){
 
 
 
+
     for(
-        let effect in effects
+        let key in effects
     ){
 
 
 
         let value =
-        effects[effect];
+        effects[key];
 
 
-
-
-        // PLAYER STATS
 
         if(
-            player.stats[effect]
-            !== undefined
+            key==="elias"
         ){
-
-
-            player.stats[effect]
-            += value;
-
-
-        }
-
-
-
-
-        // MONEY
-
-        else if(
-            effect==="credits"
-        ){
-
-
-            player.credits += value;
-
-
-        }
-
-
-
-
-
-        // MEMORY
-
-        else if(
-            effect==="memory"
-        ){
-
-
-            if(
-                !player.memories.includes(value)
-            ){
-
-                player.memories.push(value);
-
-            }
-
-
-        }
-
-
-
-
-
-        // ELIAS
-
-        else if(
-            effect==="elias"
-        ){
-
 
 
             for(
@@ -317,65 +322,49 @@ function applyEffects(effects){
             ){
 
 
-
-                if(
-                    elias[stat]
-                    !==undefined
-                ){
-
-
-                    elias[stat]
-                    += value[stat];
-
-
-                }
+                elias[stat]+=value[stat];
 
 
             }
+
+
+
+            continue;
 
 
         }
 
 
 
-    }
 
 
 
-}
+        if(
+            key==="memory"
+        ){
+
+
+            if(
+                !player.memories.includes(value)
+            ){
+
+
+                player.memories.push(value);
+
+
+            }
 
 
 
+            continue;
 
 
-
-
-// =====================================
-// REQUIREMENT SYSTEM
-// =====================================
-
-
-function checkRequirements(req){
-
-
-    if(!req)
-    return true;
-
-
-
-    for(
-        let key in req
-    ){
-
-
-        let needed =
-        req[key];
+        }
 
 
 
 
 
-        // player stats
 
         if(
             player.stats[key]
@@ -383,15 +372,7 @@ function checkRequirements(req){
         ){
 
 
-            if(
-                player.stats[key]
-                <
-                needed
-            ){
-
-                return false;
-
-            }
+            player.stats[key]+=value;
 
 
         }
@@ -399,76 +380,12 @@ function checkRequirements(req){
 
 
 
-
-        // Elias stats
-
-        else if(
-            elias[key]
-            !==undefined
+        if(
+            key==="credits"
         ){
 
 
-
-            if(
-                elias[key]
-                <
-                needed
-            ){
-
-                return false;
-
-            }
-
-
-        }
-
-
-
-
-
-        // Memories
-
-        else if(
-            key==="memory"
-        ){
-
-
-
-            if(
-                !player.memories.includes(
-                    needed
-                )
-            ){
-
-                return false;
-
-            }
-
-
-        }
-
-
-
-
-
-        // Achievements
-
-        else if(
-            key==="achievement"
-        ){
-
-
-            if(
-                !achievements[needed]
-                ||
-                !achievements[needed].unlocked
-            ){
-
-
-                return false;
-
-
-            }
+            player.credits+=value;
 
 
         }
@@ -479,11 +396,16 @@ function checkRequirements(req){
 
 
 
-    return true;
+    checkAchievements();
+
+
+
+    updateHUD();
 
 
 
 }
+
 
 
 
@@ -498,81 +420,34 @@ function checkRequirements(req){
 function getAlignment(){
 
 
-    let morality;
-
-
-    let order;
-
-
+    let s =
+    player.stats;
 
 
 
     if(
-        player.stats.good >
-        player.stats.evil
+        s.good >
+        s.evil
     ){
 
-        morality="Good";
-
-
-    }
-
-    else if(
-        player.stats.evil >
-        player.stats.good
-    ){
-
-
-        morality="Evil";
-
+        return "Hero";
 
     }
-
-    else{
-
-
-        morality="Neutral";
-
-
-    }
-
-
 
 
 
     if(
-        player.stats.law >
-        player.stats.chaos
+        s.evil >
+        s.good
     ){
 
-
-        order="Lawful";
-
-
-    }
-
-    else if(
-        player.stats.chaos >
-        player.stats.law
-    ){
-
-
-        order="Chaotic";
-
-
-    }
-
-    else{
-
-
-        order="True";
-
+        return "Corrupted";
 
     }
 
 
 
-    return order+" "+morality;
+    return "Neutral";
 
 
 }
@@ -588,19 +463,23 @@ function getAlignment(){
 // =====================================
 
 
-function saveGame(){
+function saveGame(slot=1){
 
 
-    const save = {
+
+    let data={
 
 
-        player:player,
+        player,
 
-        elias:elias,
+        elias,
 
-        achievements:achievements,
+        achievements,
 
-        scene:currentScene
+        currentScene,
+
+        date:
+        new Date().toLocaleString()
 
 
     };
@@ -609,11 +488,16 @@ function saveGame(){
 
     localStorage.setItem(
 
-        "memoryAuction",
+        "memoryAuction_slot"+slot,
 
-        JSON.stringify(save)
+        JSON.stringify(data)
 
     );
+
+
+
+    updateSaveSlots();
+
 
 
 }
@@ -624,13 +508,16 @@ function saveGame(){
 
 
 
-function loadGame(){
+function loadSlot(slot){
 
 
 
-    const save =
+    let save =
+
     localStorage.getItem(
-        "memoryAuction"
+
+        "memoryAuction_slot"+slot
+
     );
 
 
@@ -640,125 +527,32 @@ function loadGame(){
 
 
 
-    const data =
+    let data =
     JSON.parse(save);
 
 
 
-
-    Object.assign(
-        player,
-        data.player
-    );
+    player=data.player;
 
 
+    elias=data.elias;
 
-    Object.assign(
-        elias,
-        data.elias
-    );
+
+    currentScene=data.currentScene;
 
 
 
     Object.assign(
+
         achievements,
+
         data.achievements
+
     );
 
 
 
-    if(data.scene){
-
-        currentScene=data.scene;
-
-    }
-
-
-
-}
-
-
-
-
-
-
-// =====================================
-// DEBUG
-// =====================================
-
-
-function debug(){
-
-
-    console.log(
-        "PLAYER",
-        player
-    );
-
-
-    console.log(
-        "ELIAS",
-        elias
-    );
-
-
-    console.log(
-        "ALIGNMENT",
-        getAlignment()
-    );
-
-
-    console.log(
-        "ACHIEVEMENTS",
-        achievements
-    );
-
-
-}
-
-
-
-
-
-
-
-// =====================================
-// SOUND
-// =====================================
-
-
-function playClick(){
-
-
-    let sound =
-    new Audio(
-        "assets/sounds/click.mp3"
-    );
-
-
-    sound.volume=.25;
-
-
-    sound.play()
-    .catch(()=>{});
-
-
-}
-
-
-
-
-
-
-// =====================================
-// START GAME
-// =====================================
-
-
-window.onload=()=>{
-
-
-    loadGame();
+    openGame();
 
 
 
@@ -770,6 +564,250 @@ window.onload=()=>{
 
     updateHUD();
 
+
+
+}
+
+
+
+
+
+
+
+function deleteSlot(slot){
+
+
+    localStorage.removeItem(
+
+        "memoryAuction_slot"+slot
+
+    );
+
+
+    updateSaveSlots();
+
+
+}
+
+
+
+
+
+
+
+// =====================================
+// SAVE MENU
+// =====================================
+
+
+function openSaveSlots(){
+
+
+    document.getElementById(
+        "titleScreen"
+    ).style.display="none";
+
+
+    document.getElementById(
+        "game"
+    ).style.display="none";
+
+
+    document.getElementById(
+        "saveScreen"
+    ).style.display="block";
+
+
+
+    updateSaveSlots();
+
+
+
+}
+
+
+
+
+
+function closeSaveSlots(){
+
+
+    document.getElementById(
+        "saveScreen"
+    ).style.display="none";
+
+
+    document.getElementById(
+        "titleScreen"
+    ).style.display="block";
+
+
+}
+
+
+
+
+
+
+function updateSaveSlots(){
+
+
+
+    for(
+        let i=1;
+        i<=3;
+        i++
+    ){
+
+
+        let slot =
+        document.getElementById(
+            "slot"+i
+        );
+
+
+
+        if(!slot)
+        continue;
+
+
+
+        let save =
+
+        localStorage.getItem(
+
+            "memoryAuction_slot"+i
+
+        );
+
+
+
+        if(save){
+
+
+            let data =
+            JSON.parse(save);
+
+
+
+            slot.innerHTML=`
+
+            Scene:
+            ${data.currentScene}
+
+            <br>
+
+            Saved:
+            ${data.date}
+
+            `;
+
+
+        }
+
+        else{
+
+
+            slot.innerHTML =
+            "Empty";
+
+
+        }
+
+
+    }
+
+
+}
+
+
+
+
+
+
+
+// =====================================
+// SCREEN CONTROL
+// =====================================
+
+
+function openGame(){
+
+
+    document.getElementById(
+        "titleScreen"
+    ).style.display="none";
+
+
+    document.getElementById(
+        "saveScreen"
+    ).style.display="none";
+
+
+    document.getElementById(
+        "game"
+    ).style.display="block";
+
+
+}
+
+
+
+
+
+function openSettings(){
+
+
+    alert(
+    "Settings coming later."
+    );
+
+
+}
+
+
+
+
+
+
+
+// =====================================
+// RESET
+// =====================================
+
+
+function resetAchievements(){
+
+
+
+    for(
+        let id in achievements
+    ){
+
+
+        achievements[id].unlocked=false;
+
+
+    }
+
+
+}
+
+
+
+
+
+
+
+// =====================================
+// STARTUP
+// =====================================
+
+
+window.onload=()=>{
+
+
+    updateSaveSlots();
 
 
     gameStarted=true;
