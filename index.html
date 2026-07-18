@@ -1,119 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
 <head>
 
-    <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>
-        The Memory Auction
-    </title>
+<meta charset="UTF-8">
 
 
-    <link rel="stylesheet" href="style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>
+The Memory Auction
+</title>
+
+
+
+<link rel="stylesheet" href="style.css">
+
 
 </head>
+
+
 
 
 
 <body>
 
 
-<div id="game">
 
 
 
-    <header>
+<!-- ==========================
+     TITLE SCREEN
+========================== -->
 
 
-        <h1>
-            THE MEMORY AUCTION
-        </h1>
+<div id="titleScreen">
 
 
-        <p id="subtitle">
+    <h1>
+        THE MEMORY AUCTION
+    </h1>
 
-            Every memory has a price.
+
+    <p>
+
+        Every memory has a price.
+
+    </p>
+
+
+
+    <div id="titleButtons">
+
+
+        <button onclick="startNewGame()">
+
+            New Memory
+
+        </button>
+
+
+
+        <button onclick="openSaveSlots()">
+
+            Continue
+
+        </button>
+
+
+
+        <button onclick="openSettings()">
+
+            Settings
+
+        </button>
+
+
+    </div>
+
+
+
+</div>
+
+
+
+
+
+
+
+<!-- ==========================
+     SAVE SLOT MENU
+========================== -->
+
+
+<div id="saveScreen" style="display:none;">
+
+
+
+    <h2>
+        MEMORY STORAGE
+    </h2>
+
+
+
+
+    <div class="saveSlot">
+
+
+        <h3>
+            Slot 1
+        </h3>
+
+
+        <p id="slot1">
+
+            Empty
 
         </p>
 
 
-    </header>
 
-
-
-
-
-    <main>
-
-
-        <section id="story">
-
-            Loading memory...
-
-        </section>
-
-
-
-        <section id="choices">
-
-        </section>
-
-
-    </main>
-
-
-
-
-
-
-
-    <nav id="menu">
-
-
-        <button onclick="openAchievements()">
-
-            Achievements
-
-        </button>
-
-
-
-        <button onclick="openMemoryBook()">
-
-            Memories
-
-        </button>
-
-
-
-        <button onclick="openAuction()">
-
-            Auction
-
-        </button>
-
-
-
-        <button onclick="openEliasStatus()">
-
-            Elias
-
-        </button>
-
-
-
-        <button onclick="saveGame()">
-
-            Save
-
-        </button>
-
-
-
-        <button onclick="loadGame()">
+        <button onclick="loadSlot(1)">
 
             Load
 
@@ -121,33 +131,262 @@
 
 
 
-    </nav>
+        <button onclick="deleteSlot(1)">
 
+            Delete
 
+        </button>
 
-
-
-
-
-    <div id="status">
-
-
-        <div id="credits">
-
-            Credits: 0
-
-        </div>
-
-
-
-        <div id="alignment">
-
-            Alignment: Unknown
-
-        </div>
 
 
     </div>
+
+
+
+
+
+
+
+    <div class="saveSlot">
+
+
+        <h3>
+            Slot 2
+        </h3>
+
+
+        <p id="slot2">
+
+            Empty
+
+        </p>
+
+
+
+        <button onclick="loadSlot(2)">
+
+            Load
+
+        </button>
+
+
+
+        <button onclick="deleteSlot(2)">
+
+            Delete
+
+        </button>
+
+
+
+    </div>
+
+
+
+
+
+
+
+    <div class="saveSlot">
+
+
+        <h3>
+            Slot 3
+        </h3>
+
+
+        <p id="slot3">
+
+            Empty
+
+        </p>
+
+
+
+        <button onclick="loadSlot(3)">
+
+            Load
+
+        </button>
+
+
+
+        <button onclick="deleteSlot(3)">
+
+            Delete
+
+        </button>
+
+
+
+    </div>
+
+
+
+
+
+    <button onclick="closeSaveSlots()">
+
+        Back
+
+    </button>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+<!-- ==========================
+     MAIN GAME
+========================== -->
+
+
+<div id="game" style="display:none;">
+
+
+
+
+
+<header>
+
+
+<h1>
+THE MEMORY AUCTION
+</h1>
+
+
+<p id="subtitle">
+
+Every memory has a price.
+
+</p>
+
+
+</header>
+
+
+
+
+
+
+<main>
+
+
+
+<section id="story">
+
+
+Loading memory...
+
+
+</section>
+
+
+
+
+
+<section id="choices">
+
+
+</section>
+
+
+
+</main>
+
+
+
+
+
+
+
+<nav id="menu">
+
+
+<button onclick="openAchievements()">
+
+Achievements
+
+</button>
+
+
+
+<button onclick="openMemoryBook()">
+
+Memories
+
+</button>
+
+
+
+<button onclick="openAuction()">
+
+Auction
+
+</button>
+
+
+
+<button onclick="openEliasStatus()">
+
+Elias
+
+</button>
+
+
+
+<button onclick="saveGame()">
+
+Save
+
+</button>
+
+
+
+<button onclick="openSaveSlots()">
+
+Save Slots
+
+</button>
+
+
+
+</nav>
+
+
+
+
+
+
+
+<div id="status">
+
+
+<div id="credits">
+
+Credits: 0
+
+</div>
+
+
+
+<div id="alignment">
+
+Alignment: Unknown
+
+</div>
+
+
+</div>
+
 
 
 
@@ -162,22 +401,31 @@
 
 
 
-<!-- SYSTEMS -->
+
+<!-- ==========================
+     GAME FILES
+========================== -->
+
+
 
 <script src="achievements.js"></script>
 
+
 <script src="auction.js"></script>
+
 
 <script src="hud.js"></script>
 
 
 
 
-<!-- STORY CHAPTERS -->
+<!-- STORY -->
 
 <script src="story.js"></script>
 
+
 <script src="chapter2.js"></script>
+
 
 <script src="chapter3.js"></script>
 
@@ -193,12 +441,15 @@
 
 
 
-<!-- ENGINE LAST -->
+<!-- ENGINE -->
 
 <script src="game.js"></script>
 
 
 
+
+
 </body>
+
 
 </html>
