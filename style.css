@@ -1,63 +1,99 @@
 /*
     THE MEMORY AUCTION
 
-    style.css
-
-    Dreamlike Interface
+    UI EFFECTS UPGRADE
 */
 
 
+/* =========================
+   STORY TRANSITIONS
+========================= */
 
-*{
 
-box-sizing:border-box;
+#story{
+
+animation:
+memoryFade 1.2s ease;
+
+}
+
+
+@keyframes memoryFade{
+
+0%{
+
+opacity:0;
+
+transform:
+translateY(20px)
+scale(.98);
+
+}
+
+
+100%{
+
+opacity:1;
+
+transform:
+translateY(0)
+scale(1);
+
+}
+
 
 }
 
 
 
-body{
 
 
-margin:0;
+/* =========================
+   DREAMING TEXT
+========================= */
 
 
-min-height:100vh;
-
-
-font-family:
-
-"Georgia",
-serif;
-
-
-background:
-
-radial-gradient(
-
-circle at center,
-
-#29264a,
-
-#090914
-
-);
-
-
-
-color:#eee;
-
-
-overflow-x:hidden;
+#story p{
 
 
 animation:
 
-fadeIn 2s ease;
+textAppear .8s ease;
+
+
+}
+
+
+
+@keyframes textAppear{
+
+
+from{
+
+opacity:0;
+
+filter:
+blur(5px);
+
+
+}
+
+
+to{
+
+opacity:1;
+
+filter:
+blur(0);
+
+
+}
 
 
 
 }
+
+
 
 
 
@@ -65,18 +101,37 @@ fadeIn 2s ease;
 
 
 /* =========================
-   FLOATING BACKGROUND EFFECT
+   CHOICE BUTTONS
 ========================= */
 
 
+#choices button{
 
-body::before{
+
+position:relative;
+
+
+overflow:hidden;
+
+
+
+}
+
+
+
+#choices button::before{
 
 
 content:"";
 
 
-position:fixed;
+position:absolute;
+
+
+top:0;
+
+
+left:-100%;
 
 
 width:100%;
@@ -85,77 +140,24 @@ width:100%;
 height:100%;
 
 
-top:0;
-
-
-left:0;
-
-
 
 background:
 
-radial-gradient(
+linear-gradient(
 
-circle,
+90deg,
 
-rgba(255,255,255,.08)
+transparent,
 
-1px,
+rgba(255,255,255,.25),
 
 transparent
-
-1px
 
 );
 
 
 
-background-size:
-
-40px 40px;
-
-
-
-animation:
-
-drift 20s linear infinite;
-
-
-
-pointer-events:none;
-
-
-}
-
-
-
-
-
-
-
-@keyframes drift{
-
-
-from{
-
-
-transform:
-
-translateY(0);
-
-
-}
-
-
-to{
-
-
-transform:
-
-translateY(-200px);
-
-
-}
+transition:.5s;
 
 
 
@@ -163,34 +165,31 @@ translateY(-200px);
 
 
 
+#choices button:hover::before{
 
 
-
-
-
-@keyframes fadeIn{
-
-
-from{
-
-
-opacity:0;
+left:100%;
 
 
 }
 
 
-to{
+
+#choices button:hover{
 
 
-opacity:1;
+box-shadow:
+
+0 0 30px
+
+rgba(180,150,255,.8);
+
+
+
+letter-spacing:1px;
 
 
 }
-
-
-}
-
 
 
 
@@ -200,97 +199,92 @@ opacity:1;
 
 
 /* =========================
-   MAIN CONTAINERS
+   MEMORY GLOW
 ========================= */
 
 
-#titleScreen,
-#saveScreen,
+.memory{
+
+
+animation:
+
+memoryPulse 3s infinite;
+
+
+}
+
+
+
+@keyframes memoryPulse{
+
+
+0%{
+
+box-shadow:
+
+0 0 10px rgba(200,200,255,.2);
+
+
+}
+
+
+
+50%{
+
+
+box-shadow:
+
+0 0 35px rgba(200,200,255,.8);
+
+
+}
+
+
+
+100%{
+
+
+box-shadow:
+
+0 0 10px rgba(200,200,255,.2);
+
+
+}
+
+
+
+}
+
+
+
+
+
+
+
+
+/* =========================
+   FLOATING PANELS
+========================= */
+
+
 #game,
 #achievementScreen,
 #endingScreen{
 
 
-width:80%;
-
-
-max-width:900px;
-
-
-margin:
-
-80px auto;
-
-
-
-padding:40px;
-
-
-
-background:
-
-rgba(20,20,40,.75);
-
-
-
-border:
-
-1px solid rgba(255,255,255,.15);
-
-
-
-border-radius:25px;
-
-
-
-backdrop-filter:
-
-blur(15px);
-
-
-
-box-shadow:
-
-0 0 40px rgba(150,120,255,.25);
-
-
-
 animation:
 
-floatIn 1s ease;
-
-
-
-}
-
-
-
-
-
-
-
-
-@keyframes floatIn{
-
-
-from{
-
-
-opacity:0;
-
-
-transform:
-
-translateY(30px);
+floatPanel 8s infinite ease-in-out;
 
 
 }
 
 
-to{
+
+@keyframes floatPanel{
 
 
-opacity:1;
+0%{
 
 
 transform:
@@ -301,465 +295,54 @@ translateY(0);
 }
 
 
-}
 
-
-
-
-
-
-
-
-
-/* =========================
-   TITLES
-========================= */
-
-
-h1{
-
-
-font-size:55px;
-
-
-text-align:center;
-
-
-
-letter-spacing:5px;
-
-
-
-text-shadow:
-
-0 0 20px #aaa;
-
-
-
-}
-
-
-
-h2{
-
-
-text-align:center;
-
-
-letter-spacing:3px;
-
-
-}
-
-
-
-
-h3{
-
-
-color:#d8c7ff;
-
-
-}
-
-
-
-
-
-p{
-
-
-font-size:18px;
-
-
-line-height:1.8;
-
-
-text-align:center;
-
-
-}
-
-
-
-
-
-
-
-
-/* =========================
-   STORY
-========================= */
-
-
-#story{
-
-
-min-height:250px;
-
-
-
-animation:
-
-fadeText .8s ease;
-
-
-
-}
-
-
-
-@keyframes fadeText{
-
-
-from{
-
-
-opacity:0;
-
-
-}
-
-
-to{
-
-
-opacity:1;
-
-
-}
-
-
-}
-
-
-
-
-
-
-
-
-
-/* =========================
-   BUTTONS
-========================= */
-
-
-button{
-
-
-display:block;
-
-
-width:80%;
-
-
-margin:
-
-15px auto;
-
-
-
-padding:
-
-15px;
-
-
-
-font-size:18px;
-
-
-
-color:white;
-
-
-
-background:
-
-rgba(100,80,180,.35);
-
-
-
-border:
-
-1px solid rgba(255,255,255,.3);
-
-
-
-border-radius:20px;
-
-
-
-cursor:pointer;
-
-
-
-transition:
-
-all .3s ease;
-
-
-
-}
-
-
-
-button:hover{
+50%{
 
 
 transform:
 
-translateY(-5px)
-scale(1.03);
+translateY(-8px);
+
+
+}
 
 
 
-background:
-
-rgba(150,120,255,.5);
+100%{
 
 
+transform:
 
-box-shadow:
+translateY(0);
 
-0 0 25px rgba(180,150,255,.6);
+
+}
 
 
 
 }
 
+
+
+
+
+
+
+
+/* =========================
+   BUTTON CLICK EFFECT
+========================= */
 
 
 button:active{
 
 
-transform:
-
-scale(.95);
-
-
-
-}
-
-
-
-
-
-
-
-
-
-/* =========================
-   HUD
-========================= */
-
-
-#hud{
-
-
-position:
-
-fixed;
-
-
-top:20px;
-
-
-right:20px;
-
-
-
-width:230px;
-
-
-
-padding:20px;
-
-
-
-background:
-
-rgba(0,0,0,.45);
-
-
-
-border-radius:20px;
-
-
-
-backdrop-filter:
-
-blur(10px);
-
-
-
-font-size:14px;
-
-
-
 box-shadow:
 
-0 0 20px rgba(150,150,255,.3);
+0 0 50px white;
 
 
 
 }
 
 
-
-
-
-
-.hud-title{
-
-
-text-align:center;
-
-
-font-size:18px;
-
-
-margin-bottom:10px;
-
-
-
-color:#e4d9ff;
-
-
-}
-
-
-
-
-
-
-
-
-
-/* =========================
-   SAVE SLOTS
-========================= */
-
-
-.saveSlot{
-
-
-padding:20px;
-
-
-margin:20px;
-
-
-
-background:
-
-rgba(255,255,255,.05);
-
-
-
-border-radius:15px;
-
-
-
-text-align:center;
-
-
-
-transition:.3s;
-
-
-
-}
-
-
-
-.saveSlot:hover{
-
-
-background:
-
-rgba(255,255,255,.12);
-
-
-
-}
-
-
-
-
-
-
-
-
-
-/* =========================
-   MENUS
-========================= */
-
-
-#achievementList,
-#endingList{
-
-
-max-height:500px;
-
-
-overflow-y:auto;
-
-
-
-}
-
-
-
-#achievementList div,
-#endingList div{
-
-
-padding:20px;
-
-
-margin:10px;
-
-
-
-background:
-
-rgba(255,255,255,.05);
-
-
-
-border-radius:15px;
-
-
-
-}
-
-
-
-
-
-
-
-
-/* =========================
-   MEMORY EFFECTS
-========================= */
-
-
-#story::first-letter{
-
-
-font-size:40px;
-
-
-color:#d8c7ff;
-
-
-text-shadow:
-
-0 0 15px #fff;
-
-
-
-}
