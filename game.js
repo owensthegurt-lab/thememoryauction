@@ -1,36 +1,42 @@
 /*
     THE MEMORY AUCTION
     game.js
+
+    Main Engine
 */
 
 
-// =============================
+// =====================================
 // PLAYER DATA
-// =============================
+// =====================================
 
 
 const player = {
 
-    name:"Unknown",
+    name: "Unknown",
 
-    credits:5000,
+    credits: 5000,
 
-    memories:[],
-
-
-    stats:{
-
-        identity:0,
-        truth:0,
-        corruption:0,
+    memories: [],
 
 
-        good:0,
-        evil:0,
+    stats: {
+
+        identity: 0,
+
+        truth: 0,
+
+        corruption: 0,
 
 
-        law:0,
-        chaos:0
+        good: 0,
+
+        evil: 0,
+
+
+        law: 0,
+
+        chaos: 0
 
     }
 
@@ -39,54 +45,56 @@ const player = {
 
 
 
-// =============================
-// ELIAS DATA
-// =============================
+// =====================================
+// ELIAS SYSTEM
+// =====================================
 
 
 const elias = {
 
+    trust: 0,
 
-    trust:0,
+    fear: 0,
 
-    fear:0,
+    truth: 0,
 
-    truth:0,
+    remembers: false,
 
-    remembers:false,
-
-    betrayed:false
-
+    betrayed: false
 
 };
 
 
 
-// =============================
-// CURRENT SCENE
-// =============================
+// =====================================
+// GAME STATE
+// =====================================
 
 
-let currentScene="intro";
+let currentScene = "intro";
+
+let gameStarted = false;
 
 
 
-// =============================
+// =====================================
 // LOAD SCENE
-// =============================
+// =====================================
 
 
-function loadScene(id){
+function loadScene(sceneID){
 
 
-    const scene = story[id];
+    const scene =
+    story[sceneID];
+
 
 
     if(!scene){
 
         console.error(
-            "Missing scene:",
-            id
+            "Scene missing:",
+            sceneID
         );
 
         return;
@@ -95,7 +103,7 @@ function loadScene(id){
 
 
 
-    currentScene=id;
+    currentScene = sceneID;
 
 
 
@@ -108,9 +116,9 @@ function loadScene(id){
 
 
 
-    // memory fade effect
+    // dream fade effect
 
-    storyBox.style.opacity="0";
+    storyBox.style.opacity = "0";
 
 
 
@@ -121,21 +129,21 @@ function loadScene(id){
         scene.text;
 
 
-        storyBox.style.opacity="1";
+
+        storyBox.style.opacity =
+        "1";
 
 
     },400);
 
 
 
-    choicesBox.innerHTML="";
+    choicesBox.innerHTML = "";
 
 
 
     scene.choices.forEach(choice=>{
 
-
-        // Check requirements
 
         if(
             !checkRequirements(
@@ -159,7 +167,7 @@ function loadScene(id){
 
 
 
-        button.onclick=()=>{
+        button.onclick = ()=>{
 
 
             playClick();
@@ -169,6 +177,11 @@ function loadScene(id){
             applyEffects(
                 choice.effects
             );
+
+
+
+            checkAchievements();
+
 
 
             loadScene(
@@ -186,13 +199,14 @@ function loadScene(id){
     });
 
 
+
 }
 
 
 
-// =============================
+// =====================================
 // APPLY EFFECTS
-// =============================
+// =====================================
 
 
 function applyEffects(effects){
@@ -204,48 +218,44 @@ function applyEffects(effects){
 
 
     Object.keys(effects)
-    .forEach(type=>{
+    .forEach(effect=>{
 
 
         let value =
-        effects[type];
+        effects[effect];
 
 
 
-        // Player stats
+        // PLAYER STATS
 
         if(
-            player.stats[type]
-            !==undefined
+            player.stats[effect]
+            !== undefined
         ){
 
-
-            player.stats[type]
+            player.stats[effect]
             += value;
-
 
         }
 
 
 
-        // Credits
+        // MONEY
 
         else if(
-            type==="credits"
+            effect === "credits"
         ){
-
 
             player.credits += value;
 
-
         }
 
 
 
-        // Memories
+        // MEMORY
 
         else if(
-            type==="memory"
+            effect === "memory"
         ){
 
 
@@ -262,10 +272,10 @@ function applyEffects(effects){
 
 
 
-        // Elias system
+        // ELIAS
 
         else if(
-            type==="elias"
+            effect === "elias"
         ){
 
 
@@ -275,7 +285,7 @@ function applyEffects(effects){
 
                 if(
                     elias[stat]
-                    !==undefined
+                    !== undefined
                 ){
 
                     elias[stat]
@@ -290,44 +300,47 @@ function applyEffects(effects){
         }
 
 
+
     });
+
 
 
 }
 
 
 
-// =============================
-// REQUIREMENTS
-// =============================
+// =====================================
+// REQUIREMENT CHECKER
+// =====================================
 
 
-function checkRequirements(req){
+function checkRequirements(requirements){
 
 
-    if(!req)
+    if(!requirements)
     return true;
 
 
 
-    for(let key in req){
+    for(
+        let requirement in requirements
+    ){
 
 
         let needed =
-        req[key];
+        requirements[requirement];
 
 
 
-        // Player stats
+        // player stats
 
         if(
-            player.stats[key]
-            !==undefined
+            player.stats[requirement]
+            !== undefined
         ){
 
-
             if(
-                player.stats[key]
+                player.stats[requirement]
                 < needed
             ){
 
@@ -343,13 +356,13 @@ function checkRequirements(req){
         // Elias stats
 
         else if(
-            elias[key]
-            !==undefined
+            elias[requirement]
+            !== undefined
         ){
 
 
             if(
-                elias[key]
+                elias[requirement]
                 < needed
             ){
 
@@ -362,10 +375,10 @@ function checkRequirements(req){
 
 
 
-        // Memories
+        // memories
 
         else if(
-            key==="memory"
+            requirement === "memory"
         ){
 
 
@@ -373,6 +386,28 @@ function checkRequirements(req){
                 !player.memories.includes(
                     needed
                 )
+            ){
+
+                return false;
+
+            }
+
+
+        }
+
+
+
+        // achievements
+
+        else if(
+            requirement === "achievement"
+        ){
+
+
+            if(
+                !achievements[needed]
+                ||
+                !achievements[needed].unlocked
             ){
 
                 return false;
@@ -394,9 +429,9 @@ function checkRequirements(req){
 
 
 
-// =============================
-// ALIGNMENT
-// =============================
+// =====================================
+// ALIGNMENT SYSTEM
+// =====================================
 
 
 function getAlignment(){
@@ -468,27 +503,105 @@ function getAlignment(){
 
 
 
-// =============================
-// DEBUG TOOLS
-// =============================
+// =====================================
+// SAVE FOUNDATION
+// =====================================
+
+
+function saveGame(){
+
+
+    const saveData = {
+
+        player,
+
+        elias,
+
+        achievements
+
+    };
+
+
+
+    localStorage.setItem(
+
+        "memoryAuctionSave",
+
+        JSON.stringify(saveData)
+
+    );
+
+
+}
+
+
+
+function loadGame(){
+
+
+    let save =
+    localStorage.getItem(
+        "memoryAuctionSave"
+    );
+
+
+
+    if(!save)
+    return;
+
+
+
+    let data =
+    JSON.parse(save);
+
+
+
+    Object.assign(
+        player,
+        data.player
+    );
+
+
+
+    Object.assign(
+        elias,
+        data.elias
+    );
+
+
+
+    Object.assign(
+        achievements,
+        data.achievements
+    );
+
+
+}
+
+
+
+// =====================================
+// DEBUG
+// =====================================
 
 
 function debug(){
 
+
     console.log(
-        "PLAYER:",
+        "PLAYER",
         player
     );
 
 
     console.log(
-        "ELIAS:",
+        "ELIAS",
         elias
     );
 
 
     console.log(
-        "ALIGNMENT:",
+        "ALIGNMENT",
         getAlignment()
     );
 
@@ -497,9 +610,9 @@ function debug(){
 
 
 
-// =============================
-// CLICK SOUND
-// =============================
+// =====================================
+// SOUND
+// =====================================
 
 
 function playClick(){
@@ -511,7 +624,7 @@ function playClick(){
     );
 
 
-    sound.volume=.3;
+    sound.volume = 0.3;
 
 
     sound.play()
@@ -522,17 +635,23 @@ function playClick(){
 
 
 
-// =============================
+// =====================================
 // START
-// =============================
+// =====================================
 
 
-window.onload=()=>{
+window.onload = ()=>{
+
+
+    loadGame();
 
 
     loadScene(
         currentScene
     );
+
+
+    gameStarted=true;
 
 
 };
