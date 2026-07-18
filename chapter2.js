@@ -4,19 +4,43 @@
     chapter2.js
 
     Chapter 2:
-    The Man Who Remembered
+    The Rooms That Remember
 */
 
 
 
-story.chapter2Start = {
+
+
+// =====================================
+// CHAPTER 2 START
+// =====================================
+
+
+story.chapter2Start={
+
 
 
 text:`
 
+
 <h2>
-THE MAN WHO REMEMBERED
+CHAPTER TWO
 </h2>
+
+
+<h1>
+THE ROOMS THAT REMEMBER
+</h1>
+
+
+<p>
+The auction opens its deeper floors.
+</p>
+
+
+<p>
+Each room contains a memory that someone abandoned.
+</p>
 
 
 <p>
@@ -25,24 +49,12 @@ Elias watches you carefully.
 
 
 <p>
-"You really don't remember."
+"You need to understand what this place does."
 </p>
 
 
 <p>
-Not a question.
-
-A fact.
-</p>
-
-
-<p>
-"I spent years looking for you."
-</p>
-
-
-<p>
-"And now you don't even know why."
+"Before you decide what happens to it."
 </p>
 
 
@@ -53,65 +65,41 @@ A fact.
 choices:[
 
 
+
 {
 
-text:"Ask what happened.",
 
-next:"eliasHistory",
+text:
+"Explore the memory vaults.",
 
-effects:{
 
-truth:2
+next:
+"memoryVault"
 
-}
 
 },
 
 
 
-{
-
-text:"Ask why he cares.",
-
-next:"eliasConnection",
-
-effects:{
-
-elias:{
-
-trust:2
-
-}
-
-}
-
-},
-
 
 
 {
 
-text:"Demand answers.",
 
-next:"eliasPressure",
+text:
+"Stay with Elias.",
 
-effects:{
 
-evil:1,
+next:
+"eliasTalk"
 
-elias:{
-
-fear:2
-
-}
-
-}
 
 }
 
 
 
 ]
+
 
 
 };
@@ -124,45 +112,49 @@ fear:2
 
 
 
-story.eliasHistory = {
+// =====================================
+// MEMORY VAULT
+// =====================================
+
+
+story.memoryVault={
+
 
 
 text:`
 
+
 <h2>
-BEFORE THE AUCTION
+THE MEMORY VAULT
 </h2>
 
 
 <p>
-"The auction wasn't always like this."
+Thousands of glass containers line the walls.
 </p>
 
 
 <p>
-Elias looks around.
+Every one holds a life.
 </p>
 
 
 <p>
-"At first, it was supposed to help people."
+A lost childhood.
+
+A forgotten love.
+
+A buried mistake.
 </p>
 
 
 <p>
-"Remove painful memories."
-
-"Give people a second chance."
+You feel something familiar.
 </p>
 
 
 <p>
-Then someone realized memories had value.
-</p>
-
-
-<p>
-That person was you.
+One of these memories belongs to you.
 </p>
 
 
@@ -173,56 +165,192 @@ That person was you.
 choices:[
 
 
+
 {
 
-text:"I don't believe you.",
 
-next:"hiddenArchive",
+text:
+"Take a memory.",
+
+
+next:
+"personalMemory",
+
 
 effects:{
 
-truth:2
+
+memory:
+"unknown_memory",
+
+
+truth:1
+
 
 }
+
+
 
 },
 
 
 
+
+
+
 {
 
-text:"Show me proof.",
 
-next:"hiddenArchive",
+text:
+"Leave them untouched.",
+
+
+next:
+"eliasTalk",
+
 
 effects:{
+
+
+good:1
+
+
+}
+
+
+
+}
+
+
+
+]
+
+
+
+};
+
+
+
+
+
+
+
+
+
+// =====================================
+// PERSONAL MEMORY
+// =====================================
+
+
+story.personalMemory={
+
+
+
+text:`
+
+
+<h2>
+THE MEMORY OF FIRE
+</h2>
+
+
+<p>
+You touch the glass.
+</p>
+
+
+<p>
+The world disappears.
+</p>
+
+
+<p>
+You see yourself.
+</p>
+
+
+<p>
+Standing in front of the auction.
+</p>
+
+
+<p>
+Someone is trapped inside.
+</p>
+
+
+<p>
+Someone who trusted you.
+</p>
+
+
+<p>
+The memory ends before you see who.
+</p>
+
+
+`,
+
+
+
+choices:[
+
+
+
+{
+
+
+text:
+"Search for the person.",
+
+
+next:
+"hiddenRoom",
+
+
+effects:{
+
 
 identity:2
 
+
 }
+
+
 
 },
 
 
 
+
+
 {
 
-text:"Maybe I was right.",
 
-next:"acceptAuction",
+text:
+"Forget what you saw.",
+
+
+next:
+"eliasTalk",
+
 
 effects:{
 
-evil:3,
 
-corruption:2
+corruption:1
+
+
+}
+
+
 
 }
 
-}
 
 
 ]
+
 
 
 };
@@ -235,38 +363,50 @@ corruption:2
 
 
 
-story.eliasConnection = {
+// =====================================
+// ELIAS TALK
+// =====================================
+
+
+story.eliasTalk={
+
 
 
 text:`
 
+
 <h2>
-THE PERSON YOU FORGOT
+ELIAS' MEMORY
 </h2>
 
 
 <p>
-Elias looks away.
+Elias sits beside the machine.
 </p>
 
 
 <p>
-"We weren't just partners."
+"I remember everything."
 </p>
 
 
 <p>
-"We were friends."
+"Even the things you wanted me to forget."
 </p>
 
 
 <p>
-"You trusted me."
+He shows you a memory.
 </p>
 
 
 <p>
-"Then you erased yourself."
+A promise you made.
+</p>
+
+
+<p>
+You promised you would fix the auction.
 </p>
 
 
@@ -277,299 +417,119 @@ Elias looks away.
 choices:[
 
 
+
 {
 
-text:"Why would I do that?",
 
-next:"hiddenArchive",
+text:
+"Promise to fix it.",
+
+
+next:
+"hiddenRoom",
+
 
 effects:{
 
-truth:2
 
-}
+good:2,
 
-}
-
-
-
-]
-
-
-};
-
-
-
-
-
-
-
-
-
-story.eliasPressure = {
-
-
-text:`
-
-<h2>
-THE WRONG APPROACH
-</h2>
-
-
-<p>
-Elias steps back.
-</p>
-
-
-<p>
-For a moment...
-
-he looks afraid.
-</p>
-
-
-<p>
-Not of what you might do.
-
-</p>
-
-
-<p>
-Of what you already did.
-</p>
-
-
-`,
-
-
-
-choices:[
-
-
-{
-
-text:"Calm down.",
-
-next:"hiddenArchive"
-
-},
-
-
-
-{
-
-text:"Make him talk.",
-
-next:"hiddenArchive",
-
-effects:{
 
 elias:{
 
-fear:2
-
-}
-
-}
-
-}
-
-
-
-]
-
-
-};
-
-
-
-
-
-
-
-
-
-story.hiddenArchive = {
-
-
-text:`
-
-<h2>
-THE HIDDEN ARCHIVE
-</h2>
-
-
-<p>
-Elias leads you below the auction floor.
-</p>
-
-
-<p>
-Behind a locked door are thousands of memories.
-</p>
-
-
-<p>
-Not forgotten memories.
-</p>
-
-
-<p>
-Stolen memories.
-</p>
-
-
-<p>
-At the center sits a file.
-</p>
-
-
-<p>
-Your name is written on it.
-</p>
-
-
-`,
-
-
-
-choices:[
-
-
-{
-
-text:"Open the file.",
-
-next:"playerTruth",
-
-effects:{
-
-truth:3
-
-}
-
-},
-
-
-
-{
-
-text:"Destroy the file.",
-
-next:"destroyTruth",
-
-effects:{
-
-corruption:2
-
-}
-
-}
-
-
-
-]
-
-
-};
-
-
-
-
-
-
-
-
-
-story.playerTruth = {
-
-
-text:`
-
-<h2>
-THE MEMORY RETURNS
-</h2>
-
-
-<p>
-You remember.
-</p>
-
-
-<p>
-You and Elias built the auction.
-</p>
-
-
-<p>
-You convinced yourself you were helping people.
-</p>
-
-
-<p>
-But eventually...
-
-</p>
-
-
-<p>
-You stopped asking for permission.
-</p>
-
-
-<p>
-You started taking memories.
-</p>
-
-
-`,
-
-
-
-choices:[
-
-
-{
-
-text:"Accept responsibility.",
-
-next:"chapter3Start",
-
-effects:{
-
-good:3,
-
-truth:3,
-
-elias:{
 
 trust:2
 
-}
 
 }
+
+
+
+}
+
+
 
 },
 
 
 
+
+
 {
 
-text:"It wasn't my fault.",
 
-next:"chapter3Start",
+text:
+"Ask what you did wrong.",
+
+
+next:
+"hiddenRoom",
+
 
 effects:{
 
-corruption:2
+
+truth:2,
+
+
+elias:{
+
+
+truth:2
+
 
 }
+
+
+
+}
+
+
+
+},
+
+
+
+
+
+
+{
+
+
+text:
+"Say Elias is lying.",
+
+
+next:
+"hiddenRoom",
+
+
+effects:{
+
+
+evil:2,
+
+
+elias:{
+
+
+fear:2
+
+
+}
+
+
+
+}
+
+
 
 }
 
 
 
 ]
+
 
 
 };
@@ -582,40 +542,50 @@ corruption:2
 
 
 
-story.destroyTruth = {
+// =====================================
+// HIDDEN ROOM
+// =====================================
+
+
+story.hiddenRoom={
+
 
 
 text:`
 
+
 <h2>
-THE EASY CHOICE
+THE LOCKED MEMORY
 </h2>
 
 
 <p>
-The file burns.
+Behind the vaults is a hidden room.
 </p>
 
 
 <p>
-The memory disappears.
+No auction records exist here.
 </p>
 
 
 <p>
-For a moment...
-
-you feel peaceful.
+Only one memory remains.
 </p>
 
 
 <p>
-Then you realize something.
+Yours.
 </p>
 
 
 <p>
-You just erased the truth again.
+A warning was written beside it:
+</p>
+
+
+<p>
+"DO NOT REMEMBER THIS."
 </p>
 
 
@@ -626,82 +596,65 @@ You just erased the truth again.
 choices:[
 
 
+
 {
 
-text:"Continue.",
 
-next:"chapter3Start",
+text:
+"Open the memory.",
+
+
+next:
+"chapter3Start",
+
 
 effects:{
 
-corruption:3
+
+memory:
+"forbidden_memory",
+
+
+truth:3,
+
+
+special:{
+
+
+collectedAllMemories:true
+
 
 }
 
+
+
 }
 
 
 
-]
-
-
-};
+},
 
 
 
-
-
-
-
-
-
-story.acceptAuction = {
-
-
-text:`
-
-<h2>
-THE AUCTION CALLS
-</h2>
-
-
-<p>
-The auction responds.
-</p>
-
-
-<p>
-The lights flicker.
-</p>
-
-
-<p>
-It remembers you.
-</p>
-
-
-<p>
-"Welcome back."
-</p>
-
-
-`,
-
-
-
-choices:[
 
 
 {
 
-text:"Continue.",
 
-next:"chapter3Start"
+text:
+"Leave it closed.",
+
+
+next:
+"chapter3Start"
+
 
 }
 
 
+
 ]
+
 
 
 };
