@@ -1,63 +1,68 @@
 /*
     THE MEMORY AUCTION
+
     story.js
+
+    Chapter 1
 */
+
 
 
 const story = {
 
 
 
-intro: {
+intro:{
 
 
 text:`
 
-You wake up.
+<h2>
+THE EMPTY ROOM
+</h2>
 
-<br><br>
 
-Not from sleep.
+<p>
 
-From nothing.
+You wake up somewhere that does not exist.
 
-<br><br>
+</p>
 
-The first thing you notice is the silence.
 
-<br><br>
+<p>
 
-A room without history.
+There are no walls.
 
-<br><br>
+No doors.
 
-The walls are covered with hundreds of glass containers.
+Only a table.
 
-Inside each one:
+</p>
 
-<br><br>
 
-A moment.
+<p>
 
-A feeling.
+On the table sits a single object.
 
 A memory.
 
-<br><br>
+</p>
 
-You reach into your own mind...
 
-and find an empty space.
+<p>
 
-<br><br>
+You reach for it...
 
-On the table sits a black envelope.
+and realize something terrifying.
 
-Your name is written on it.
+</p>
 
-<br><br>
 
-You don't remember writing it.
+<p>
+
+You do not know your own name.
+
+</p>
 
 `,
 
@@ -66,121 +71,38 @@ choices:[
 
 
 {
-text:"Open the envelope",
 
-next:"letter",
+text:
+"Touch the memory.",
+
+
+next:"firstMemory",
+
 
 effects:{
+
 truth:1
-}
-
-},
-
-
-{
-text:"Search the room",
-
-next:"search",
-
-effects:{
-identity:1
-}
-
-},
-
-
-{
-text:"Leave the room",
-
-next:"hallway",
-
-effects:{
-chaos:1
-}
 
 }
-
-
-]
 
 
 },
 
 
 
-
-
-letter:{
-
-
-text:`
-
-Inside the envelope is one piece of paper.
-
-<br><br>
-
-The handwriting is yours.
-
-<br><br>
-
-<i>
-"If you are reading this, the procedure worked."
-</i>
-
-<br><br>
-
-<i>
-"Do not purchase Memory #000."
-</i>
-
-<br><br>
-
-<i>
-"Do not trust the auctioneer."
-</i>
-
-<br><br>
-
-At the bottom:
-
-<br><br>
-
-<i>
-"Most importantly..."
-
-</i>
-
-<br><br>
-
-<i>
-"Do not trust yourself."
-</i>
-
-`,
-
-
-choices:[
-
-
 {
-text:"Read the hidden writing",
 
-next:"hiddenNote",
+text:
+"Leave it alone.",
+
+
+next:"leaveMemory",
+
 
 effects:{
-truth:2
-}
 
-},
+law:1
 
-
-{
-text:"Ignore it and leave",
-
-next:"hallway",
-
-effects:{
-chaos:1
 }
 
 }
@@ -196,115 +118,56 @@ chaos:1
 
 
 
-hiddenNote:{
+firstMemory:{
 
 
 text:`
 
-You hold the paper near the light.
-
-<br><br>
-
-A second message appears.
-
-<br><br>
-
-"Seven years ago you made a choice."
-
-<br><br>
-
-"You erased the memory."
-
-<br><br>
-
-"You erased yourself."
-
-<br><br>
-
-A date is written below.
-
-<br><br>
-
-The same day the memory auction opened.
-
-`,
+<h2>
+THE FIRST MEMORY
+</h2>
 
 
-choices:[
+<p>
+
+The moment your hand touches it,
+
+the room disappears.
+
+</p>
 
 
-{
-text:"Try to remember",
+<p>
 
-next:"memoryFlash",
+You see yourself.
 
-effects:{
-identity:2
-}
-
-},
+</p>
 
 
-{
-text:"Find the auction",
+<p>
 
-next:"hallway",
+Older.
 
-effects:{
-truth:1
-}
+Tired.
 
-}
+Afraid.
 
-
-]
+</p>
 
 
-},
-
-
-
-
-
-
-search:{
-
-
-text:`
-
-You search the room.
-
-<br><br>
-
-Most containers have names.
-
-People you don't know.
-
-Lives you don't recognize.
-
-<br><br>
-
-One container has no name.
-
-<br><br>
-
-Only a number.
-
-<br><br>
-
-#000
-
-<br><br>
-
-You touch the glass.
-
-<br><br>
+<p>
 
 A voice whispers:
 
-<br><br>
+</p>
 
-"Not yet."
+
+<p>
+
+"Do not trust the auction."
+
+</p>
+
 
 `,
 
@@ -313,26 +176,111 @@ choices:[
 
 
 {
-text:"Pull away",
 
-next:"hallway",
+
+text:
+"Try to remember more.",
+
+
+next:"auctionDoor",
+
 
 effects:{
-truth:1
+
+
+identity:2,
+
+
+truth:2
+
+
 }
+
 
 },
 
 
-{
-text:"Break the container",
 
-next:"forbiddenAttempt",
+{
+
+
+text:
+"Forget what you saw.",
+
+
+next:"auctionDoor",
+
 
 effects:{
-chaos:2,
+
+
 corruption:1
+
+
 }
+
+
+}
+
+
+
+]
+
+
+},
+
+
+
+
+
+
+
+leaveMemory:{
+
+
+text:`
+
+<h2>
+THE SILENCE
+</h2>
+
+
+<p>
+
+You turn away.
+
+</p>
+
+
+<p>
+
+The memory disappears.
+
+</p>
+
+
+<p>
+
+But something watches you leave.
+
+</p>
+
+
+`,
+
+
+choices:[
+
+
+{
+
+
+text:
+"Continue forward.",
+
+
+next:"auctionDoor"
+
 
 }
 
@@ -347,38 +295,53 @@ corruption:1
 
 
 
-forbiddenAttempt:{
+
+auctionDoor:{
 
 
 text:`
 
-The glass cracks.
+<h2>
+THE MEMORY AUCTION
+</h2>
 
-<br><br>
 
-For a moment you see something.
+<p>
 
-<br><br>
+A door appears.
 
-Your own face.
+</p>
 
-<br><br>
 
-Covered in blood.
+<p>
 
-<br><br>
+Behind it is a place that feels familiar.
 
-Then the memory disappears.
+</p>
 
-<br><br>
 
-You feel sick.
+<p>
 
-<br><br>
+A sign reads:
 
-Whatever happened...
+</p>
 
-you were there.
+
+<h3>
+
+MEMORY AUCTION
+
+</h3>
+
+
+<p>
+
+"Sell what hurts.
+
+Buy what was lost."
+
+</p>
+
 
 `,
 
@@ -387,15 +350,26 @@ choices:[
 
 
 {
-text:"Leave immediately",
 
-next:"hallway",
+
+text:
+"Enter the auction.",
+
+
+next:"meetElias",
+
 
 effects:{
-corruption:1
-}
+
+
+memory:"001"
+
 
 }
+
+
+}
+
 
 ]
 
@@ -407,36 +381,57 @@ corruption:1
 
 
 
-memoryFlash:{
+
+meetElias:{
 
 
 text:`
 
-A memory forces itself through.
+<h2>
+THE STRANGER</h2>
 
-<br><br>
 
-A machine.
+<p>
 
-<br><br>
+Inside the auction stands a man watching you.
 
-A warning alarm.
+</p>
 
-<br><br>
 
-Someone screaming your name.
+<p>
 
-<br><br>
+He looks relieved.
 
-A man grabbing your arm.
+</p>
 
-<br><br>
 
-"Don't erase this."
+<p>
 
-<br><br>
+Then terrified.
 
-Then darkness.
+</p>
+
+
+<p>
+
+"You..."
+
+</p>
+
+
+<p>
+
+"You are alive."
+
+</p>
+
+
+<p>
+
+His name is Elias.
+
+</p>
+
 
 `,
 
@@ -444,18 +439,30 @@ Then darkness.
 choices:[
 
 
-{
-text:"Follow the memory",
 
-next:"hallway",
+{
+
+
+text:
+"Ask who he is.",
+
+
+next:"eliasTruth",
+
 
 effects:{
+
+
+elias:{
+
+trust:2,
+
 truth:1
-}
 
 }
 
-]
+
+}
 
 
 },
@@ -464,83 +471,50 @@ truth:1
 
 
 
-
-hallway:{
-
-
-text:`
-
-The door opens.
-
-<br><br>
-
-The hallway outside is endless.
-
-<br><br>
-
-At the end stands a man.
-
-<br><br>
-
-Dark coat.
-
-Tired eyes.
-
-<br><br>
-
-He looks at you like he has been waiting years.
-
-<br><br>
-
-"You finally woke up."
-
-`,
-
-
-choices:[
-
-
 {
-text:"Ask who he is",
 
-next:"eliasIntro",
+
+text:
+"Threaten him.",
+
+
+next:"eliasFear",
+
 
 effects:{
+
+
+evil:2,
+
+
 elias:{
-trust:1
-}
-}
 
-},
-
-
-{
-text:"Ask how he knows you",
-
-next:"eliasIntro",
-
-effects:{
-elias:{
-truth:1
-}
-}
-
-},
-
-
-{
-text:"Threaten him",
-
-next:"eliasIntro",
-
-effects:{
-evil:1,
-elias:{
 fear:2
-}
-}
 
 }
+
+
+}
+
+
+},
+
+
+
+
+
+{
+
+
+text:
+"Walk away.",
+
+
+next:"auctionRoom"
+
+
+}
+
 
 
 ]
@@ -548,104 +522,6 @@ fear:2
 
 },
 
-
-
-
-
-
-eliasIntro:{
-
-
-text:`
-
-The man steps closer.
-
-<br><br>
-
-"My name is Elias."
-
-<br><br>
-
-You wait for something else.
-
-A last name.
-
-An explanation.
-
-Anything.
-
-<br><br>
-
-Nothing comes.
-
-<br><br>
-
-"You don't remember me."
-
-<br><br>
-
-You feel uncomfortable.
-
-<br><br>
-
-Because he sounds hurt.
-
-`,
-
-
-choices:[
-
-
-{
-text:"Apologize",
-
-next:"eliasTruth",
-
-effects:{
-good:1,
-elias:{
-trust:2
-}
-}
-
-},
-
-
-{
-text:"Demand answers",
-
-next:"eliasTruth",
-
-effects:{
-law:1,
-elias:{
-fear:1
-}
-}
-
-},
-
-
-{
-text:"Accuse him of erasing you",
-
-next:"eliasTruth",
-
-effects:{
-evil:1,
-elias:{
-fear:2,
-betrayed:true
-}
-}
-
-}
-
-
-]
-
-
-},
 
 
 
@@ -657,35 +533,30 @@ eliasTruth:{
 
 text:`
 
-Elias looks away.
+<h2>
+ELIAS</h2>
 
-<br><br>
 
-"I helped you forget."
+<p>
 
-<br><br>
+"I have been looking for you."
 
-The words hurt more than they should.
+</p>
 
-<br><br>
 
-"But I didn't make you do it."
+<p>
 
-<br><br>
+"You erased yourself."
 
-"You asked me to."
+</p>
 
-<br><br>
 
-Before you can respond, he opens a hidden door.
+<p>
 
-<br><br>
+"I don't know why."
 
-Beyond it:
+</p>
 
-<br><br>
-
-THE MEMORY AUCTION.
 
 `,
 
@@ -694,30 +565,49 @@ choices:[
 
 
 {
-text:"Enter with Elias",
 
-next:"auction",
+
+text:
+"Believe him.",
+
+
+next:"auctionRoom",
+
 
 effects:{
+
+
 elias:{
-trust:1
+
+trust:2
+
 }
+
+
 }
+
 
 },
 
 
-{
-text:"Enter alone",
 
-next:"auction",
+{
+
+
+text:
+"Demand proof.",
+
+
+next:"auctionRoom",
+
 
 effects:{
-chaos:1,
-elias:{
-fear:1
+
+
+truth:2
+
 }
-}
+
 
 }
 
@@ -732,44 +622,36 @@ fear:1
 
 
 
-auction:{
+
+eliasFear:{
 
 
 text:`
 
-The auction hall is impossible.
+<h2>
+FEAR</h2>
 
-<br><br>
 
-Thousands of memories float behind glass.
+<p>
 
-<br><br>
+Elias steps back.
 
-A childhood.
+</p>
 
-A war.
 
-A first kiss.
+<p>
 
-A murder.
+Not because he fears your strength.
 
-<br><br>
+</p>
 
-Anything a person wanted to forget...
 
-was here.
+<p>
 
-<br><br>
+Because he remembers what you did.
 
-The auctioneer looks at you.
+</p>
 
-<br><br>
-
-Then smiles.
-
-<br><br>
-
-"Welcome back."
 
 `,
 
@@ -778,21 +660,14 @@ choices:[
 
 
 {
-text:"Ask what he means",
-
-next:"auctioneer",
-
-effects:{
-truth:2
-}
-
-},
 
 
-{
-text:"Look at the memories",
+text:
+"Enter the auction.",
 
-next:"memoryMarket"
+
+next:"auctionRoom"
+
 
 }
 
@@ -807,32 +682,36 @@ next:"memoryMarket"
 
 
 
-auctioneer:{
+
+auctionRoom:{
 
 
 text:`
 
-The auctioneer laughs.
+<h2>
+THE AUCTION FLOOR</h2>
 
-<br><br>
 
-"You really don't remember."
+<p>
 
-<br><br>
+Hundreds of memories float above you.
 
-He looks at Elias.
+</p>
 
-<br><br>
 
-"How long until you tell him?"
+<p>
 
-<br><br>
+Every one belongs to someone.
 
-Elias says nothing.
+</p>
 
-<br><br>
 
-That scares you more.
+<p>
+
+Every one has a price.
+
+</p>
+
 
 `,
 
@@ -841,15 +720,31 @@ choices:[
 
 
 {
-text:"Demand the truth",
 
-next:"memoryMarket",
 
-effects:{
-truth:2
+text:
+"Browse memories.",
+
+
+next:"memoryChoice"
+
+
+},
+
+
+
+{
+
+
+text:
+"Ask Elias what happened.",
+
+
+next:"eliasQuestion"
+
+
 }
 
-}
 
 
 ]
@@ -862,28 +757,29 @@ truth:2
 
 
 
-memoryMarket:{
+
+memoryChoice:{
 
 
 text:`
+
+<h2>
+MEMORIES WAITING</h2>
+
+
+<p>
 
 The auction begins.
 
-<br><br>
+</p>
 
-Hundreds of memories become available.
 
-<br><br>
+<p>
 
-Your past is waiting.
+You feel something pulling you toward one memory.
 
-<br><br>
+</p>
 
-But some memories...
-
-<br><br>
-
-were never meant to be found.
 
 `,
 
@@ -892,9 +788,37 @@ choices:[
 
 
 {
-text:"Browse memories",
 
-next:"chapterEnd"
+
+text:
+"Purchase a memory.",
+
+
+next:"afterMemory",
+
+
+effects:{
+
+credits:-500,
+
+memory:"001"
+
+}
+
+
+},
+
+
+
+{
+
+
+text:
+"Refuse the memory.",
+
+
+next:"afterMemory"
+
 
 }
 
@@ -909,39 +833,118 @@ next:"chapterEnd"
 
 
 
-chapterEnd:{
+
+afterMemory:{
 
 
 text:`
 
-CHAPTER ONE COMPLETE
+<h2>
+THE FIRST CHOICE</h2>
 
-<br><br>
 
-You entered the Memory Auction.
+<p>
 
-<br><br>
+The auctioneer smiles.
 
-You found Elias.
+</p>
 
-<br><br>
 
-You discovered your past was hidden.
+<p>
 
-<br><br>
+"Good."
 
-Now you must decide:
+</p>
 
-<br><br>
 
-Do you want the truth...
+<p>
 
-or do you want peace?
+"Now you are ready."
+
+</p>
+
 
 `,
 
 
-choices:[]
+choices:[
+
+
+{
+
+
+text:
+"Continue.",
+
+
+next:"chapter2"
+
+
+}
+
+
+]
+
+
+},
+
+
+
+
+
+
+
+chapter2:{
+
+
+text:`
+
+<h2>
+CHAPTER ONE COMPLETE</h2>
+
+
+<p>
+
+The real memories are still hidden.
+
+</p>
+
+
+<p>
+
+But someone knows the truth.
+
+</p>
+
+
+<p>
+
+Elias.
+
+</p>
+
+
+`,
+
+
+choices:[
+
+
+{
+
+
+text:
+"Continue the story.",
+
+
+next:"auctionRoom"
+
+
+}
+
+
+]
+
 
 }
 
